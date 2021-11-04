@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Jukebox">
         <activity
+            android:name=".HostPartyActivity"
+            android:exported="false" />
+        <activity
             android:name=".GuestPartyActivity"
             android:exported="false" />
         <activity
