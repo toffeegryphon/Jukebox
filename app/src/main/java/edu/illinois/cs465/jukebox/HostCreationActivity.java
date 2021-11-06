@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,8 @@ public class HostCreationActivity extends AppCompatActivity {
     private HostCreationViewModel viewModel;
     private CreationPagerAdapter adapter;
     private ViewPager stepsPager;
+
+    private Button buttonContinue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +30,28 @@ public class HostCreationActivity extends AppCompatActivity {
         adapter = new CreationPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         stepsPager = findViewById(R.id.steps_pager);
         stepsPager.setAdapter(adapter);
+
+        buttonContinue = findViewById(R.id.button_continue);
+        initListeners();
+    }
+
+    private void initListeners() {
+        buttonContinue.setOnClickListener(v -> {
+            int position = stepsPager.getCurrentItem();
+            adapter.save(position);
+
+            if (position < adapter.getCount()) {
+                stepsPager.setCurrentItem(position + 1);
+            } else {
+
+            }
+        });
     }
 }
 
 class CreationPagerAdapter extends FragmentPagerAdapter {
 
-    private final ArrayList<Fragment> fragments;
+    private final ArrayList<SavableFragment> fragments;
 
     public CreationPagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
@@ -51,5 +70,9 @@ class CreationPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return 2;
+    }
+
+    public void save(int position) {
+        fragments.get(position).save();
     }
 }

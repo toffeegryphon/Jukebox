@@ -16,13 +16,12 @@ import android.widget.EditText;
  * Use the {@link HostCreationGeneralFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HostCreationGeneralFragment extends Fragment {
+public class HostCreationGeneralFragment extends SavableFragment {
 
     private HostCreationViewModel viewModel;
 
     private EditText editTextName;
     private EditText editTextTheme;
-    private Button buttonSubmit;
 
     public HostCreationGeneralFragment() {
         // Required empty public constructor
@@ -57,12 +56,11 @@ public class HostCreationGeneralFragment extends Fragment {
         editTextName = view.findViewById(R.id.edit_text_name);
         editTextTheme = view.findViewById(R.id.edit_text_theme);
 
-//        buttonSubmit = view.findViewById(R.id.button_continue);
-//        buttonSubmit.setOnClickListener(v -> {
-//            viewModel.setUserName(editTextName.getText().toString());
-//            viewModel.setTheme(editTextTheme.getText().toString());
-//        });
-
         return view;
+    }
+
+    public void save() {
+        viewModel.setUserName(editTextName.getText().toString());
+        viewModel.setTheme(editTextTheme.getText().toString());
     }
 }
