@@ -20,6 +20,7 @@
             android:exported="false" />
         <activity
             android:name=".HostCreationActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
