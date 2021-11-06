@@ -57,11 +57,11 @@ public class HostCreationGeneralFragment extends Fragment {
         editTextName = view.findViewById(R.id.edit_text_name);
         editTextTheme = view.findViewById(R.id.edit_text_theme);
 
-        buttonSubmit = view.findViewById(R.id.button_submit);
-        buttonSubmit.setOnClickListener(v -> {
-            viewModel.setUserName(editTextName.getText().toString());
-            viewModel.setTheme(editTextTheme.getText().toString());
-        });
+//        buttonSubmit = view.findViewById(R.id.button_continue);
+//        buttonSubmit.setOnClickListener(v -> {
+//            viewModel.setUserName(editTextName.getText().toString());
+//            viewModel.setTheme(editTextTheme.getText().toString());
+//        });
 
         return view;
     }

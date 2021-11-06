@@ -1,31 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HostCreationGeneralFragment" >
 
     <EditText
         android:id="@+id/edit_text_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name" />
+        android:hint="Name" />
 
     <EditText
         android:id="@+id/edit_text_theme"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/edit_text_name"
         android:ems="10"
-        android:text="Theme" />
+        android:hint="Theme" />
 
-    <Button
-        android:id="@+id/button_submit"
+    <EditText
+        android:id="@+id/edit_text_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/edit_text_theme"
-        android:text="Button" />
+        android:ems="10"
+        android:inputType="date" />
+
+    <EditText
+        android:id="@+id/edit_text_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/edit_text_date"
+        android:layout_toEndOf="@id/edit_text_date"
+        android:ems="10"
+        android:inputType="time" />
+
+    <EditText
+        android:id="@+id/edit_text_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_text_date"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine" />
 </RelativeLayout>
