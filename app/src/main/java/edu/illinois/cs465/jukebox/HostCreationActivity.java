@@ -10,6 +10,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
+
 public class HostCreationActivity extends AppCompatActivity {
 
     private HostCreationViewModel viewModel;
@@ -30,15 +32,20 @@ public class HostCreationActivity extends AppCompatActivity {
 
 class CreationPagerAdapter extends FragmentPagerAdapter {
 
+    private final ArrayList<Fragment> fragments;
+
     public CreationPagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
+
+        fragments = new ArrayList<>();
+        fragments.add(new HostCreationGeneralFragment());
+        fragments.add(new HostSettingFragment());
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment = new HostCreationGeneralFragment();
-        return fragment;
+        return fragments.get(position);
     }
 
     @Override
