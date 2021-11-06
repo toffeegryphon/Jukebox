@@ -28,6 +28,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/edit_text_theme"
         android:ems="10"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:inputType="date" />
 
     <EditText
@@ -36,6 +40,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/edit_text_date"
         android:layout_toEndOf="@id/edit_text_date"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:ems="10"
         android:inputType="time" />
 

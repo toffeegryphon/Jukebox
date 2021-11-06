@@ -4,9 +4,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.Calendar;
+
 public class HostCreationViewModel extends ViewModel {
     private final MutableLiveData<String> userName;
     private final MutableLiveData<String> theme;
+    private final MutableLiveData<Calendar> date;
     private final MutableLiveData<Integer> skipThreshold;
     private final MutableLiveData<Integer> skipTimer;
     private final MutableLiveData<Boolean> areSuggestionsAllowed;
@@ -15,6 +18,8 @@ public class HostCreationViewModel extends ViewModel {
     public HostCreationViewModel() {
         userName = new MutableLiveData<>();
         theme = new MutableLiveData<>();
+        date = new MutableLiveData<>();
+
         skipThreshold = new MutableLiveData<>();
         skipTimer = new MutableLiveData<>();
         areSuggestionsAllowed = new MutableLiveData<>();
@@ -35,6 +40,12 @@ public class HostCreationViewModel extends ViewModel {
 
     public void setTheme(String theme) {
         this.theme.setValue(theme);
+    }
+
+    public LiveData<Calendar> getDate() { return date; }
+
+    public void setDate(Calendar date) {
+        this.date.setValue(date);
     }
 
     public MutableLiveData<Integer> getSkipThreshold() {
