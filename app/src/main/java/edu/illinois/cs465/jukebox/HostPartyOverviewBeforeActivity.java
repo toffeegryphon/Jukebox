@@ -17,10 +17,11 @@ public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host_overview_before);
 
+        // Setup bottom navigation bar
         BottomNavigationView navView = findViewById(R.id.bottomNavigationViewBeforeParty);
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.hostApproveSongsFragment, R.id.hostPartyOverviewBeforeFragment, R.id.hostSettingsFragment)
+                R.id.hostApproveSongsFragment, R.id.hostPartyOverviewBeforeFragment, R.id.hostSettingFragmentBeforeParty)
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerViewBeforeParty);

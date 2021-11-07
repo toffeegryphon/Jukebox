@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/host_overview_navigation"
-    app:startDestination="@id/hostApproveSongsFragment">
+    app:startDestination="@id/hostPartyOverviewBeforeFragment">
 
     <fragment
         android:id="@+id/hostApproveSongsFragment"
@@ -14,7 +14,8 @@
         android:name="edu.illinois.cs465.jukebox.HostPartyOverviewBeforeFragment"
         tools:layout="@layout/fragment_host_party_overview_before" />
     <fragment
-        android:id="@+id/hostSettingsFragment"
-        android:name="edu.illinois.cs465.jukebox.HostSettingsFragment"
-        tools:layout="@layout/fragment_host_settings" />
+        android:id="@+id/hostSettingFragmentBeforeParty"
+        android:name="edu.illinois.cs465.jukebox.HostSettingFragment"
+        tools:layout="@layout/fragment_host_setting"
+        />
 </navigation>

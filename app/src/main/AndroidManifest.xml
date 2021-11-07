@@ -13,6 +13,9 @@
             android:name=".HostPartyOverviewBeforeActivity"
             android:exported="false" />
         <activity
+            android:name=".HostPartyOverviewDuringActivity"
+            android:exported="false" />
+        <activity
             android:name=".GuestPartyActivity"
             android:exported="false" />
         <activity

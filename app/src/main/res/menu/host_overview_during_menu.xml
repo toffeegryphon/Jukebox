@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="Approve Songs"
+        android:title="Song Queue"
         android:icon="@drawable/ic_host_approve_songs"
-        android:id="@+id/hostApproveSongsFragment" />
+        android:id="@+id/hostSongQueueFragment" />
     <item
         android:title="Party Overview"
         android:icon="@drawable/ic_host_overview"
-        android:id="@+id/hostPartyOverviewBeforeFragment" />
+        android:id="@+id/hostPartyOverviewDuringFragment" />
     <item
         android:title="Host Settings"
         android:icon="@drawable/ic_host_settings"
-        android:id="@+id/hostSettingFragmentBeforeParty" />
+        android:id="@+id/hostSettingFragmentDuringParty" />
 </menu>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/host_overview_during_nav"
+    app:startDestination="@id/hostPartyOverviewDuringFragment">
+
+    <fragment
+        android:id="@+id/hostSongQueueFragment"
+        android:name="edu.illinois.cs465.jukebox.HostSongQueueFragment"
+        tools:layout="@layout/fragment_host_song_queue" />
+    <fragment
+        android:id="@+id/hostPartyOverviewDuringFragment"
+        android:name="edu.illinois.cs465.jukebox.HostPartyOverviewDuringFragment"
+        tools:layout="@layout/fragment_host_party_overview_during" />
+    <fragment
+        android:id="@+id/hostSettingFragmentDuringParty"
+        android:name="edu.illinois.cs465.jukebox.HostSettingFragment"
+        tools:layout="@layout/fragment_host_setting" />
+</navigation>
