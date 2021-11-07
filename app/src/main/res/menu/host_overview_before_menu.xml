@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Approve Songs"
+        android:icon="@drawable/ic_host_approve_songs"
+        android:id="@+id/hostApproveSongsFragment" />
+    <item
+        android:title="Party Overview"
+        android:icon="@drawable/ic_host_overview"
+        android:id="@+id/hostPartyOverviewBeforeFragment" />
+    <item
+        android:title="Host Settings"
+        android:icon="@drawable/ic_host_settings"
+        android:id="@+id/hostSettingsFragment" />
+</menu>

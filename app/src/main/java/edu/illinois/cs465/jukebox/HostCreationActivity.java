@@ -10,8 +10,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Debug;
-import android.util.Log;
 import android.widget.Button;
 
 import java.util.ArrayList;
@@ -46,7 +44,7 @@ public class HostCreationActivity extends AppCompatActivity {
             if (position + 1 < adapter.getCount()) {
                 stepsPager.setCurrentItem(position + 1);
             } else {
-                Intent intent = new Intent(HostCreationActivity.this, HostPartyActivity.class);
+                Intent intent = new Intent(HostCreationActivity.this, HostPartyOverviewBeforeActivity.class);
                 startActivity(intent);
             }
         });
