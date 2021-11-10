@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         buttonHost.setOnClickListener(v -> {
             Intent goToHost;
             if (wasPartyCreated) {
-                goToHost = new Intent(context, HostPartyActivity.class);
+                goToHost = new Intent(context, HostPartyOverviewBeforeActivity.class);
             } else {
                 goToHost = new Intent(context, HostCreationActivity.class);
             }

@@ -1,5 +1,10 @@
 package edu.illinois.cs465.jukebox;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -7,12 +12,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Debug;
-import android.util.Log;
-import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -47,9 +46,10 @@ public class HostCreationActivity extends AppCompatActivity {
                 stepsPager.setCurrentItem(position + 1);
             } else {
                 String json = viewModel.toJson();
-                Intent intent = new Intent(HostCreationActivity.this, HostPartyActivity.class);
+                Intent intent = new Intent(HostCreationActivity.this, HostPartyOverviewBeforeActivity.class);
                 intent.putExtra("config", json);
                 startActivity(intent);
+                Toast.makeText(this.getApplicationContext(), "Party created successfully!", Toast.LENGTH_SHORT).show();
             }
         });
     }
