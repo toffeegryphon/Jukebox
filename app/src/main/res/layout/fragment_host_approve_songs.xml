@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:textSize="20sp"
-            android:text="3"></TextView>
+            android:text="4"></TextView>
 
     </RelativeLayout>
     <LinearLayout
