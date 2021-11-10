@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
@@ -123,9 +124,14 @@ public class HostCreationGeneralFragment extends SavableFragment {
         viewModel.setTheme(editTextTheme.getText().toString());
     }
 
+    private void bindStringObserver(TextView view, String key) {
+        final Observer<String> observer = view::setText;
+        LiveData<String> data = viewModel.getString(key, "");
+        data.observe(this, observer);
+    }
+
     public void bindViewModel() {
-        final Observer<String> nameObserver = s -> editTextName.setText(s);
-        LiveData<String> name = viewModel.getString(HostCreationViewModel.USERNAME, "");
-        name.observe(this, nameObserver);
+        bindStringObserver(editTextName, HostCreationViewModel.USERNAME);
+        bindStringObserver(editTextTheme, HostCreationViewModel.THEME);
     }
 }

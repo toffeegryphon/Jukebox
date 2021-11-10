@@ -204,15 +204,6 @@ public class HostCreationViewModel extends ViewModel {
     }
 
     public String toJson() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Type LiveString = new TypeToken<MutableLiveData<String>>(){}.getType();
-        gsonBuilder.registerTypeAdapter(LiveString, new LiveStringParser());
-        Type LiveInteger = new TypeToken<MutableLiveData<Integer>>(){}.getType();
-        gsonBuilder.registerTypeAdapter(LiveInteger, new LiveIntegerParser());
-        Type LiveBoolean = new TypeToken<MutableLiveData<Boolean>>(){}.getType();
-        gsonBuilder.registerTypeAdapter(LiveBoolean, new LiveBooleanParser());
-
-        Gson gson = gsonBuilder.create();
-        return gson.toJson(this);
+        return getGson().toJson(this);
     }
 }
