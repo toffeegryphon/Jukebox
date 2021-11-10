@@ -91,58 +91,8 @@ public class HostCreationViewModel extends ViewModel {
         }
     }
 
-    public LiveData<String> getUserName() {
-        return getString(USERNAME, "");
-    }
-
-    public void setUserName(String userName) {
-        setString(USERNAME, userName);
-    }
-
-    public LiveData<String> getTheme() {
-        return getString(THEME, "");
-    }
-
-    public void setTheme(String theme) {
-        setString(THEME, theme);
-    }
-
-    public LiveData<Calendar> getDate() { return date; }
-
     public void setDate(Calendar date) {
         this.date.setValue(date);
-    }
-
-    public LiveData<Integer> getSkipThreshold() {
-        return getInteger(SKIP_THRESHOLD, 0);
-    }
-
-    public void setSkipThreshold(int skipThreshold) {
-        setInteger(SKIP_THRESHOLD, skipThreshold);
-    }
-
-    public LiveData<Integer> getSkipTimer() {
-        return getInteger(SKIP_TIMER, 0);
-    }
-
-    public void setSkipTimer(int skipTimer) {
-        setInteger(SKIP_TIMER, skipTimer);
-    }
-
-    public LiveData<Boolean> getAreSuggestionsAllowed() {
-        return getBoolean(ARE_SUGGESTIONS_ALLOWED, true);
-    }
-
-    public void setAreSuggestionsAllowed(boolean areSuggestionsAllowed) {
-        setBoolean(ARE_SUGGESTIONS_ALLOWED, areSuggestionsAllowed);
-    }
-
-    public LiveData<Integer> getSuggestionLimit() {
-        return getInteger(SUGGESTION_LIMIT, 0);
-    }
-
-    public void setSuggestionLimit(int suggestionLimit) {
-        setInteger(SUGGESTION_LIMIT, suggestionLimit);
     }
 
     public static class LiveStringParser implements JsonSerializer<MutableLiveData<String>>, JsonDeserializer<MutableLiveData<String>> {

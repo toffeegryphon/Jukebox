@@ -120,8 +120,8 @@ public class HostCreationGeneralFragment extends SavableFragment {
     }
 
     public void save() {
-        viewModel.setUserName(editTextName.getText().toString());
-        viewModel.setTheme(editTextTheme.getText().toString());
+        viewModel.setString(HostCreationViewModel.USERNAME, editTextName.getText().toString());
+        viewModel.setString(HostCreationViewModel.THEME, editTextTheme.getText().toString());
     }
 
     private void bindStringObserver(TextView view, String key) {
