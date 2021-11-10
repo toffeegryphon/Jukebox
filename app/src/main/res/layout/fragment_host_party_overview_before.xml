@@ -5,20 +5,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="?attr/actionBarSize">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Before Party Overview Fragment" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="1"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start Party"
-        android:layout_gravity="bottom|center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        <fragment
+            android:name="edu.illinois.cs465.jukebox.HostCreationGeneralFragment"
+            android:id="@+id/fragmentGeneralPartyOverviewBefore"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+        <Button
+            android:id="@+id/button_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Party"
+            android:layout_gravity="bottom|center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

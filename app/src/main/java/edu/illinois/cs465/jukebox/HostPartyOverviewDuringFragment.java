@@ -1,12 +1,12 @@
 package edu.illinois.cs465.jukebox;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +14,10 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class HostPartyOverviewDuringFragment extends Fragment {
+
+    View view;
+    ImageView playPauseIcon;
+    boolean musicIsPlaying = true;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +63,26 @@ public class HostPartyOverviewDuringFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_host_party_overview_during, container, false);
+        view = inflater.inflate(R.layout.fragment_host_party_overview_during, container, false);
+
+        // Setup start party button
+        playPauseIcon = (ImageView) view.findViewById(R.id.imageViewHostDuringPartyPlayPauseButton);
+        playPauseIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Replace if statements with actually checking if music is playing or paused
+                if (musicIsPlaying) {
+                    playPauseIcon.setImageResource(R.drawable.ic_host_play_button);
+                    musicIsPlaying = false;
+                } else {
+                    playPauseIcon.setImageResource(R.drawable.ic_host_pause_button);
+                    musicIsPlaying = true;
+                }
+            }
+        });
+
+        // TODO: Update progress bar and song time countdown for when music is playing
+        // TODO: Make skip button actually skips the current song
+        return view;
     }
 }

@@ -1,13 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".HostPartyOverviewDuringFragment">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".HostPartyOverviewDuringFragment"
+    android:layout_gravity="center"
+    android:paddingBottom="?attr/actionBarSize">
+
+    <ImageView
+        android:id="@+id/imageViewHostDuringPartyAlbumCover"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="100dp"
+        android:src="@drawable/ic_launcher_background" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="During Party Overview Fragment" />
+        android:id="@+id/textViewHostDuringPartySongName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="Friday"
+        android:textSize="48sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/textViewHostDuringPartyArtistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rebecca Black"
+        android:textSize="24sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progressBarHostDuringPartySongTime"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:paddingTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progressBarHostDuringPartySongTime"
+            android:layout_alignStart="@id/progressBarHostDuringPartySongTime"
+            android:text="0:00" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progressBarHostDuringPartySongTime"
+            android:layout_alignEnd="@id/progressBarHostDuringPartySongTime"
+            android:text="-3:21" />
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+    <ImageView
+        android:id="@+id/imageViewHostDuringPartyPlayPauseButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_host_pause_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:scaleType="fitXY"/>
+    <ImageView
+        android:id="@+id/imageViewHostDuringPartySkipButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_baseline_skip_next_24"
+        android:layout_marginLeft="10dp"
+        android:scaleType="fitXY"
+        app:layout_constraintLeft_toRightOf="@id/imageViewHostDuringPartyPlayPauseButton"
+        app:layout_constraintBottom_toTopOf="@id/imageViewHostDuringPartyPlayPauseButton"
+        app:layout_constraintTop_toBottomOf="@id/imageViewHostDuringPartyPlayPauseButton"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
