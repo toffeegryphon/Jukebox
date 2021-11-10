@@ -45,7 +45,9 @@ public class HostCreationActivity extends AppCompatActivity {
             if (position + 1 < adapter.getCount()) {
                 stepsPager.setCurrentItem(position + 1);
             } else {
+                String json = viewModel.toJson();
                 Intent intent = new Intent(HostCreationActivity.this, HostPartyOverviewBeforeActivity.class);
+                intent.putExtra("config", json);
                 startActivity(intent);
                 Toast.makeText(this.getApplicationContext(), "Party created successfully!", Toast.LENGTH_SHORT).show();
             }
