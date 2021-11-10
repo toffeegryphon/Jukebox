@@ -4,11 +4,15 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,8 +62,6 @@ public class HostCreationGeneralFragment extends SavableFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(HostCreationViewModel.class);
-
         dateTime = Calendar.getInstance();
         dateListener = (calendarView, year, month, dayOfMonth) -> {
             dateTime.set(Calendar.YEAR, year);
@@ -98,6 +100,8 @@ public class HostCreationGeneralFragment extends SavableFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_host_creation_general, container, false);
 
+        viewModel = new ViewModelProvider(requireActivity()).get(HostCreationViewModel.class);
+
         editTextName = view.findViewById(R.id.edit_text_name);
         editTextTheme = view.findViewById(R.id.edit_text_theme);
         editTextDate = view.findViewById(R.id.edit_text_date);
@@ -117,5 +121,11 @@ public class HostCreationGeneralFragment extends SavableFragment {
     public void save() {
         viewModel.setUserName(editTextName.getText().toString());
         viewModel.setTheme(editTextTheme.getText().toString());
+    }
+
+    public void bindViewModel() {
+        final Observer<String> nameObserver = s -> editTextName.setText(s);
+        LiveData<String> name = viewModel.getString(HostCreationViewModel.USERNAME, "");
+        name.observe(this, nameObserver);
     }
 }

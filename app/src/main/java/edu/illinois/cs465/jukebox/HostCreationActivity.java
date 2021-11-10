@@ -47,7 +47,7 @@ public class HostCreationActivity extends AppCompatActivity {
             } else {
                 String json = viewModel.toJson();
                 Intent intent = new Intent(HostCreationActivity.this, HostPartyOverviewBeforeActivity.class);
-                intent.putExtra("config", json);
+                intent.putExtra(HostPartyOverviewBeforeActivity.DATA_CONFIG, json);
                 startActivity(intent);
                 Toast.makeText(this.getApplicationContext(), "Party created successfully!", Toast.LENGTH_SHORT).show();
             }
