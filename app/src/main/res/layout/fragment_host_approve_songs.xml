@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".HostApproveSongsFragment">
 
@@ -61,6 +62,15 @@
             android:layout_marginTop="10dp"
             android:id="@+id/songfragment4">
         </fragment>
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:text="YES"
+            android:textSize="13sp"
+            android:layout_gravity="right"
+            android:backgroundTint="@color/black">
+        </Button>
 
     </LinearLayout>
 
