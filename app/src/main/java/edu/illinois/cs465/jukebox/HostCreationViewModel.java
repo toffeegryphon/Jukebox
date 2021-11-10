@@ -5,41 +5,92 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class HostCreationViewModel extends ViewModel {
-    private final MutableLiveData<String> userName;
-    private final MutableLiveData<String> theme;
+    public static final String USERNAME = "username";
+    public static final String THEME = "theme";
+    public static final String SKIP_THRESHOLD = "skipThreshold";
+    public static final String SKIP_TIMER = "skipTimer";
+    public static final String SUGGESTION_LIMIT = "suggestionLimit";
+    public static final String ARE_SUGGESTIONS_ALLOWED = "areSuggestionsAllowed";
+
     private final MutableLiveData<Calendar> date;
-    private final MutableLiveData<Integer> skipThreshold;
-    private final MutableLiveData<Integer> skipTimer;
-    private final MutableLiveData<Boolean> areSuggestionsAllowed;
-    private final MutableLiveData<Integer> suggestionLimit;
+
+    private final Map<String, MutableLiveData<String>> strings;
+    private final Map<String, MutableLiveData<Integer>> integers;
+    private final Map<String, MutableLiveData<Boolean>> booleans;
 
     public HostCreationViewModel() {
-        userName = new MutableLiveData<>();
-        theme = new MutableLiveData<>();
         date = new MutableLiveData<>();
 
-        skipThreshold = new MutableLiveData<>();
-        skipTimer = new MutableLiveData<>();
-        areSuggestionsAllowed = new MutableLiveData<>();
-        suggestionLimit = new MutableLiveData<>();
+        strings = new HashMap<>();
+        integers = new HashMap<>();
+        booleans = new HashMap<>();
+    }
+
+    private <T> MutableLiveData<T> initializeData(T value) {
+        MutableLiveData<T> data = new MutableLiveData<>();
+        data.setValue(value);
+
+        return data;
+    }
+
+    public LiveData<String> getString(String propertyName, String defaultValue) {
+        if (!strings.containsKey(propertyName)) strings.put(propertyName, initializeData(defaultValue));
+        return strings.get(propertyName);
+    }
+
+    public void setString(String propertyName, String value) {
+        if (!strings.containsKey(propertyName)) {
+            strings.put(propertyName, initializeData(value));
+        } else {
+            Objects.requireNonNull(strings.get(propertyName)).setValue(value);
+        }
+    }
+
+    public LiveData<Integer> getInteger(String propertyName, Integer defaultValue) {
+        if (!integers.containsKey(propertyName)) integers.put(propertyName, initializeData(defaultValue));
+        return integers.get(propertyName);
+    }
+
+    public void setInteger(String propertyName, Integer value) {
+        if (!integers.containsKey(propertyName)) {
+            integers.put(propertyName, initializeData(value));
+        } else {
+            Objects.requireNonNull(integers.get(propertyName)).setValue(value);
+        }
+    }
+
+    public LiveData<Boolean> getBoolean(String propertyName, Boolean defaultValue) {
+        if (!booleans.containsKey(propertyName)) booleans.put(propertyName, initializeData(defaultValue));
+        return booleans.get(propertyName);
+    }
+
+    public void setBoolean(String propertyName, Boolean value) {
+        if (!booleans.containsKey(propertyName)) {
+            booleans.put(propertyName, initializeData(value));
+        } else {
+            Objects.requireNonNull(booleans.get(propertyName)).setValue(value);
+        }
     }
 
     public LiveData<String> getUserName() {
-        return userName;
+        return getString(USERNAME, "");
     }
 
     public void setUserName(String userName) {
-        this.userName.setValue(userName);
+        setString(USERNAME, userName);
     }
 
     public LiveData<String> getTheme() {
-        return theme;
+        return getString(THEME, "");
     }
 
     public void setTheme(String theme) {
-        this.theme.setValue(theme);
+        setString(THEME, theme);
     }
 
     public LiveData<Calendar> getDate() { return date; }
@@ -48,35 +99,35 @@ public class HostCreationViewModel extends ViewModel {
         this.date.setValue(date);
     }
 
-    public MutableLiveData<Integer> getSkipThreshold() {
-        return skipThreshold;
+    public LiveData<Integer> getSkipThreshold() {
+        return getInteger(SKIP_THRESHOLD, 0);
     }
 
     public void setSkipThreshold(int skipThreshold) {
-        this.skipThreshold.setValue(skipThreshold);
+        setInteger(SKIP_THRESHOLD, skipThreshold);
     }
 
-    public MutableLiveData<Integer> getSkipTimer() {
-        return skipTimer;
+    public LiveData<Integer> getSkipTimer() {
+        return getInteger(SKIP_TIMER, 0);
     }
 
     public void setSkipTimer(int skipTimer) {
-        this.skipTimer.setValue(skipTimer);
+        setInteger(SKIP_TIMER, skipTimer);
     }
 
-    public MutableLiveData<Boolean> getAreSuggestionsAllowed() {
-        return areSuggestionsAllowed;
+    public LiveData<Boolean> getAreSuggestionsAllowed() {
+        return getBoolean(ARE_SUGGESTIONS_ALLOWED, true);
     }
 
     public void setAreSuggestionsAllowed(boolean areSuggestionsAllowed) {
-        this.areSuggestionsAllowed.setValue(areSuggestionsAllowed);
+        setBoolean(ARE_SUGGESTIONS_ALLOWED, areSuggestionsAllowed);
     }
 
-    public MutableLiveData<Integer> getSuggestionLimit() {
-        return suggestionLimit;
+    public LiveData<Integer> getSuggestionLimit() {
+        return getInteger(SUGGESTION_LIMIT, 0);
     }
 
     public void setSuggestionLimit(int suggestionLimit) {
-        this.suggestionLimit.setValue(suggestionLimit);
+        setInteger(SUGGESTION_LIMIT, suggestionLimit);
     }
 }
