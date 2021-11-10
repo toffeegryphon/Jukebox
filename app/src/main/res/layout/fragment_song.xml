@@ -13,14 +13,14 @@
             android:id="@+id/songcover"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/Clay_Davis">
+            android:src="@drawable/clay_davis">
         </ImageView>
         <TextView
             android:id="@+id/songname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/songcover"
-            android:text="THE BADDEST"
+            android:text="SHIIEEHH"
             android:textSize="20sp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"></TextView>
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/songcover"
             android:layout_below="@id/songname"
-            android:text="K/DA"
+            android:text="Senator Clay Davis"
             android:textSize="20sp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"></TextView>
