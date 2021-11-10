@@ -4,6 +4,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +28,8 @@ public class HostCreationViewModel extends ViewModel {
     public static final String SKIP_TIMER = "skipTimer";
     public static final String SUGGESTION_LIMIT = "suggestionLimit";
     public static final String ARE_SUGGESTIONS_ALLOWED = "areSuggestionsAllowed";
+
+    private static Gson gson;
 
     private final MutableLiveData<Calendar> date;
 
@@ -129,5 +143,76 @@ public class HostCreationViewModel extends ViewModel {
 
     public void setSuggestionLimit(int suggestionLimit) {
         setInteger(SUGGESTION_LIMIT, suggestionLimit);
+    }
+
+    public static class LiveStringParser implements JsonSerializer<MutableLiveData<String>>, JsonDeserializer<MutableLiveData<String>> {
+        @Override
+        public JsonElement serialize(MutableLiveData<String> src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(Objects.requireNonNull(src.getValue()));
+        }
+
+        @Override
+        public MutableLiveData<String> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            MutableLiveData<String> data = new MutableLiveData<>();
+            data.setValue(json.getAsString());
+            return data;
+        }
+    }
+
+    public static class LiveIntegerParser implements JsonSerializer<MutableLiveData<Integer>>, JsonDeserializer<MutableLiveData<Integer>> {
+        @Override
+        public JsonElement serialize(MutableLiveData<Integer> src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(Objects.requireNonNull(src.getValue()));
+        }
+
+        @Override
+        public MutableLiveData<Integer> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            MutableLiveData<Integer> data = new MutableLiveData<>();
+            data.setValue(json.getAsInt());
+            return data;
+        }
+    }
+
+    public static class LiveBooleanParser implements JsonSerializer<MutableLiveData<Boolean>>, JsonDeserializer<MutableLiveData<Boolean>> {
+        @Override
+        public JsonElement serialize(MutableLiveData<Boolean> src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(Objects.requireNonNull(src.getValue()));
+        }
+
+        @Override
+        public MutableLiveData<Boolean> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            MutableLiveData<Boolean> data = new MutableLiveData<>();
+            data.setValue(json.getAsBoolean());
+            return data;
+        }
+    }
+
+    public static Gson getGson() {
+        if (gson == null) {
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            Type LiveString = new TypeToken<MutableLiveData<String>>(){}.getType();
+            gsonBuilder.registerTypeAdapter(LiveString, new LiveStringParser());
+            Type LiveInteger = new TypeToken<MutableLiveData<Integer>>(){}.getType();
+            gsonBuilder.registerTypeAdapter(LiveInteger, new LiveIntegerParser());
+            Type LiveBoolean = new TypeToken<MutableLiveData<Boolean>>(){}.getType();
+            gsonBuilder.registerTypeAdapter(LiveBoolean, new LiveBooleanParser());
+
+            gson = gsonBuilder.create();
+        }
+
+        return gson;
+    }
+
+    public String toJson() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Type LiveString = new TypeToken<MutableLiveData<String>>(){}.getType();
+        gsonBuilder.registerTypeAdapter(LiveString, new LiveStringParser());
+        Type LiveInteger = new TypeToken<MutableLiveData<Integer>>(){}.getType();
+        gsonBuilder.registerTypeAdapter(LiveInteger, new LiveIntegerParser());
+        Type LiveBoolean = new TypeToken<MutableLiveData<Boolean>>(){}.getType();
+        gsonBuilder.registerTypeAdapter(LiveBoolean, new LiveBooleanParser());
+
+        Gson gson = gsonBuilder.create();
+        return gson.toJson(this);
     }
 }
