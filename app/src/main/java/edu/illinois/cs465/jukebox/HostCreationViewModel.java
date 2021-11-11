@@ -1,5 +1,7 @@
 package edu.illinois.cs465.jukebox;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -16,6 +18,7 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -91,7 +94,13 @@ public class HostCreationViewModel extends ViewModel {
         }
     }
 
+    public LiveData<Calendar> getDate() {
+        return this.date;
+    }
+
     public void setDate(Calendar date) {
+        Log.d("TESTING", "SET DATE");
+        Log.d("TESTING", String.valueOf(date.getTimeInMillis()));
         this.date.setValue(date);
     }
 
@@ -137,6 +146,24 @@ public class HostCreationViewModel extends ViewModel {
         }
     }
 
+    public static class LiveCalendarParser implements JsonSerializer<MutableLiveData<Calendar>>, JsonDeserializer<MutableLiveData<Calendar>> {
+        @Override
+        public JsonElement serialize(MutableLiveData<Calendar> src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(Objects.requireNonNull(src.getValue()).getTimeInMillis());
+        }
+
+        @Override
+        public MutableLiveData<Calendar> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            MutableLiveData<Calendar> data = new MutableLiveData<>();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(json.getAsLong());
+            Log.d("TESTING", String.valueOf(json.getAsLong()));
+            Log.d("TESTING", new SimpleDateFormat("MM/dd/yyyy").format(calendar.getTime()));
+            data.setValue(calendar);
+            return data;
+        }
+    }
+
     public static Gson getGson() {
         if (gson == null) {
             GsonBuilder gsonBuilder = new GsonBuilder();
@@ -146,6 +173,8 @@ public class HostCreationViewModel extends ViewModel {
             gsonBuilder.registerTypeAdapter(LiveInteger, new LiveIntegerParser());
             Type LiveBoolean = new TypeToken<MutableLiveData<Boolean>>(){}.getType();
             gsonBuilder.registerTypeAdapter(LiveBoolean, new LiveBooleanParser());
+            Type LiveCalendar = new TypeToken<MutableLiveData<Calendar>>(){}.getType();
+            gsonBuilder.registerTypeAdapter(LiveCalendar, new LiveCalendarParser());
 
             gson = gsonBuilder.create();
         }

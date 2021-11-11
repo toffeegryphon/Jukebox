@@ -116,7 +116,20 @@ public class HostCreationGeneralFragment extends SavableFragment {
             timeDialog.show();
         });
 
+        if (viewModel.getDate().getValue() != null) {
+            editTextDate.setText(new SimpleDateFormat("MM/dd/yyyy").format(viewModel.getDate().getValue().getTime()));
+            editTextTime.setText(new SimpleDateFormat("HH:mm").format(viewModel.getDate().getValue().getTime()));
+        }
+
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (viewModel.getDate().getValue() != null) {
+            editTextDate.setText(new SimpleDateFormat("MM/dd/yyyy").format(viewModel.getDate().getValue().getTime()));
+        }
     }
 
     public void save() {
