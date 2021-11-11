@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".HostApproveSongsFragment">
+    tools:context=".GuestSuggestionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,8 +36,55 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:text="Dress Code: Business Professional"></TextView>
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/mysuggesstionstext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Suggesstions"
+                android:textSize="22sp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4/10"
+                android:layout_toRightOf="@id/mysuggesstionstext"
+                android:layout_marginLeft="10dp"
+                android:textSize="22sp"></TextView>
 
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="48dp"
+                android:layout_alignParentRight="true"
+                android:backgroundTint="@color/black"
+                android:text="Submit"
+                android:textSize="13sp"></Button>
+        </RelativeLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="48dp"
+            android:text="Enter a song name"></EditText>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:text="Search"
+            android:textSize="13sp"
+            android:layout_alignParentRight="true"
+            android:backgroundTint="@color/black">
+        </Button>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +95,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:id="@+id/songfragment1">
+            android:id="@+id/songfragment1"
+            tools:layout="@layout/fragment_song">
         </fragment>
 
         <fragment
@@ -56,7 +104,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:id="@+id/songfragment2">
+            android:id="@+id/songfragment2"
+            tools:layout="@layout/fragment_song">
         </fragment>
 
         <fragment
@@ -64,7 +113,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:id="@+id/songfragment3">
+            android:id="@+id/songfragment3"
+            tools:layout="@layout/fragment_song">
         </fragment>
 
         <fragment
@@ -72,17 +122,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:id="@+id/songfragment4">
+            android:id="@+id/songfragment4"
+            tools:layout="@layout/fragment_song">
         </fragment>
-
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:text="YES"
-            android:textSize="13sp"
-            android:layout_gravity="right"
-            android:backgroundTint="@color/black">
-        </Button>
 
     </LinearLayout>
 
