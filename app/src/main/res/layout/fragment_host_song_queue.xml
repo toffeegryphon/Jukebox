@@ -1,13 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".HostSongQueueFragment">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Song Queue Fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textSize="20sp"
+            android:text="Queue"></TextView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="20sp"
+            android:text="4"></TextView>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <fragment
+            android:name="edu.illinois.cs465.jukebox.SongFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/songfragment1">
+        </fragment>
+
+        <fragment
+            android:name="edu.illinois.cs465.jukebox.SongFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/songfragment2">
+        </fragment>
+
+        <fragment
+            android:name="edu.illinois.cs465.jukebox.SongFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/songfragment3">
+        </fragment>
+
+        <fragment
+            android:name="edu.illinois.cs465.jukebox.SongFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/songfragment4">
+        </fragment>
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:text="YES"
+            android:textSize="13sp"
+            android:layout_gravity="right"
+            android:backgroundTint="@color/black">
+        </Button>
+
+    </LinearLayout>
+
+</LinearLayout>
