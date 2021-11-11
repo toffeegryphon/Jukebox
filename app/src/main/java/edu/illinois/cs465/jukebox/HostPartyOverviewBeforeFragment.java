@@ -1,13 +1,18 @@
 package edu.illinois.cs465.jukebox;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,9 +20,11 @@ import androidx.fragment.app.FragmentActivity;
  * create an instance of this fragment.
  */
 public class HostPartyOverviewBeforeFragment extends Fragment {
+    private HostCreationViewModel viewModel;
 
     View view;
     Button buttonStart;
+    HostCreationGeneralFragment hostCreationGeneralFragment;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -64,6 +71,10 @@ public class HostPartyOverviewBeforeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_host_party_overview_before, container, false);
+
+        viewModel = new ViewModelProvider(requireActivity()).get(HostCreationViewModel.class);
+        hostCreationGeneralFragment = (HostCreationGeneralFragment) getChildFragmentManager().findFragmentById(R.id.fragmentGeneralPartyOverviewBefore);
+        Objects.requireNonNull(hostCreationGeneralFragment).bindViewModel();
 
         // Setup start party button
         buttonStart = (Button) view.findViewById(R.id.button_start);

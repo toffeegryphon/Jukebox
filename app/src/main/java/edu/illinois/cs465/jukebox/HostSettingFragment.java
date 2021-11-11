@@ -62,9 +62,9 @@ public class HostSettingFragment extends SavableFragment {
     }
 
     public void save() {
-        viewModel.setSkipThreshold(Integer.parseInt(editThreshold.getText().toString()));
-        viewModel.setSkipTimer(Integer.parseInt(editTimer.getText().toString()));
-        viewModel.setAreSuggestionsAllowed(switchAllow.isChecked());
-        viewModel.setSuggestionLimit(Integer.parseInt(editLimit.getText().toString()));
+        viewModel.setInteger(HostCreationViewModel.SKIP_THRESHOLD, Integer.parseInt(editThreshold.getText().toString()));
+        viewModel.setInteger(HostCreationViewModel.SKIP_TIMER, Integer.parseInt(editTimer.getText().toString()));
+        viewModel.setInteger(HostCreationViewModel.SUGGESTION_LIMIT, Integer.parseInt(editLimit.getText().toString()));
+        viewModel.setBoolean(HostCreationViewModel.ARE_SUGGESTIONS_ALLOWED, switchAllow.isChecked());
     }
 }

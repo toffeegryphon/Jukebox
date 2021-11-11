@@ -1,5 +1,7 @@
 package edu.illinois.cs465.jukebox;
 
+import android.widget.TextView;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -16,7 +18,6 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -24,6 +25,7 @@ import java.util.Objects;
 public class HostCreationViewModel extends ViewModel {
     public static final String USERNAME = "username";
     public static final String THEME = "theme";
+    public static final String DESCRIPTION = "description";
     public static final String SKIP_THRESHOLD = "skipThreshold";
     public static final String SKIP_TIMER = "skipTimer";
     public static final String SUGGESTION_LIMIT = "suggestionLimit";
@@ -31,7 +33,7 @@ public class HostCreationViewModel extends ViewModel {
 
     private static Gson gson;
 
-    private final MutableLiveData<Calendar> date;
+    private final MutableLiveData<Long> date;
 
     private final Map<String, MutableLiveData<String>> strings;
     private final Map<String, MutableLiveData<Integer>> integers;
@@ -65,6 +67,10 @@ public class HostCreationViewModel extends ViewModel {
         }
     }
 
+    public void setString(String propertyName, TextView view) {
+        setString(propertyName, view.getText().toString());
+    }
+
     public LiveData<Integer> getInteger(String propertyName, Integer defaultValue) {
         if (!integers.containsKey(propertyName)) integers.put(propertyName, initializeData(defaultValue));
         return integers.get(propertyName);
@@ -91,58 +97,12 @@ public class HostCreationViewModel extends ViewModel {
         }
     }
 
-    public LiveData<String> getUserName() {
-        return getString(USERNAME, "");
+    public LiveData<Long> getDate() {
+        return this.date;
     }
 
-    public void setUserName(String userName) {
-        setString(USERNAME, userName);
-    }
-
-    public LiveData<String> getTheme() {
-        return getString(THEME, "");
-    }
-
-    public void setTheme(String theme) {
-        setString(THEME, theme);
-    }
-
-    public LiveData<Calendar> getDate() { return date; }
-
-    public void setDate(Calendar date) {
+    public void setDate(Long date) {
         this.date.setValue(date);
-    }
-
-    public LiveData<Integer> getSkipThreshold() {
-        return getInteger(SKIP_THRESHOLD, 0);
-    }
-
-    public void setSkipThreshold(int skipThreshold) {
-        setInteger(SKIP_THRESHOLD, skipThreshold);
-    }
-
-    public LiveData<Integer> getSkipTimer() {
-        return getInteger(SKIP_TIMER, 0);
-    }
-
-    public void setSkipTimer(int skipTimer) {
-        setInteger(SKIP_TIMER, skipTimer);
-    }
-
-    public LiveData<Boolean> getAreSuggestionsAllowed() {
-        return getBoolean(ARE_SUGGESTIONS_ALLOWED, true);
-    }
-
-    public void setAreSuggestionsAllowed(boolean areSuggestionsAllowed) {
-        setBoolean(ARE_SUGGESTIONS_ALLOWED, areSuggestionsAllowed);
-    }
-
-    public LiveData<Integer> getSuggestionLimit() {
-        return getInteger(SUGGESTION_LIMIT, 0);
-    }
-
-    public void setSuggestionLimit(int suggestionLimit) {
-        setInteger(SUGGESTION_LIMIT, suggestionLimit);
     }
 
     public static class LiveStringParser implements JsonSerializer<MutableLiveData<String>>, JsonDeserializer<MutableLiveData<String>> {
@@ -187,6 +147,20 @@ public class HostCreationViewModel extends ViewModel {
         }
     }
 
+    public static class LiveLongParser implements JsonSerializer<MutableLiveData<Long>>, JsonDeserializer<MutableLiveData<Long>> {
+        @Override
+        public JsonElement serialize(MutableLiveData<Long> src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(Objects.requireNonNull(src.getValue()));
+        }
+
+        @Override
+        public MutableLiveData<Long> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            MutableLiveData<Long> data = new MutableLiveData<>();
+            data.setValue(json.getAsLong());
+            return data;
+        }
+    }
+
     public static Gson getGson() {
         if (gson == null) {
             GsonBuilder gsonBuilder = new GsonBuilder();
@@ -196,6 +170,8 @@ public class HostCreationViewModel extends ViewModel {
             gsonBuilder.registerTypeAdapter(LiveInteger, new LiveIntegerParser());
             Type LiveBoolean = new TypeToken<MutableLiveData<Boolean>>(){}.getType();
             gsonBuilder.registerTypeAdapter(LiveBoolean, new LiveBooleanParser());
+            Type LiveLong = new TypeToken<MutableLiveData<Long>>(){}.getType();
+            gsonBuilder.registerTypeAdapter(LiveLong, new LiveLongParser());
 
             gson = gsonBuilder.create();
         }
@@ -204,15 +180,6 @@ public class HostCreationViewModel extends ViewModel {
     }
 
     public String toJson() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Type LiveString = new TypeToken<MutableLiveData<String>>(){}.getType();
-        gsonBuilder.registerTypeAdapter(LiveString, new LiveStringParser());
-        Type LiveInteger = new TypeToken<MutableLiveData<Integer>>(){}.getType();
-        gsonBuilder.registerTypeAdapter(LiveInteger, new LiveIntegerParser());
-        Type LiveBoolean = new TypeToken<MutableLiveData<Boolean>>(){}.getType();
-        gsonBuilder.registerTypeAdapter(LiveBoolean, new LiveBooleanParser());
-
-        Gson gson = gsonBuilder.create();
-        return gson.toJson(this);
+        return getGson().toJson(this);
     }
 }
