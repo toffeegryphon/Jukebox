@@ -4,12 +4,15 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * A simple {@link SavableFragment} subclass.
@@ -66,5 +69,25 @@ public class HostSettingFragment extends SavableFragment {
         viewModel.setInteger(HostCreationViewModel.SKIP_TIMER, Integer.parseInt(editTimer.getText().toString()));
         viewModel.setInteger(HostCreationViewModel.SUGGESTION_LIMIT, Integer.parseInt(editLimit.getText().toString()));
         viewModel.setBoolean(HostCreationViewModel.ARE_SUGGESTIONS_ALLOWED, switchAllow.isChecked());
+    }
+
+    private void bindIntegerObserver(TextView view, String key) {
+        final Observer<Integer> observer = view::setText;
+        LiveData<Integer> data = viewModel.getInteger(key, 0);
+        data.observe(this, observer);
+    }
+
+    private void bindBooleanObserver(SwitchCompat view, String key) {
+        final Observer<Boolean> observer = view::setChecked;
+        LiveData<Boolean> data = viewModel.getBoolean(key, true);
+        data.observe(this, observer);
+    }
+
+    public void bindViewModel() {
+        bindIntegerObserver(editThreshold, HostCreationViewModel.SKIP_THRESHOLD);
+        bindIntegerObserver(editTimer, HostCreationViewModel.SKIP_TIMER);
+        bindIntegerObserver(editLimit, HostCreationViewModel.SUGGESTION_LIMIT);
+
+        bindBooleanObserver(switchAllow, HostCreationViewModel.ARE_SUGGESTIONS_ALLOWED);
     }
 }

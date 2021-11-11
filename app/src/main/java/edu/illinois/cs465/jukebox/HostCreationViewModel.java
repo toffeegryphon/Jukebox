@@ -18,6 +18,7 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -41,6 +42,7 @@ public class HostCreationViewModel extends ViewModel {
 
     public HostCreationViewModel() {
         date = new MutableLiveData<>();
+        date.setValue(Calendar.getInstance().getTimeInMillis());
 
         strings = new HashMap<>();
         integers = new HashMap<>();
