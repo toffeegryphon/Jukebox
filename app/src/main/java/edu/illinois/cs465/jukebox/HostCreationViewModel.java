@@ -1,6 +1,6 @@
 package edu.illinois.cs465.jukebox;
 
-import android.util.Log;
+import android.widget.TextView;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -18,8 +18,6 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -27,6 +25,7 @@ import java.util.Objects;
 public class HostCreationViewModel extends ViewModel {
     public static final String USERNAME = "username";
     public static final String THEME = "theme";
+    public static final String DESCRIPTION = "description";
     public static final String SKIP_THRESHOLD = "skipThreshold";
     public static final String SKIP_TIMER = "skipTimer";
     public static final String SUGGESTION_LIMIT = "suggestionLimit";
@@ -66,6 +65,10 @@ public class HostCreationViewModel extends ViewModel {
         } else {
             Objects.requireNonNull(strings.get(propertyName)).setValue(value);
         }
+    }
+
+    public void setString(String propertyName, TextView view) {
+        setString(propertyName, view.getText().toString());
     }
 
     public LiveData<Integer> getInteger(String propertyName, Integer defaultValue) {

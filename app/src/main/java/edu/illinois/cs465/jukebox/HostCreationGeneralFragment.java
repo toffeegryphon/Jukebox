@@ -35,7 +35,7 @@ public class HostCreationGeneralFragment extends SavableFragment {
 
     private HostCreationViewModel viewModel;
 
-    private EditText editTextName, editTextTheme, editTextDate, editTextTime;
+    private EditText editTextName, editTextTheme, editTextDate, editTextTime, editTextDesc;
 
     private Calendar dateTime;
     DatePickerDialog.OnDateSetListener dateListener;
@@ -106,14 +106,11 @@ public class HostCreationGeneralFragment extends SavableFragment {
         editTextTheme = view.findViewById(R.id.edit_text_theme);
         editTextDate = view.findViewById(R.id.edit_text_date);
         editTextTime = view.findViewById(R.id.edit_text_time);
+        editTextDesc = view.findViewById(R.id.edit_text_desc);
 
-        editTextDate.setOnClickListener(v -> {
-            dateDialog.show();
-        });
+        editTextDate.setOnClickListener(v -> dateDialog.show());
 
-        editTextTime.setOnClickListener(v -> {
-            timeDialog.show();
-        });
+        editTextTime.setOnClickListener(v -> timeDialog.show());
 
         LiveData<Long> dateMillis = viewModel.getDate();
         final Observer<Long> dateObserver = millis -> {
@@ -126,8 +123,9 @@ public class HostCreationGeneralFragment extends SavableFragment {
     }
 
     public void save() {
-        viewModel.setString(HostCreationViewModel.USERNAME, editTextName.getText().toString());
-        viewModel.setString(HostCreationViewModel.THEME, editTextTheme.getText().toString());
+        viewModel.setString(HostCreationViewModel.USERNAME, editTextName);
+        viewModel.setString(HostCreationViewModel.THEME, editTextTheme);
+        viewModel.setString(HostCreationViewModel.DESCRIPTION, editTextDesc);
     }
 
     private void bindStringObserver(TextView view, String key) {
@@ -139,5 +137,6 @@ public class HostCreationGeneralFragment extends SavableFragment {
     public void bindViewModel() {
         bindStringObserver(editTextName, HostCreationViewModel.USERNAME);
         bindStringObserver(editTextTheme, HostCreationViewModel.THEME);
+        bindStringObserver(editTextDesc, HostCreationViewModel.DESCRIPTION);
     }
 }
