@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "197897517162",
+    "project_id": "jukebox-149a9",
+    "storage_bucket": "jukebox-149a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197897517162:android:c4793e65f2ecc7ab493213",
+        "android_client_info": {
+          "package_name": "edu.illinois.cs465.jukebox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "197897517162-lu1ede147le5lhdrvs01af934co8hmlr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeN0TUXwRp8nbrBPlhZhJmk1YRL-jt0Lk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "197897517162-lu1ede147le5lhdrvs01af934co8hmlr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
