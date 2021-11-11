@@ -34,7 +34,7 @@ public class HostCreationViewModel extends ViewModel {
 
     private static Gson gson;
 
-    private final MutableLiveData<Calendar> date;
+    private final MutableLiveData<Long> date;
 
     private final Map<String, MutableLiveData<String>> strings;
     private final Map<String, MutableLiveData<Integer>> integers;
@@ -94,13 +94,11 @@ public class HostCreationViewModel extends ViewModel {
         }
     }
 
-    public LiveData<Calendar> getDate() {
+    public LiveData<Long> getDate() {
         return this.date;
     }
 
-    public void setDate(Calendar date) {
-        Log.d("TESTING", "SET DATE");
-        Log.d("TESTING", String.valueOf(date.getTimeInMillis()));
+    public void setDate(Long date) {
         this.date.setValue(date);
     }
 
@@ -146,20 +144,16 @@ public class HostCreationViewModel extends ViewModel {
         }
     }
 
-    public static class LiveCalendarParser implements JsonSerializer<MutableLiveData<Calendar>>, JsonDeserializer<MutableLiveData<Calendar>> {
+    public static class LiveLongParser implements JsonSerializer<MutableLiveData<Long>>, JsonDeserializer<MutableLiveData<Long>> {
         @Override
-        public JsonElement serialize(MutableLiveData<Calendar> src, Type typeOfSrc, JsonSerializationContext context) {
-            return new JsonPrimitive(Objects.requireNonNull(src.getValue()).getTimeInMillis());
+        public JsonElement serialize(MutableLiveData<Long> src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(Objects.requireNonNull(src.getValue()));
         }
 
         @Override
-        public MutableLiveData<Calendar> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            MutableLiveData<Calendar> data = new MutableLiveData<>();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(json.getAsLong());
-            Log.d("TESTING", String.valueOf(json.getAsLong()));
-            Log.d("TESTING", new SimpleDateFormat("MM/dd/yyyy").format(calendar.getTime()));
-            data.setValue(calendar);
+        public MutableLiveData<Long> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            MutableLiveData<Long> data = new MutableLiveData<>();
+            data.setValue(json.getAsLong());
             return data;
         }
     }
@@ -173,8 +167,8 @@ public class HostCreationViewModel extends ViewModel {
             gsonBuilder.registerTypeAdapter(LiveInteger, new LiveIntegerParser());
             Type LiveBoolean = new TypeToken<MutableLiveData<Boolean>>(){}.getType();
             gsonBuilder.registerTypeAdapter(LiveBoolean, new LiveBooleanParser());
-            Type LiveCalendar = new TypeToken<MutableLiveData<Calendar>>(){}.getType();
-            gsonBuilder.registerTypeAdapter(LiveCalendar, new LiveCalendarParser());
+            Type LiveLong = new TypeToken<MutableLiveData<Long>>(){}.getType();
+            gsonBuilder.registerTypeAdapter(LiveLong, new LiveLongParser());
 
             gson = gsonBuilder.create();
         }

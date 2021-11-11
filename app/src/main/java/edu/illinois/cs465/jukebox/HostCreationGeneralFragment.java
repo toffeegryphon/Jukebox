@@ -24,6 +24,7 @@ import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,8 +69,7 @@ public class HostCreationGeneralFragment extends SavableFragment {
             dateTime.set(Calendar.YEAR, year);
             dateTime.set(Calendar.MONTH, month);
             dateTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            viewModel.setDate(dateTime);
-            editTextDate.setText(new SimpleDateFormat("MM/dd/yyyy").format(dateTime.getTime()));
+            viewModel.setDate(dateTime.getTimeInMillis());
         };
 
         dateDialog = new DatePickerDialog(
@@ -83,8 +83,7 @@ public class HostCreationGeneralFragment extends SavableFragment {
         timeListener = (calendarView, hourOfDay, minute) -> {
             dateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
             dateTime.set(Calendar.MINUTE, minute);
-            viewModel.setDate(dateTime);
-            editTextTime.setText(new SimpleDateFormat("HH:mm").format(dateTime.getTime()));
+            viewModel.setDate(dateTime.getTimeInMillis());
         };
 
         timeDialog = new TimePickerDialog(
@@ -116,20 +115,14 @@ public class HostCreationGeneralFragment extends SavableFragment {
             timeDialog.show();
         });
 
-        if (viewModel.getDate().getValue() != null) {
-            editTextDate.setText(new SimpleDateFormat("MM/dd/yyyy").format(viewModel.getDate().getValue().getTime()));
-            editTextTime.setText(new SimpleDateFormat("HH:mm").format(viewModel.getDate().getValue().getTime()));
-        }
+        LiveData<Long> dateMillis = viewModel.getDate();
+        final Observer<Long> dateObserver = millis -> {
+            editTextDate.setText(new SimpleDateFormat("MM/dd/yyyy").format(new Date(millis)));
+            editTextTime.setText(new SimpleDateFormat("HH:mm").format(new Date(millis)));
+        };
+        dateMillis.observe(getViewLifecycleOwner(), dateObserver);
 
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (viewModel.getDate().getValue() != null) {
-            editTextDate.setText(new SimpleDateFormat("MM/dd/yyyy").format(viewModel.getDate().getValue().getTime()));
-        }
     }
 
     public void save() {
