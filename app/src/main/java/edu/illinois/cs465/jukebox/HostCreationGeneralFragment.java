@@ -91,7 +91,8 @@ public class HostCreationGeneralFragment extends SavableFragment {
                 timeListener,
                 dateTime.get(Calendar.HOUR_OF_DAY),
                 dateTime.get(Calendar.MINUTE),
-                DateFormat.is24HourFormat(getActivity()));
+                DateFormat.is24HourFormat(getActivity())
+        );
     }
 
     @Override
@@ -123,6 +124,7 @@ public class HostCreationGeneralFragment extends SavableFragment {
     }
 
     public void save() {
+        // TODO Can probably be called in onDetach
         viewModel.setString(HostCreationViewModel.USERNAME, editTextName);
         viewModel.setString(HostCreationViewModel.THEME, editTextTheme);
         viewModel.setString(HostCreationViewModel.DESCRIPTION, editTextDesc);
