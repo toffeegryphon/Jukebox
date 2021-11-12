@@ -31,6 +31,7 @@ public class HostCreationActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(HostCreationViewModel.class);
         adapter = new CreationPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         stepsPager = findViewById(R.id.steps_pager);
+        stepsPager.setOffscreenPageLimit(1);
         stepsPager.setAdapter(adapter);
 
         buttonContinue = findViewById(R.id.button_continue);
