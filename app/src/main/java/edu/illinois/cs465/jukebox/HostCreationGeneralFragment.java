@@ -110,15 +110,9 @@ public class HostCreationGeneralFragment extends SavableFragment {
         editTextDesc = view.findViewById(R.id.edit_text_desc);
 
         editTextDate.setOnClickListener(v -> dateDialog.show());
-
         editTextTime.setOnClickListener(v -> timeDialog.show());
 
-        LiveData<Long> dateMillis = viewModel.getDate();
-        final Observer<Long> dateObserver = millis -> {
-            editTextDate.setText(new SimpleDateFormat("MM/dd/yyyy").format(new Date(millis)));
-            editTextTime.setText(new SimpleDateFormat("HH:mm").format(new Date(millis)));
-        };
-        dateMillis.observe(getViewLifecycleOwner(), dateObserver);
+        bindViewModel();
 
         return view;
     }
@@ -133,12 +127,19 @@ public class HostCreationGeneralFragment extends SavableFragment {
     private void bindStringObserver(TextView view, String key) {
         final Observer<String> observer = view::setText;
         LiveData<String> data = viewModel.getString(key, "");
-        data.observe(this, observer);
+        data.observe(getViewLifecycleOwner(), observer);
     }
 
     public void bindViewModel() {
         bindStringObserver(editTextName, HostCreationViewModel.USERNAME);
         bindStringObserver(editTextTheme, HostCreationViewModel.THEME);
         bindStringObserver(editTextDesc, HostCreationViewModel.DESCRIPTION);
+
+        LiveData<Long> dateMillis = viewModel.getDate();
+        final Observer<Long> dateObserver = millis -> {
+            editTextDate.setText(new SimpleDateFormat("MM/dd/yyyy").format(new Date(millis)));
+            editTextTime.setText(new SimpleDateFormat("HH:mm").format(new Date(millis)));
+        };
+        dateMillis.observe(getViewLifecycleOwner(), dateObserver);
     }
 }
