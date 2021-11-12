@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".HostPartyOverviewDuringFragment"
     android:layout_gravity="center"
-    android:paddingBottom="?attr/actionBarSize">
+    android:paddingBottom="76dp">
 
     <ImageView
         android:id="@+id/imageViewHostDuringPartyAlbumCover"
