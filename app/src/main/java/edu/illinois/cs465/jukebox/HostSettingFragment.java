@@ -3,7 +3,6 @@ package edu.illinois.cs465.jukebox;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -61,6 +60,8 @@ public class HostSettingFragment extends SavableFragment {
         switchAllow = view.findViewById(R.id.switch_suggestion_allow);
         editLimit = view.findViewById(R.id.edit_suggestion_limit);
 
+        bindViewModel();
+
         return view;
     }
 
@@ -72,15 +73,15 @@ public class HostSettingFragment extends SavableFragment {
     }
 
     private void bindIntegerObserver(TextView view, String key) {
-        final Observer<Integer> observer = view::setText;
+        final Observer<Integer> observer = value -> view.setText(String.valueOf(value));
         LiveData<Integer> data = viewModel.getInteger(key, 0);
-        data.observe(this, observer);
+        data.observe(getViewLifecycleOwner(), observer);
     }
 
     private void bindBooleanObserver(SwitchCompat view, String key) {
         final Observer<Boolean> observer = view::setChecked;
         LiveData<Boolean> data = viewModel.getBoolean(key, true);
-        data.observe(this, observer);
+        data.observe(getViewLifecycleOwner(), observer);
     }
 
     public void bindViewModel() {
