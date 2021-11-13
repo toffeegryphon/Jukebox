@@ -3,24 +3,21 @@ package edu.illinois.cs465.jukebox;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.format.DateFormat;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.text.format.DateFormat;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.TimePicker;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,7 +32,8 @@ public class HostCreationGeneralFragment extends SavableFragment {
 
     private HostCreationViewModel viewModel;
 
-    private EditText editTextName, editTextTheme, editTextDate, editTextTime, editTextDesc;
+    TextInputEditText editTextName, editTextTheme, editTextDate, editTextTime;
+    private EditText editTextDesc;
 
     private Calendar dateTime;
     DatePickerDialog.OnDateSetListener dateListener;
@@ -104,21 +102,38 @@ public class HostCreationGeneralFragment extends SavableFragment {
         viewModel = new ViewModelProvider(requireActivity()).get(HostCreationViewModel.class);
 
         editTextName = view.findViewById(R.id.edit_text_name);
+
         editTextTheme = view.findViewById(R.id.edit_text_theme);
         editTextDate = view.findViewById(R.id.edit_text_date);
         editTextTime = view.findViewById(R.id.edit_text_time);
         editTextDesc = view.findViewById(R.id.edit_text_desc);
 
+        editTextDesc.setMaxLines(1);
+        editTextDesc.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+        editTextDesc.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    editTextDesc.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                    editTextDesc.setMaxLines(100);
+                } else {
+                    editTextDesc.setMaxLines(1);
+                    editTextDesc.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+                }
+            }
+        });
         editTextDate.setOnClickListener(v -> dateDialog.show());
 
         editTextTime.setOnClickListener(v -> timeDialog.show());
 
         LiveData<Long> dateMillis = viewModel.getDate();
         final Observer<Long> dateObserver = millis -> {
-            editTextDate.setText(new SimpleDateFormat("MM/dd/yyyy").format(new Date(millis)));
-            editTextTime.setText(new SimpleDateFormat("HH:mm").format(new Date(millis)));
+            editTextDate.setText(new SimpleDateFormat("M/dd/yyyy").format(new Date(millis)));
+            editTextTime.setText(new SimpleDateFormat("h:mm aa").format(new Date(millis)));
         };
         dateMillis.observe(getViewLifecycleOwner(), dateObserver);
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         return view;
     }

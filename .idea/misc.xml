@@ -3,10 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/drawable/ic_baseline_skip_next_24.xml" value="0.5703125" />
+        <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/activity_guest_join_party.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/activity_guest_party.xml" value="0.2695035460992908" />
         <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/activity_guest_suggestion.xml" value="0.3307291666666667" />
-        <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/activity_host_creation.xml" value="0.2653985507246377" />
+        <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/activity_host_creation.xml" value="0.25" />
         <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/activity_host_overview_before.xml" value="0.2653985507246377" />
         <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/activity_host_overview_during.xml" value="0.2653985507246377" />
+        <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/activity_host_party_overview_post.xml" value="0.3307291666666667" />
+        <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/fragment_host_approve_songs.xml" value="0.2644927536231884" />
+        <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/fragment_host_creation_general.xml" value="0.67" />
         <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/fragment_host_party_overview_before.xml" value="0.2653985507246377" />
         <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/fragment_host_party_overview_during.xml" value="0.2653985507246377" />
         <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/fragment_host_setting.xml" value="0.3120471014492754" />
@@ -26,7 +32,8 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -7,41 +7,60 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".HostPartyOverviewDuringFragment"
-    android:layout_gravity="center"
-    android:paddingBottom="76dp">
+    android:layout_gravity="top"
+    android:id="@+id/linear_layout_host_during_overall"
+    android:paddingTop="20dp"
+    android:paddingBottom="76dp"> <!-- bottomNavBar=56 + 20 -->
 
     <ImageView
         android:id="@+id/imageViewHostDuringPartyAlbumCover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="100dp"
-        android:src="@drawable/ic_launcher_background" />
+        android:layout_marginHorizontal="20dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/clay_davis"
+        android:adjustViewBounds="true"/>
 
     <TextView
         android:id="@+id/textViewHostDuringPartySongName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:text="Friday"
-        android:textSize="48sp" />
+        android:paddingTop="20dp"
+        android:text="SHIIEEHHHHHHHHHHHHHHHHHHH"
+        android:textSize="48sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:singleLine="true"
+        android:scrollHorizontally="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit ="marquee_forever"
+        android:paddingHorizontal="20dp"/>
 
     <TextView
         android:id="@+id/textViewHostDuringPartyArtistName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rebecca Black"
-        android:textSize="24sp" />
+        android:text="Senator Clay Davisssssssssssssssssss"
+        android:textSize="24sp"
+        android:paddingHorizontal="20dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:singleLine="true"
+        android:scrollHorizontally="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit ="marquee_forever" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/relative_layout_host_overview_during_song_scrollbar">
 
         <ProgressBar
             android:id="@+id/progressBarHostDuringPartySongTime"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
+            android:layout_marginHorizontal="20dp"
             android:paddingTop="10dp" />
 
         <TextView
@@ -61,28 +80,45 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/linear_layout_host_during_overall"
+        app:layout_constraintLeft_toLeftOf="@id/relative_layout_host_overview_during_song_scrollbar"
+        app:layout_constraintRight_toRightOf="@id/relative_layout_host_overview_during_song_scrollbar">
 
-    <ImageView
-        android:id="@+id/imageViewHostDuringPartyPlayPauseButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_host_pause_button"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:scaleType="fitXY"/>
-    <ImageView
-        android:id="@+id/imageViewHostDuringPartySkipButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/ic_baseline_skip_next_24"
-        android:layout_marginLeft="10dp"
-        android:scaleType="fitXY"
-        app:layout_constraintLeft_toRightOf="@id/imageViewHostDuringPartyPlayPauseButton"
-        app:layout_constraintBottom_toTopOf="@id/imageViewHostDuringPartyPlayPauseButton"
-        app:layout_constraintTop_toBottomOf="@id/imageViewHostDuringPartyPlayPauseButton"/>
+        <ImageView
+            android:id="@+id/imageViewHostDuringPartyPreviousButton"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_host_previous_button"
+            android:layout_marginRight="20dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            app:layout_constraintRight_toLeftOf="@id/imageViewHostDuringPartyPlayPauseButton"
+            app:layout_constraintBottom_toTopOf="@id/imageViewHostDuringPartyPlayPauseButton"
+            app:layout_constraintTop_toBottomOf="@id/imageViewHostDuringPartyPlayPauseButton"/>
+
+        <ImageView
+            android:id="@+id/imageViewHostDuringPartyPlayPauseButton"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_host_pause_button"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true" />
+        <ImageView
+            android:id="@+id/imageViewHostDuringPartySkipButton"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_host_skip_button"
+            android:layout_marginLeft="20dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            app:layout_constraintLeft_toRightOf="@id/imageViewHostDuringPartyPlayPauseButton"
+            app:layout_constraintBottom_toTopOf="@id/imageViewHostDuringPartyPlayPauseButton"
+            app:layout_constraintTop_toBottomOf="@id/imageViewHostDuringPartyPlayPauseButton"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

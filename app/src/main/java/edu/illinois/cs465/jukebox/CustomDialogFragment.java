@@ -8,7 +8,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-public class customDialogFragment extends DialogFragment {
+public class CustomDialogFragment extends DialogFragment {
     Context context;
     String title;
     String message;
@@ -16,7 +16,7 @@ public class customDialogFragment extends DialogFragment {
     String negativeButton;
     Class goToClass;
 
-    public customDialogFragment(Context _context, String _title, String _message, String _positiveButton, String _negativeButton, Class _goToClass) {
+    public CustomDialogFragment(Context _context, String _title, String _message, String _positiveButton, String _negativeButton, Class _goToClass) {
         context = _context;
         title = _title;
         message = _message;

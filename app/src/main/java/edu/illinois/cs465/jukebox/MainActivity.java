@@ -1,11 +1,11 @@
 package edu.illinois.cs465.jukebox;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,14 +41,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(goToHost);
         });
 
-        buttonGuest.setOnClickListener(v -> {
-            Intent goToGuest;
-            if (hasPartyStarted) {
-                goToGuest = new Intent(context, GuestPartyActivity.class);
-            } else {
-                goToGuest = new Intent(context, GuestSuggestionActivity.class);
-            }
-            startActivity(goToGuest);
-        });
+        buttonGuest.setOnClickListener(v -> startActivity(new Intent(context, GuestJoinPartyActivity.class)));
     }
 }

@@ -21,7 +21,7 @@ public class HostCreationActivity extends AppCompatActivity {
     private CreationPagerAdapter adapter;
     private ViewPager stepsPager;
 
-    private Button buttonContinue;
+    private Button step1, step2, buttonContinue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,11 @@ public class HostCreationActivity extends AppCompatActivity {
         adapter = new CreationPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         stepsPager = findViewById(R.id.steps_pager);
         stepsPager.setAdapter(adapter);
+
+        step1 = findViewById(R.id.step_1);
+        step2 = findViewById(R.id.step_2);
+        step1.setEnabled(true);
+        step2.setEnabled(false);
 
         buttonContinue = findViewById(R.id.button_continue);
         initListeners();
@@ -44,6 +49,8 @@ public class HostCreationActivity extends AppCompatActivity {
 
             if (position + 1 < adapter.getCount()) {
                 stepsPager.setCurrentItem(position + 1);
+                step1.setEnabled(false);
+                step2.setEnabled(true);
             } else {
                 String json = viewModel.toJson();
                 Intent intent = new Intent(HostCreationActivity.this, HostPartyOverviewBeforeActivity.class);
@@ -52,6 +59,20 @@ public class HostCreationActivity extends AppCompatActivity {
                 Toast.makeText(this.getApplicationContext(), "Party created successfully!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        int position = stepsPager.getCurrentItem();
+        adapter.save(position);
+        if (position - 1 < 0) {
+            super.onBackPressed();
+            return;
+        } else {
+            stepsPager.setCurrentItem(position - 1);
+            step2.setEnabled(false);
+            step1.setEnabled(true);
+        }
     }
 }
 
