@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/drawable/ic_baseline_skip_next_24.xml" value="0.5703125" />
+        <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/drawable/ic_host_skip_button.xml" value="0.5703125" />
         <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/activity_guest_join_party.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/activity_guest_party.xml" value="0.2695035460992908" />
         <entry key="..\:/Users/Admin/My Drive/Documents/CS465/Jukebox/app/src/main/res/layout/activity_guest_suggestion.xml" value="0.3307291666666667" />

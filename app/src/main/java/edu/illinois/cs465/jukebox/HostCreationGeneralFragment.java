@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -18,6 +17,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,8 +32,7 @@ public class HostCreationGeneralFragment extends SavableFragment {
 
     private HostCreationViewModel viewModel;
 
-    TextInputEditText editTextName, editTextTheme, editTextDate, editTextTime;
-    private EditText editTextDesc;
+    TextInputEditText editTextName, editTextTheme, editTextDate, editTextTime, editTextLoc, editTextDesc;
 
     private Calendar dateTime;
     DatePickerDialog.OnDateSetListener dateListener;
@@ -106,7 +105,32 @@ public class HostCreationGeneralFragment extends SavableFragment {
         editTextTheme = view.findViewById(R.id.edit_text_theme);
         editTextDate = view.findViewById(R.id.edit_text_date);
         editTextTime = view.findViewById(R.id.edit_text_time);
+        editTextLoc = view.findViewById(R.id.edit_text_location);
         editTextDesc = view.findViewById(R.id.edit_text_desc);
+
+        initListeners(view);
+
+        LiveData<Long> dateMillis = viewModel.getDate();
+        final Observer<Long> dateObserver = millis -> {
+            editTextDate.setText(new SimpleDateFormat("M/dd/yyyy").format(new Date(millis)));
+            editTextTime.setText(new SimpleDateFormat("h:mm aa").format(new Date(millis)));
+        };
+        dateMillis.observe(getViewLifecycleOwner(), dateObserver);
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        return view;
+    }
+
+    public void initListeners(View view) {
+        TextInputLayout editTextNameLayout = view.findViewById(R.id.text_input_layout_edit_text_name);
+        editTextName.setOnFocusChangeListener((v, hasFocus) -> setEndIconOnFocus(editTextNameLayout, hasFocus));
+
+        TextInputLayout editTextThemeLayout = view.findViewById(R.id.text_input_layout_edit_text_theme);
+        editTextTheme.setOnFocusChangeListener((v, hasFocus) -> setEndIconOnFocus(editTextThemeLayout, hasFocus));
+
+        TextInputLayout editTextLocLayout = view.findViewById(R.id.text_input_layout_edit_text_location);
+        editTextLoc.setOnFocusChangeListener((v, hasFocus) -> setEndIconOnFocus(editTextLocLayout, hasFocus));
 
         editTextDesc.setMaxLines(1);
         editTextDesc.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
@@ -125,17 +149,14 @@ public class HostCreationGeneralFragment extends SavableFragment {
         editTextDate.setOnClickListener(v -> dateDialog.show());
 
         editTextTime.setOnClickListener(v -> timeDialog.show());
+    }
 
-        LiveData<Long> dateMillis = viewModel.getDate();
-        final Observer<Long> dateObserver = millis -> {
-            editTextDate.setText(new SimpleDateFormat("M/dd/yyyy").format(new Date(millis)));
-            editTextTime.setText(new SimpleDateFormat("h:mm aa").format(new Date(millis)));
-        };
-        dateMillis.observe(getViewLifecycleOwner(), dateObserver);
-
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
-        return view;
+    public void setEndIconOnFocus(TextInputLayout layout, boolean hasFocus) {
+        if (hasFocus) {
+            layout.setEndIconMode(TextInputLayout.END_ICON_CLEAR_TEXT);
+        } else {
+            layout.setEndIconMode(TextInputLayout.END_ICON_NONE);
+        }
     }
 
     public void save() {
@@ -143,6 +164,7 @@ public class HostCreationGeneralFragment extends SavableFragment {
         viewModel.setString(HostCreationViewModel.USERNAME, editTextName);
         viewModel.setString(HostCreationViewModel.THEME, editTextTheme);
         viewModel.setString(HostCreationViewModel.DESCRIPTION, editTextDesc);
+        viewModel.setString(HostCreationViewModel.LOCATION, editTextLoc);
     }
 
     private void bindStringObserver(TextView view, String key) {
@@ -155,5 +177,6 @@ public class HostCreationGeneralFragment extends SavableFragment {
         bindStringObserver(editTextName, HostCreationViewModel.USERNAME);
         bindStringObserver(editTextTheme, HostCreationViewModel.THEME);
         bindStringObserver(editTextDesc, HostCreationViewModel.DESCRIPTION);
+        bindStringObserver(editTextLoc, HostCreationViewModel.LOCATION);
     }
 }

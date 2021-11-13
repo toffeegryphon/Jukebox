@@ -31,6 +31,7 @@ public class HostCreationViewModel extends ViewModel {
     public static final String SKIP_TIMER = "skipTimer";
     public static final String SUGGESTION_LIMIT = "suggestionLimit";
     public static final String ARE_SUGGESTIONS_ALLOWED = "areSuggestionsAllowed";
+    public static final String LOCATION = "location";
 
     private static Gson gson;
 
