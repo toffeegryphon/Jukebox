@@ -1,18 +1,18 @@
 package edu.illinois.cs465.jukebox;
 
 import android.os.Bundle;
-
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 /**
  * A simple {@link SavableFragment} subclass.
@@ -25,6 +25,7 @@ public class HostSettingFragment extends SavableFragment {
 
     private EditText editThreshold, editTimer, editLimit;
     private SwitchCompat switchAllow;
+    private Button endPartyButton;
 
     public HostSettingFragment() {
         // Required empty public constructor
@@ -60,8 +61,22 @@ public class HostSettingFragment extends SavableFragment {
         editTimer = view.findViewById(R.id.edit_skip_timer);
         switchAllow = view.findViewById(R.id.switch_suggestion_allow);
         editLimit = view.findViewById(R.id.edit_suggestion_limit);
+        endPartyButton = view.findViewById(R.id.buttonHostSettingsEndParty);
+
+        endPartyButton.setOnClickListener(v -> endButtonClick(getActivity()));
+
+        if(getActivity().getClass() == HostPartyOverviewDuringActivity.class) // If host settings is on the during party screen
+        {
+            endPartyButton.setVisibility(View.VISIBLE);
+        } else {
+            endPartyButton.setVisibility(View.GONE);
+        }
 
         return view;
+    }
+
+    public void endButtonClick(FragmentActivity ctx) {
+        new CustomDialogFragment(ctx, "Confirm", "Are you sure you want to end the party?", "End", "Cancel", HostPartyOverviewPostActivity.class).show(getActivity().getSupportFragmentManager(), "EndPartyDialog");
     }
 
     public void save() {

@@ -1,13 +1,11 @@
 package edu.illinois.cs465.jukebox;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -80,10 +78,12 @@ public class HostPartyOverviewBeforeFragment extends Fragment {
         buttonStart = (Button) view.findViewById(R.id.button_start);
         buttonStart.setOnClickListener(v -> startButtonClick(getActivity()));
 
+
+
         return view;
     }
 
     public void startButtonClick(FragmentActivity ctx) {
-        new customDialogFragment(ctx, "Confirm", "Are you sure you want to start the party?", "Start", "Cancel", HostPartyOverviewDuringActivity.class).show(getActivity().getSupportFragmentManager(), "StartPartyDialog");
+        new CustomDialogFragment(ctx, "Confirm", "Are you sure you want to start the party?", "Start", "Cancel", HostPartyOverviewDuringActivity.class).show(getActivity().getSupportFragmentManager(), "StartPartyDialog");
     }
 }

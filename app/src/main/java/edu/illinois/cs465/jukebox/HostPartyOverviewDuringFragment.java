@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -17,6 +18,8 @@ public class HostPartyOverviewDuringFragment extends Fragment {
 
     View view;
     ImageView playPauseIcon;
+    TextView songName;
+    TextView artistName;
     boolean musicIsPlaying = true;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -80,6 +83,12 @@ public class HostPartyOverviewDuringFragment extends Fragment {
                 }
             }
         });
+
+        songName = view.findViewById(R.id.textViewHostDuringPartySongName);
+        songName.setSelected(true);
+
+        artistName = view.findViewById(R.id.textViewHostDuringPartyArtistName);
+        artistName.setSelected(true);
 
         // TODO: Update progress bar and song time countdown for when music is playing
         // TODO: Make skip button actually skips the current song

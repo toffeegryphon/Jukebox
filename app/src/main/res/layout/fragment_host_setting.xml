@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/frameLayout"
+    android:id="@+id/frameLayoutHostSettings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".HostSettingFragment">
+    tools:context=".HostSettingFragment"
+    android:paddingBottom="76dp" > <!-- bottomNavBar=56 + 20 -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="start"
-        android:layout_marginBottom="16dp" >
+        android:layout_marginBottom="16dp"
+        android:id="@+id/linearLayoutHostSettingsSkips" >
 
         <TextView
             android:id="@+id/header_skips"
@@ -27,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="bottom" >
+            android:gravity="bottom"
+            android:id="@+id/linearLayoutHostSettingsSkipsPercent" >
 
             <TextView
                 android:id="@+id/label_skip_threshold"
@@ -42,14 +45,16 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="number"
-                android:text="30"/>
+                android:text="30" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="bottom" >
+            android:gravity="bottom"
+            android:id="@+id/linearLayoutHostSettingsSkipsTimer" >
 
             <TextView
                 android:id="@+id/label_skip_timer"
@@ -72,7 +77,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="start">
+        android:gravity="start"
+        app:layout_constraintTop_toBottomOf="@id/linearLayoutHostSettingsSkips"
+        android:id="@+id/linearLayoutHostSettingsSuggestions"
+        >
 
         <TextView
             android:id="@+id/header_suggestions"
@@ -85,7 +93,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="bottom" >
+            android:gravity="bottom"
+            android:id="@+id/linearLayoutHostSettingsSuggestionsNew" >
 
             <TextView
                 android:id="@+id/label_suggestion_allow"
@@ -105,7 +114,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="bottom" >
+            android:gravity="bottom"
+            android:id="@+id/linearLayoutHostSettingsSuggestionsLimit">
 
             <TextView
                 android:id="@+id/label_suggestion_limit"
@@ -124,8 +134,14 @@
         </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-</LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End Party"
+        android:layout_gravity="bottom|center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        android:id="@+id/buttonHostSettingsEndParty" />
+</androidx.constraintlayout.widget.ConstraintLayout>

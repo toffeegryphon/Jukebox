@@ -16,7 +16,10 @@
             android:name=".HostPartyOverviewDuringActivity"
             android:exported="false" />
         <activity
-            android:name=".GuestPartyActivity"
+            android:name=".HostPartyOverviewPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GuestJoinPartyActivity"
             android:exported="false" />
         <activity
             android:name=".GuestSuggestionActivity"
