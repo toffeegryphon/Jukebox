@@ -6,13 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import edu.illinois.cs465.jukebox.model.PartyInfo;
+import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
 
 /**
  * A simple {@link SavableFragment} subclass.
@@ -80,29 +82,20 @@ public class HostSettingFragment extends SavableFragment {
     }
 
     public void save() {
-        viewModel.setInteger(HostCreationViewModel.SKIP_THRESHOLD, Integer.parseInt(editThreshold.getText().toString()));
-        viewModel.setInteger(HostCreationViewModel.SKIP_TIMER, Integer.parseInt(editTimer.getText().toString()));
-        viewModel.setInteger(HostCreationViewModel.SUGGESTION_LIMIT, Integer.parseInt(editLimit.getText().toString()));
-        viewModel.setBoolean(HostCreationViewModel.ARE_SUGGESTIONS_ALLOWED, switchAllow.isChecked());
-    }
-
-    private void bindIntegerObserver(TextView view, String key) {
-        final Observer<Integer> observer = view::setText;
-        LiveData<Integer> data = viewModel.getInteger(key, 0);
-        data.observe(this, observer);
-    }
-
-    private void bindBooleanObserver(SwitchCompat view, String key) {
-        final Observer<Boolean> observer = view::setChecked;
-        LiveData<Boolean> data = viewModel.getBoolean(key, true);
-        data.observe(this, observer);
+        viewModel.setHostSettingInfo(Integer.parseInt(editThreshold.getText().toString()), Integer.parseInt(editTimer.getText().toString()), Integer.parseInt(editLimit.getText().toString()), switchAllow.isChecked());
     }
 
     public void bindViewModel() {
-        bindIntegerObserver(editThreshold, HostCreationViewModel.SKIP_THRESHOLD);
-        bindIntegerObserver(editTimer, HostCreationViewModel.SKIP_TIMER);
-        bindIntegerObserver(editLimit, HostCreationViewModel.SUGGESTION_LIMIT);
+        LiveData<PartyInfo> data = viewModel.getPartyInfo();
+        data.observe(this, new Observer<PartyInfo>() {
+            @Override
+            public void onChanged(PartyInfo partyInfo) {
+                editThreshold.setText(partyInfo.getSkipThreshold());
+                editTimer.setText(partyInfo.getSkipTimer());
+                editLimit.setText(partyInfo.getSuggestionLimit());
+                switchAllow.setChecked(partyInfo.getAreSuggestionsAllowed());
+            }
+        });
 
-        bindBooleanObserver(switchAllow, HostCreationViewModel.ARE_SUGGESTIONS_ALLOWED);
     }
 }

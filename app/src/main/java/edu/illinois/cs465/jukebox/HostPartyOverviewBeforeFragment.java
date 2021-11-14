@@ -12,13 +12,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Objects;
 
+import edu.illinois.cs465.jukebox.viewmodel.HostPartyOverviewBeforeViewModel;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HostPartyOverviewBeforeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class HostPartyOverviewBeforeFragment extends Fragment {
-    private HostCreationViewModel viewModel;
+    private HostPartyOverviewBeforeViewModel viewModel;
 
     View view;
     Button buttonStart;
@@ -70,9 +72,9 @@ public class HostPartyOverviewBeforeFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_host_party_overview_before, container, false);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(HostCreationViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(HostPartyOverviewBeforeViewModel.class);
         hostCreationGeneralFragment = (HostCreationGeneralFragment) getChildFragmentManager().findFragmentById(R.id.fragmentGeneralPartyOverviewBefore);
-        Objects.requireNonNull(hostCreationGeneralFragment).bindViewModel();
+        Objects.requireNonNull(hostCreationGeneralFragment).bindViewModel(viewModel.getPartyInfo());
 
         // Setup start party button
         buttonStart = (Button) view.findViewById(R.id.button_start);
