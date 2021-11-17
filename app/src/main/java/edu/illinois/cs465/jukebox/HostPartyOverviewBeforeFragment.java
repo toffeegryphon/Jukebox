@@ -88,6 +88,14 @@ public class HostPartyOverviewBeforeFragment extends Fragment {
     }
 
     public void startButtonClick(FragmentActivity ctx) {
-        new CustomDialogFragment(ctx, "Confirm", "Are you sure you want to start the party?", "Start", "Cancel", HostPartyOverviewDuringActivity.class).show(getActivity().getSupportFragmentManager(), "StartPartyDialog");
+        new CustomDialogFragment(
+                ctx,
+                "Confirm",
+                "Are you sure you want to start the party?",
+                "Start",
+                "Cancel",
+                HostPartyOverviewDuringActivity.class,
+                creationViewModel.getPartyInfo().getValue().getPartyCode()
+        ).show(getActivity().getSupportFragmentManager(), "StartPartyDialog");
     }
 }

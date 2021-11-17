@@ -80,7 +80,7 @@ public class HostSettingFragment extends SavableFragment {
     }
 
     public void endButtonClick(FragmentActivity ctx) {
-        new CustomDialogFragment(ctx, "Confirm", "Are you sure you want to end the party?", "End", "Cancel", HostPartyOverviewPostActivity.class).show(getActivity().getSupportFragmentManager(), "EndPartyDialog");
+        new CustomDialogFragment(ctx, "Confirm", "Are you sure you want to end the party?", "End", "Cancel", HostPartyOverviewPostActivity.class, viewModel.getPartyInfo().getValue().getPartyCode()).show(getActivity().getSupportFragmentManager(), "EndPartyDialog");
     }
 
     public void save() {
