@@ -12,12 +12,11 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import edu.illinois.cs465.jukebox.model.PartyInfo;
 import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
 import edu.illinois.cs465.jukebox.viewmodel.HostPartyOverviewBeforeViewModel;
 
 public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
-    public static final String DATA_CONFIG = "config";
-
     private HostCreationViewModel creationViewModel;
 
     @Override
@@ -28,7 +27,7 @@ public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
         Intent source = getIntent();
         if (source != null) {
             creationViewModel = new ViewModelProvider(this).get(HostCreationViewModel.class);
-            creationViewModel.init(source.getStringExtra(DATA_CONFIG));
+            creationViewModel.init(source.getStringExtra(PartyInfo.PARTY_CODE));
         }
 
         // Setup bottom navigation bar
@@ -41,5 +40,12 @@ public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerViewBeforeParty);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package edu.illinois.cs465.jukebox;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,9 +30,19 @@ public class HostPartyOverviewPostActivity extends AppCompatActivity {
                     .update("hasStarted", false)
                     .addOnSuccessListener(unused -> Log.d("TESTING", "STARTED!"))
                     .addOnFailureListener(e -> Log.d("TESTING", e.getMessage()));
+            getSharedPreferences("host", Context.MODE_PRIVATE).edit()
+                    .putInt(PartyInfo.HOST_MODE, PartyInfo.HOST_DEFAULT)
+                    .apply();
         }
 
         doneButton = findViewById(R.id.host_post_party_done_button);
         doneButton.setOnClickListener(v -> startActivity(new Intent(this.getApplicationContext(), MainActivity.class)));
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package edu.illinois.cs465.jukebox;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -14,7 +15,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
+import edu.illinois.cs465.jukebox.model.PartyInfo;
 import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
 
 public class HostCreationActivity extends AppCompatActivity {
@@ -54,10 +57,10 @@ public class HostCreationActivity extends AppCompatActivity {
                 step1.setEnabled(false);
                 step2.setEnabled(true);
             } else {
-                viewModel.saveParty();
-                String partyCode = viewModel.getPartyInfo().getValue().getPartyCode();
+                viewModel.saveParty(getSharedPreferences("host", Context.MODE_PRIVATE));
+                String partyCode = Objects.requireNonNull(viewModel.getPartyInfo().getValue()).getPartyCode();
                 Intent intent = new Intent(HostCreationActivity.this, HostPartyOverviewBeforeActivity.class);
-                intent.putExtra(HostPartyOverviewBeforeActivity.DATA_CONFIG, partyCode);
+                intent.putExtra(PartyInfo.PARTY_CODE, partyCode);
                 startActivity(intent);
                 Toast.makeText(this.getApplicationContext(), "Party created successfully!", Toast.LENGTH_SHORT).show();
             }
