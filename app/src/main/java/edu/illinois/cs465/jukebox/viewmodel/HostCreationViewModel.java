@@ -1,5 +1,6 @@
 package edu.illinois.cs465.jukebox.viewmodel;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -79,11 +80,19 @@ public class HostCreationViewModel extends ViewModel {
         return this.mPartyInfo;
     }
 
-    public void saveParty() {
+    public void saveParty(SharedPreferences local) {
+        PartyInfo partyInfo = mPartyInfo.getValue();
+        String partyCode = Objects.requireNonNull(partyInfo).getPartyCode();
         db.collection("partyInfo")
-                .document(Objects.requireNonNull(mPartyInfo.getValue()).getPartyCode())
-                .set(mPartyInfo.getValue())
-                .addOnSuccessListener(unused -> Log.d("INFO", "DocumentSnapshot added with ID"))
+                .document(partyCode)
+                .set(partyInfo)
+                .addOnSuccessListener(unused -> {
+                    Log.d("INFO", "DocumentSnapshot added with ID");
+                    local.edit()
+                            .putString(PartyInfo.PARTY_CODE, partyCode)
+                            .putBoolean(PartyInfo.IS_CREATED, true)
+                            .apply();
+                })
                 .addOnFailureListener(e -> Log.w("INFO", "Error adding document", e));
     }
 }

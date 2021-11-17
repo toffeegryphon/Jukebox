@@ -17,6 +17,8 @@ public class PartyInfo {
     private boolean hasStarted = false;
 
     public static String PARTY_CODE = "partyCode";
+    public static String IS_CREATED = "hostIsCreated";
+    public static String HAS_STARTED = "hostHasStarted";
 
     public long getDate() {
         return date;

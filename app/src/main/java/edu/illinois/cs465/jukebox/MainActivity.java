@@ -2,13 +2,18 @@ package edu.illinois.cs465.jukebox;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.illinois.cs465.jukebox.model.PartyInfo;
+
 public class MainActivity extends AppCompatActivity {
 
+    SharedPreferences hostPreferences, guestPreferences;
     boolean wasPartyCreated;
     boolean hasPartyStarted;
 
@@ -19,7 +24,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        wasPartyCreated = false;
+        hostPreferences = getSharedPreferences("host", Context.MODE_PRIVATE);
+
+        wasPartyCreated = hostPreferences.getBoolean(PartyInfo.IS_CREATED, false);
         hasPartyStarted = false;
 
         buttonHost = (Button) findViewById(R.id.button_host);
@@ -35,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
             Intent goToHost;
             if (wasPartyCreated) {
                 goToHost = new Intent(context, HostPartyOverviewBeforeActivity.class);
+                String code = hostPreferences.getString(PartyInfo.PARTY_CODE, "");
+                Log.d("TESTING", code);
+                goToHost.putExtra(PartyInfo.PARTY_CODE, code);
             } else {
                 goToHost = new Intent(context, HostCreationActivity.class);
             }
