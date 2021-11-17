@@ -40,27 +40,43 @@ public class GuestJoinPartyActivity extends AppCompatActivity {
             editCode.setText(guestPreferences.getString(PartyInfo.PARTY_CODE, ""));
         }
 
-        joinButton.setOnClickListener(v -> db.collection("partyInfo")
-                .document(editCode.getText().toString())
-                .get()
-                .addOnSuccessListener(doc -> {
-                    PartyInfo info = doc.toObject(PartyInfo.class);
+        joinButton.setOnClickListener(v -> {
+            String code = editCode.getText().toString();
+            if (!isCodeValid(code)) {
+                toastInvalid();
+                return;
+            }
 
-                    if (info == null) {
-                        Toast.makeText(getApplicationContext(), "Invalid Code!", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+            db.collection("partyInfo")
+                    .document(code)
+                    .get()
+                    .addOnSuccessListener(doc -> {
+                        PartyInfo info = doc.toObject(PartyInfo.class);
 
-                    Intent intent = new Intent(
-                            this.getApplicationContext(),
-                            (Objects.requireNonNull(info).isHasStarted()) ? GuestVoteActivity.class : GuestSuggestionActivity.class
-                    );
-                    intent.putExtra(PartyInfo.PARTY_CODE, info.getPartyCode());
-                    getSharedPreferences("guest", MODE_PRIVATE).edit()
-                            .putString(PartyInfo.PARTY_CODE, info.getPartyCode())
-                            .apply();
-                    startActivity(intent);
-                })
-                .addOnFailureListener(e -> Log.d("TESTING", e.getMessage())));
+                        if (info == null) {
+                            toastInvalid();
+                            return;
+                        }
+
+                        Intent intent = new Intent(
+                                this.getApplicationContext(),
+                                (Objects.requireNonNull(info).isHasStarted()) ? GuestVoteActivity.class : GuestSuggestionActivity.class
+                        );
+                        intent.putExtra(PartyInfo.PARTY_CODE, info.getPartyCode());
+                        getSharedPreferences("guest", MODE_PRIVATE).edit()
+                                .putString(PartyInfo.PARTY_CODE, info.getPartyCode())
+                                .apply();
+                        startActivity(intent);
+                    })
+                    .addOnFailureListener(e -> Log.d("TESTING", e.getMessage()));
+        });
+    }
+
+    private void toastInvalid() {
+        Toast.makeText(getApplicationContext(), "Invalid Code!", Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean isCodeValid(String code) {
+        return code.length() == 4;
     }
 }
