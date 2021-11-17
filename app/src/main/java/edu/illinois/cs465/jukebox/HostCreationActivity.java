@@ -58,6 +58,7 @@ public class HostCreationActivity extends AppCompatActivity {
                 String partyCode = viewModel.getPartyInfo().getValue().getPartyCode();
                 Intent intent = new Intent(HostCreationActivity.this, HostPartyOverviewBeforeActivity.class);
                 intent.putExtra(HostPartyOverviewBeforeActivity.DATA_CONFIG, partyCode);
+                intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
                 Toast.makeText(this.getApplicationContext(), "Party created successfully!", Toast.LENGTH_SHORT).show();
             }
