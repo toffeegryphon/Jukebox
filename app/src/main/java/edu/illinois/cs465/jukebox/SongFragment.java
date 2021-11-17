@@ -46,19 +46,19 @@ public class SongFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_song, container, false);
 
-        delete_button = view.findViewById(R.id.fragment_song_button);
-        song_name_view = view.findViewById(R.id.fragment_song_name);
-        song_artist_view = view.findViewById(R.id.fragment_song_artist);
+//        delete_button = view.findViewById(R.id.fragment_song_button);
+//        song_name_view = view.findViewById(R.id.fragment_song_name);
+//        song_artist_view = view.findViewById(R.id.fragment_song_artist);
+//
+//        song_name_view.setText(song_name);
+//        song_artist_view.setText(song_artist);
 
-        song_name_view.setText(song_name);
-        song_artist_view.setText(song_artist);
-
-        if(getActivity().getClass() == GuestSuggestionActivity.class)
-        {
-            delete_button.setOnClickListener(v -> ((GuestSuggestionActivity) getActivity()).removeFragment(this));
-        } else {
-
-        }
+//        if(getActivity().getClass() == GuestSuggestionActivity.class)
+//        {
+//            delete_button.setOnClickListener(v -> ((GuestSuggestionActivity) getActivity()).removeFragment(this));
+//        } else {
+//
+//        }
 
         return view;
     }

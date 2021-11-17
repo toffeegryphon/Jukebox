@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    tools:context=".SongFragment">
+    tools:context=".SongFragment"
+    android:id="@+id/fragment_song_parent_layout"
+    android:paddingBottom="5dp">
 
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
@@ -14,7 +15,8 @@
             android:id="@+id/fragment_song_cover"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/clay_davis">
+            android:src="@drawable/clay_davis"
+            >
         </ImageView>
         <TextView
             android:id="@+id/fragment_song_name"

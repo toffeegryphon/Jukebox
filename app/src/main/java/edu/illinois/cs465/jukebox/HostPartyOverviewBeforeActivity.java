@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -13,7 +14,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
-import edu.illinois.cs465.jukebox.viewmodel.HostPartyOverviewBeforeViewModel;
 
 public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
     public static final String DATA_CONFIG = "config";
@@ -41,5 +41,7 @@ public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerViewBeforeParty);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        Fragment navHostFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerViewBeforeParty);
     }
 }

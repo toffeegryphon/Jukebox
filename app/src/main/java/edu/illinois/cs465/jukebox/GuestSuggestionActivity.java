@@ -1,56 +1,51 @@
 package edu.illinois.cs465.jukebox;
 
 import android.os.Bundle;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class GuestSuggestionActivity extends AppCompatActivity {
 
-    HashMap<SongFragment, FrameLayout> fragmentTransactionList;
-    LinearLayout fragmentLayout;
-    int fragCount = 0;
+    ArrayList<EntryItem> entryList;
+
+    RecyclerView recyclerView;
+    Button submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_suggestion);
 
-        fragmentLayout = findViewById(R.id.guest_suggestion_linear_layout_fragment_list);
+        recyclerView = findViewById(R.id.guest_suggestion_recycler_view);
+        RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0, 0, true, false);
+        recyclerView.addItemDecoration(decoration);
 
-        fragmentTransactionList = new HashMap<SongFragment, FrameLayout>();
-        for (int i = 0; i < 10; i++){
-            addFragment();
-        }
-    }
+        entryList = new ArrayList<EntryItem>();
 
-    public void addFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        SongFragment songFragment = new SongFragment("fragment" + fragCount, "fragment" + fragCount);
-        FrameLayout frameLayout = new FrameLayout(this);
-        frameLayout.setId(fragCount);
-        fragmentLayout.addView(frameLayout);
-        fragmentTransactionList.put(songFragment, frameLayout);
-        fragmentTransaction.add(frameLayout.getId(), songFragment, "fragment" + fragCount);
-        fragmentTransaction.commit();
-        fragCount++;
-    }
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, entryList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-    public void removeFragment(SongFragment del_fragment) {
-        if (fragmentTransactionList.get(del_fragment) == null) {
-            return;
+        for (int i = 0; i < 10; i++) {
+            addGuestSuggestionListItem(R.drawable.ic_launcher_background, "Song " + i, "Artist " + i);
         }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.remove(del_fragment);
-        fragmentTransactionList.remove(del_fragment);
-        fragmentTransaction.commit();
+        submitButton = findViewById(R.id.guest_suggestion_submit_button);
+        submitButton.setOnClickListener(v -> Toast.makeText(this.getApplicationContext(), "Submitted song suggestions!", Toast.LENGTH_SHORT).show());
+    }
+
+    public void addGuestSuggestionListItem(int image, String song_name, String artist) {
+        addGuestSuggestionListItem(image, song_name, artist, new Button(this));
+    }
+
+    public void addGuestSuggestionListItem(int image, String song_name, String artist, Button button) {
+        EntryItem item = new EntryItem(image, song_name, artist, button);
+        entryList.add(item);
     }
 }
