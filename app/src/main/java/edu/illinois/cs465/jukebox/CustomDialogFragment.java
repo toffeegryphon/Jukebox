@@ -38,7 +38,7 @@ public class CustomDialogFragment extends DialogFragment {
         alertDialogBuilder.setMessage(message);
         alertDialogBuilder.setPositiveButton(positiveButton, (dialog, which) -> {
             Intent intent = new Intent(context.getApplicationContext(), goToClass);
-            intent.putExtra(PartyInfo.PARTY_CODE, partyCode);
+            if (partyCode != null) intent.putExtra(PartyInfo.PARTY_CODE, partyCode);
             startActivity(intent);
         });
         alertDialogBuilder.setNegativeButton(negativeButton, null);
