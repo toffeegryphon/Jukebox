@@ -1,5 +1,6 @@
 package edu.illinois.cs465.jukebox;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,9 @@ public class HostPartyOverviewDuringActivity extends AppCompatActivity {
                     .update("hasStarted", true)
                     .addOnSuccessListener(unused -> Log.d("TESTING", "STARTED!"))
                     .addOnFailureListener(e -> Log.d("TESTING", e.getMessage()));
+            getSharedPreferences("host", Context.MODE_PRIVATE).edit()
+                    .putInt(PartyInfo.HOST_MODE, PartyInfo.HOST_STARTED)
+                    .apply();
         }
 
         // Setup bottom navigation bar
