@@ -1,12 +1,13 @@
 package edu.illinois.cs465.jukebox;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,50 +16,50 @@ import android.view.ViewGroup;
  */
 public class SongFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    Button delete_button;
+    TextView song_name_view;
+    TextView song_artist_view;
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String song_name;
+    private String song_artist;
 
     public SongFragment() {
         // Required empty public constructor
+        song_name = "SHIIEEHH";
+        song_artist = "Senator Clay Davis";
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SongFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SongFragment newInstance(String param1, String param2) {
-        SongFragment fragment = new SongFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public SongFragment(String name, String artist) {
+        song_name = name;
+        song_artist = artist;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_song, container, false);
+        View view = inflater.inflate(R.layout.fragment_song, container, false);
+
+//        delete_button = view.findViewById(R.id.fragment_song_button);
+//        song_name_view = view.findViewById(R.id.fragment_song_name);
+//        song_artist_view = view.findViewById(R.id.fragment_song_artist);
+//
+//        song_name_view.setText(song_name);
+//        song_artist_view.setText(song_artist);
+
+//        if(getActivity().getClass() == GuestSuggestionActivity.class)
+//        {
+//            delete_button.setOnClickListener(v -> ((GuestSuggestionActivity) getActivity()).removeFragment(this));
+//        } else {
+//
+//        }
+
+        return view;
     }
 }
