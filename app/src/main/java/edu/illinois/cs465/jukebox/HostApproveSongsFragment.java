@@ -1,64 +1,71 @@
 package edu.illinois.cs465.jukebox;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HostApproveSongsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
 public class HostApproveSongsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    ArrayList<EntryItem> entryList;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    RecyclerView recyclerView;
+    Button approveButton;
+    TextView suggestionCount;
 
     public HostApproveSongsFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HostApproveSongsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HostApproveSongsFragment newInstance(String param1, String param2) {
-        HostApproveSongsFragment fragment = new HostApproveSongsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_host_approve_songs, container, false);
+        View view = inflater.inflate(R.layout.fragment_host_approve_songs, container, false);
+
+        recyclerView = view.findViewById(R.id.host_approve_recycler_view);
+        RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0,0,true,false);
+        recyclerView.addItemDecoration(decoration);
+
+        entryList = new ArrayList<EntryItem>();
+
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getActivity(), entryList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        for (int i = 0; i < 10; i++) {
+            addHostApprovalListItem(R.drawable.ic_launcher_background, "Song " + i, "Artist " + i);
+        }
+
+        approveButton = view.findViewById(R.id.host_approve_button);
+        approveButton.setOnClickListener(v -> Toast.makeText(getActivity(), "Approved song suggestions!", Toast.LENGTH_SHORT).show());
+
+
+        suggestionCount = view.findViewById(R.id.host_queue_song_count);
+        suggestionCount.setText(String.valueOf(entryList.size()));
+
+        return view;
+    }
+
+    public void addHostApprovalListItem(int image, String song_name, String artist) {
+        addHostApprovalListItem(image, song_name, artist, new Button(getActivity()));
+    }
+
+    public void addHostApprovalListItem(int image, String song_name, String artist, Button button) {
+        EntryItem item = new EntryItem(image, song_name, artist, button);
+        entryList.add(item);
     }
 }

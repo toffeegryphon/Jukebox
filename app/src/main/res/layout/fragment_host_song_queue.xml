@@ -1,77 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    tools:context=".HostSongQueueFragment">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:textSize="20sp"
-            android:text="Queue"></TextView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:textSize="20sp"
-            android:text="4"></TextView>
-
-    </RelativeLayout>
+    tools:context=".HostApproveSongsFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <fragment
-            android:name="edu.illinois.cs465.jukebox.SongFragment"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/songfragment1">
-        </fragment>
+            android:orientation="horizontal"
+            android:paddingBottom="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textSize="20sp"
+                android:text="Queue"
+                android:textStyle="bold" />
 
-        <fragment
-            android:name="edu.illinois.cs465.jukebox.SongFragment"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textSize="20sp"
+                android:text="4"
+                android:id="@+id/host_queue_song_count"/>
+
+        </RelativeLayout>
+        <ScrollView
+            android:id="@+id/guest_suggestion_scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/songfragment2">
-        </fragment>
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/host_queue_linear_layout_fragment_list">
 
-        <fragment
-            android:name="edu.illinois.cs465.jukebox.SongFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/songfragment3">
-        </fragment>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/host_queue_recycler_view"
+                    android:clipToPadding = "false" />
 
-        <fragment
-            android:name="edu.illinois.cs465.jukebox.SongFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/songfragment4">
-        </fragment>
-
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:text="YES"
-            android:textSize="13sp"
-            android:layout_gravity="right"
-            android:backgroundTint="@color/black">
-        </Button>
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>
