@@ -19,9 +19,9 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
 
     SharedPreferences hostPreferences, guestPreferences;
-    String hostCode;
+    String hostCode, guestCode;
     int hostMode;
-    boolean hasPartyStarted;
+    boolean guestHasStarted;
 
     Button buttonHost, buttonGuest;
 
@@ -30,10 +30,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        guestHasStarted = false;
+
         hostPreferences = getSharedPreferences("host", Context.MODE_PRIVATE);
+        guestPreferences = getSharedPreferences("guest", Context.MODE_PRIVATE);
 
         hostMode = hostPreferences.getInt(PartyInfo.HOST_MODE, PartyInfo.HOST_DEFAULT);
-        hasPartyStarted = false;
 
         db = FirebaseFirestore.getInstance(); // TODO This should be elsewhere
 
@@ -54,6 +56,20 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
+        if (guestPreferences.contains(PartyInfo.PARTY_CODE)) {
+            guestCode = guestPreferences.getString(PartyInfo.PARTY_CODE, "");
+            db.collection("partyInfo").document(guestCode)
+                    .get()
+                    .addOnSuccessListener(document -> {
+                        PartyInfo info = document.toObject(PartyInfo.class);
+                        if (info != null && info.isHasStarted()) {
+                            buttonGuest.setText(info.getUsername());
+                            guestHasStarted = true;
+                        }
+                    });
+
+        }
+
         initListeners();
     }
 
@@ -63,9 +79,6 @@ public class MainActivity extends AppCompatActivity {
         buttonHost.setOnClickListener(v -> {
             Intent goToHost;
             switch (hostMode) {
-                case PartyInfo.HOST_DEFAULT:
-                    goToHost = new Intent(context, HostCreationActivity.class);
-                    break;
                 case PartyInfo.HOST_CREATED:
                     goToHost = new Intent(context, HostPartyOverviewBeforeActivity.class);
                     goToHost.putExtra(PartyInfo.PARTY_CODE, hostCode);
@@ -81,7 +94,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         buttonGuest.setOnClickListener(v -> {
-            Intent intent = new Intent(context, GuestJoinPartyActivity.class);
+            Intent intent;
+            if (guestHasStarted) {
+                intent = new Intent(context, GuestVoteActivity.class);
+                intent.putExtra(PartyInfo.PARTY_CODE, guestCode);
+            } else {
+                intent = new Intent(context, GuestJoinPartyActivity.class);
+            }
             startActivity(intent);
         });
     }
