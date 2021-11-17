@@ -31,7 +31,7 @@ public class GuestJoinPartyActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance(); // TODO This should be elsewhere
 
-        guestPreferences = getSharedPreferences("host", Context.MODE_PRIVATE);
+        guestPreferences = getSharedPreferences("guest", Context.MODE_PRIVATE);
 
         joinButton = findViewById(R.id.guest_join_party_button);
         editCode = findViewById(R.id.edit_code);
