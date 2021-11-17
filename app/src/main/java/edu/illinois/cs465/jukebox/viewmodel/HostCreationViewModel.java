@@ -90,7 +90,7 @@ public class HostCreationViewModel extends ViewModel {
                     Log.d("INFO", "DocumentSnapshot added with ID");
                     local.edit()
                             .putString(PartyInfo.PARTY_CODE, partyCode)
-                            .putBoolean(PartyInfo.IS_CREATED, true)
+                            .putInt(PartyInfo.HOST_MODE, PartyInfo.HOST_CREATED)
                             .apply();
                 })
                 .addOnFailureListener(e -> Log.w("INFO", "Error adding document", e));
