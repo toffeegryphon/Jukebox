@@ -28,21 +28,15 @@ public class HostPartyOverviewBeforeViewModel extends ViewModel {
 
     public void init(String partyCode) {
         Log.d("partyCode", partyCode);
-        db.collection("partyInfo")
-                .whereEqualTo("partyCode", partyCode)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                PartyInfo partyInfo = document.toObject(PartyInfo.class);
-                                mPartyInfo.setValue(partyInfo);
-                                break;
-                            }
-                        } else {
-                            Log.d("INFO", "get failed with ", task.getException());
-                        }
+        db.collection("partyInfo").document(partyCode).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        assert document != null;
+                        PartyInfo partyInfo = document.toObject(PartyInfo.class);
+                        mPartyInfo.setValue(partyInfo);
+                    } else {
+                        Log.d("INFO", "get failed with ", task.getException());
                     }
                 });
     }

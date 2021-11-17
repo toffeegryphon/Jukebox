@@ -18,7 +18,6 @@ import edu.illinois.cs465.jukebox.viewmodel.HostPartyOverviewBeforeViewModel;
 public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
     public static final String DATA_CONFIG = "config";
 
-    private HostPartyOverviewBeforeViewModel overviewBeforeViewModel;
     private HostCreationViewModel creationViewModel;
 
     @Override
@@ -28,9 +27,6 @@ public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
 
         Intent source = getIntent();
         if (source != null) {
-            overviewBeforeViewModel = new ViewModelProvider(this).get(HostPartyOverviewBeforeViewModel.class);
-            overviewBeforeViewModel.init(source.getStringExtra(DATA_CONFIG));
-
             creationViewModel = new ViewModelProvider(this).get(HostCreationViewModel.class);
             creationViewModel.init(source.getStringExtra(DATA_CONFIG));
         }

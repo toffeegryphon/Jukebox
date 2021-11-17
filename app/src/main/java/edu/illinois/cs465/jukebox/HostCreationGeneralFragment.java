@@ -167,7 +167,8 @@ public class HostCreationGeneralFragment extends SavableFragment {
         viewModel.setGeneralPartyInfo(editTextName.getText().toString(), editTextTheme.getText().toString(), editTextDesc.getText().toString(), editTextLoc.getText().toString());
     }
 
-    public void bindViewModel(LiveData<PartyInfo> data) {
+    public void bindViewModel() {
+        LiveData<PartyInfo> data = viewModel.getPartyInfo();
         data.observe(getViewLifecycleOwner(), new Observer<PartyInfo>() {
             @Override
             public void onChanged(PartyInfo partyInfo) {
