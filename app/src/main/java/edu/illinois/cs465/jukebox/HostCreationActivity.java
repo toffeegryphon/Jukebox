@@ -15,6 +15,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 
+import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
+
 public class HostCreationActivity extends AppCompatActivity {
 
     private HostCreationViewModel viewModel;
@@ -52,9 +54,10 @@ public class HostCreationActivity extends AppCompatActivity {
                 step1.setEnabled(false);
                 step2.setEnabled(true);
             } else {
-                String json = viewModel.toJson();
+                viewModel.saveParty();
+                String partyCode = viewModel.getPartyInfo().getValue().getPartyCode();
                 Intent intent = new Intent(HostCreationActivity.this, HostPartyOverviewBeforeActivity.class);
-                intent.putExtra(HostPartyOverviewBeforeActivity.DATA_CONFIG, json);
+                intent.putExtra(HostPartyOverviewBeforeActivity.DATA_CONFIG, partyCode);
                 startActivity(intent);
                 Toast.makeText(this.getApplicationContext(), "Party created successfully!", Toast.LENGTH_SHORT).show();
             }

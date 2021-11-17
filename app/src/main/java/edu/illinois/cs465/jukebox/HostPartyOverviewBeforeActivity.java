@@ -2,7 +2,6 @@ package edu.illinois.cs465.jukebox;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,10 +12,13 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
+import edu.illinois.cs465.jukebox.viewmodel.HostPartyOverviewBeforeViewModel;
+
 public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
     public static final String DATA_CONFIG = "config";
 
-    private HostCreationViewModel viewModel;
+    private HostCreationViewModel creationViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +27,8 @@ public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
 
         Intent source = getIntent();
         if (source != null) {
-            viewModel = new ViewModelProvider(
-                    this,
-                    new HostCreationViewModelFactory(source.getStringExtra(DATA_CONFIG))
-            ).get(HostCreationViewModel.class);
+            creationViewModel = new ViewModelProvider(this).get(HostCreationViewModel.class);
+            creationViewModel.init(source.getStringExtra(DATA_CONFIG));
         }
 
         // Setup bottom navigation bar

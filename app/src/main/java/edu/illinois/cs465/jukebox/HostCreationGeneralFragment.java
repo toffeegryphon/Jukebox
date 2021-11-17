@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
@@ -22,6 +21,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import edu.illinois.cs465.jukebox.model.PartyInfo;
+import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -101,7 +103,6 @@ public class HostCreationGeneralFragment extends SavableFragment {
         viewModel = new ViewModelProvider(requireActivity()).get(HostCreationViewModel.class);
 
         editTextName = view.findViewById(R.id.edit_text_name);
-
         editTextTheme = view.findViewById(R.id.edit_text_theme);
         editTextDate = view.findViewById(R.id.edit_text_date);
         editTextTime = view.findViewById(R.id.edit_text_time);
@@ -110,12 +111,14 @@ public class HostCreationGeneralFragment extends SavableFragment {
 
         initListeners(view);
 
-        LiveData<Long> dateMillis = viewModel.getDate();
-        final Observer<Long> dateObserver = millis -> {
-            editTextDate.setText(new SimpleDateFormat("M/dd/yyyy").format(new Date(millis)));
-            editTextTime.setText(new SimpleDateFormat("h:mm aa").format(new Date(millis)));
-        };
-        dateMillis.observe(getViewLifecycleOwner(), dateObserver);
+        LiveData<PartyInfo> data = viewModel.getPartyInfo();
+        data.observe(getViewLifecycleOwner(), new Observer<PartyInfo>() {
+            @Override
+            public void onChanged(PartyInfo partyInfo) {
+                editTextDate.setText(new SimpleDateFormat("M/dd/yyyy").format(new Date(partyInfo.getDate())));
+                editTextTime.setText(new SimpleDateFormat("h:mm aa").format(new Date(partyInfo.getDate())));
+            }
+        });
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -161,22 +164,21 @@ public class HostCreationGeneralFragment extends SavableFragment {
 
     public void save() {
         // TODO Can probably be called in onDetach
-        viewModel.setString(HostCreationViewModel.USERNAME, editTextName);
-        viewModel.setString(HostCreationViewModel.THEME, editTextTheme);
-        viewModel.setString(HostCreationViewModel.DESCRIPTION, editTextDesc);
-        viewModel.setString(HostCreationViewModel.LOCATION, editTextLoc);
-    }
-
-    private void bindStringObserver(TextView view, String key) {
-        final Observer<String> observer = view::setText;
-        LiveData<String> data = viewModel.getString(key, "");
-        data.observe(this, observer);
+        viewModel.setGeneralPartyInfo(editTextName.getText().toString(), editTextTheme.getText().toString(), editTextDesc.getText().toString(), editTextLoc.getText().toString());
     }
 
     public void bindViewModel() {
-        bindStringObserver(editTextName, HostCreationViewModel.USERNAME);
-        bindStringObserver(editTextTheme, HostCreationViewModel.THEME);
-        bindStringObserver(editTextDesc, HostCreationViewModel.DESCRIPTION);
-        bindStringObserver(editTextLoc, HostCreationViewModel.LOCATION);
+        LiveData<PartyInfo> data = viewModel.getPartyInfo();
+        data.observe(getViewLifecycleOwner(), new Observer<PartyInfo>() {
+            @Override
+            public void onChanged(PartyInfo partyInfo) {
+                editTextName.setText(partyInfo.getUsername());
+                editTextTheme.setText(partyInfo.getTheme());
+                editTextDesc.setText(partyInfo.getDescription());
+                editTextLoc.setText(partyInfo.getLocation());
+                editTextDate.setText(new SimpleDateFormat("M/dd/yyyy").format(new Date(partyInfo.getDate())));
+                editTextTime.setText(new SimpleDateFormat("h:mm aa").format(new Date(partyInfo.getDate())));
+            }
+        });
     }
 }
