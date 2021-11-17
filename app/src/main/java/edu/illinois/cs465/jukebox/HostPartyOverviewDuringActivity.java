@@ -1,5 +1,6 @@
 package edu.illinois.cs465.jukebox;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -46,5 +47,12 @@ public class HostPartyOverviewDuringActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerViewDuringParty);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }
