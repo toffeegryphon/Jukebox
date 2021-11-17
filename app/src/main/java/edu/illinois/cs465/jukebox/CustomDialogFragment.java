@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import edu.illinois.cs465.jukebox.model.PartyInfo;
 
 public class CustomDialogFragment extends DialogFragment {
     Context context;
@@ -15,22 +18,29 @@ public class CustomDialogFragment extends DialogFragment {
     String positiveButton;
     String negativeButton;
     Class goToClass;
+    String partyCode;
 
-    public CustomDialogFragment(Context _context, String _title, String _message, String _positiveButton, String _negativeButton, Class _goToClass) {
+    public CustomDialogFragment(Context _context, String _title, String _message, String _positiveButton, String _negativeButton, Class _goToClass, String _partyCode) {
         context = _context;
         title = _title;
         message = _message;
         positiveButton = _positiveButton;
         negativeButton = _negativeButton;
         goToClass = _goToClass;
+        partyCode = _partyCode;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title);
         alertDialogBuilder.setMessage(message);
-        alertDialogBuilder.setPositiveButton(positiveButton, (dialog, which) -> startActivity(new Intent(context.getApplicationContext(), goToClass)));
+        alertDialogBuilder.setPositiveButton(positiveButton, (dialog, which) -> {
+            Intent intent = new Intent(context.getApplicationContext(), goToClass);
+            intent.putExtra(PartyInfo.PARTY_CODE, partyCode);
+            startActivity(intent);
+        });
         alertDialogBuilder.setNegativeButton(negativeButton, null);
 
         return alertDialogBuilder.create();

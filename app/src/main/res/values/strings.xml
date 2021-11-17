@@ -13,5 +13,7 @@
     <string name="button_continue">Continue</string>
     <string name="edit_text_name">Party Name</string>
     <string name="edit_text_theme">Party Theme</string>
+    <string name="label_now_playing">Now Playing</string>
+    <string name="label_vote_to_skip">Vote to Skip</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

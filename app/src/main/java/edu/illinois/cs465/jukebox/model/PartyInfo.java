@@ -14,6 +14,10 @@ public class PartyInfo {
     private int suggestionLimit;
     private boolean areSuggestionsAllowed;
 
+    private boolean hasStarted = false;
+
+    public static String PARTY_CODE = "partyCode";
+
     public long getDate() {
         return date;
     }
@@ -92,5 +96,13 @@ public class PartyInfo {
 
     public void setPartyCode(String partyCode) {
         this.partyCode = partyCode;
+    }
+
+    public boolean isHasStarted() {
+        return hasStarted;
+    }
+
+    public void setHasStarted(boolean hasStarted) {
+        this.hasStarted = hasStarted;
     }
 }

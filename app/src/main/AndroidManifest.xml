@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Jukebox">
         <activity
+            android:name=".GuestVoteActivity"
+            android:exported="false" />
+        <activity
             android:name=".HostPartyOverviewBeforeActivity"
             android:exported="false" />
         <activity
@@ -26,8 +29,8 @@
             android:exported="false" />
         <activity
             android:name=".HostCreationActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
