@@ -38,9 +38,14 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 goToHost = new Intent(context, HostCreationActivity.class);
             }
+            goToHost.setFlags(goToHost.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(goToHost);
         });
 
-        buttonGuest.setOnClickListener(v -> startActivity(new Intent(context, GuestJoinPartyActivity.class)));
+        buttonGuest.setOnClickListener(v -> {
+            Intent intent = new Intent(context, GuestJoinPartyActivity.class);
+            intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(intent);
+        });
     }
 }
