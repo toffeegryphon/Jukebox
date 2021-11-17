@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="64dp"
         android:paddingBottom="64dp"
+        app:trackThickness="28dp"
         app:layout_constraintBottom_toTopOf="@id/button_skip" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
