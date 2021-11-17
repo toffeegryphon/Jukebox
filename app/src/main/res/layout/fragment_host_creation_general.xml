@@ -24,7 +24,7 @@
                 app:startIconDrawable="@drawable/ic_host_creation_party_name"
                 app:endIconMode="none"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:startIconTintMode="screen" >
+                app:startIconTintMode="screen">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
