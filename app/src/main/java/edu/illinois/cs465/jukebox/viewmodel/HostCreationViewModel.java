@@ -7,12 +7,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
@@ -29,6 +34,21 @@ public class HostCreationViewModel extends ViewModel {
         partyInfo.setDate(Calendar.getInstance().getTimeInMillis());
         partyInfo.setPartyCode("AAAA"); // TODO generate a random code
         mPartyInfo.setValue(partyInfo);
+    }
+
+    public void init(String partyCode) {
+        Log.d("partyCode", partyCode);
+        db.collection("partyInfo").document(partyCode).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        assert document != null;
+                        PartyInfo partyInfo = document.toObject(PartyInfo.class);
+                        mPartyInfo.setValue(partyInfo);
+                    } else {
+                        Log.d("INFO", "get failed with ", task.getException());
+                    }
+                });
     }
 
     public void setDate(Long date) {
@@ -61,18 +81,9 @@ public class HostCreationViewModel extends ViewModel {
 
     public void saveParty() {
         db.collection("partyInfo")
-                .add(mPartyInfo.getValue())
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("INFO", "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("INFO", "Error adding document", e);
-                    }
-                });
+                .document(Objects.requireNonNull(mPartyInfo.getValue()).getPartyCode())
+                .set(mPartyInfo.getValue())
+                .addOnSuccessListener(unused -> Log.d("INFO", "DocumentSnapshot added with ID"))
+                .addOnFailureListener(e -> Log.w("INFO", "Error adding document", e));
     }
 }

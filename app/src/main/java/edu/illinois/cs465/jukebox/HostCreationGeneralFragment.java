@@ -168,7 +168,7 @@ public class HostCreationGeneralFragment extends SavableFragment {
     }
 
     public void bindViewModel(LiveData<PartyInfo> data) {
-        data.observe(this, new Observer<PartyInfo>() {
+        data.observe(getViewLifecycleOwner(), new Observer<PartyInfo>() {
             @Override
             public void onChanged(PartyInfo partyInfo) {
                 editTextName.setText(partyInfo.getUsername());

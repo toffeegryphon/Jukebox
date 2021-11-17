@@ -65,6 +65,8 @@ public class HostSettingFragment extends SavableFragment {
         editLimit = view.findViewById(R.id.edit_suggestion_limit);
         endPartyButton = view.findViewById(R.id.buttonHostSettingsEndParty);
 
+        bindViewModel();
+
         endPartyButton.setOnClickListener(v -> endButtonClick(getActivity()));
 
         if(getActivity().getClass() == HostPartyOverviewDuringActivity.class) // If host settings is on the during party screen
@@ -87,12 +89,12 @@ public class HostSettingFragment extends SavableFragment {
 
     public void bindViewModel() {
         LiveData<PartyInfo> data = viewModel.getPartyInfo();
-        data.observe(this, new Observer<PartyInfo>() {
+        data.observe(getViewLifecycleOwner(), new Observer<PartyInfo>() {
             @Override
             public void onChanged(PartyInfo partyInfo) {
-                editThreshold.setText(partyInfo.getSkipThreshold());
-                editTimer.setText(partyInfo.getSkipTimer());
-                editLimit.setText(partyInfo.getSuggestionLimit());
+                editThreshold.setText(String.valueOf(partyInfo.getSkipThreshold()));
+                editTimer.setText(String.valueOf(partyInfo.getSkipTimer()));
+                editLimit.setText(String.valueOf(partyInfo.getSuggestionLimit()));
                 switchAllow.setChecked(partyInfo.getAreSuggestionsAllowed());
             }
         });

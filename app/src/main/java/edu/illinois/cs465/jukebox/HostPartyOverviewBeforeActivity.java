@@ -18,7 +18,8 @@ import edu.illinois.cs465.jukebox.viewmodel.HostPartyOverviewBeforeViewModel;
 public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
     public static final String DATA_CONFIG = "config";
 
-    private HostPartyOverviewBeforeViewModel viewModel;
+    private HostPartyOverviewBeforeViewModel overviewBeforeViewModel;
+    private HostCreationViewModel creationViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +28,11 @@ public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
 
         Intent source = getIntent();
         if (source != null) {
-            viewModel = new ViewModelProvider(this).get(HostPartyOverviewBeforeViewModel.class);
-            viewModel.init(source.getStringExtra(DATA_CONFIG));
+            overviewBeforeViewModel = new ViewModelProvider(this).get(HostPartyOverviewBeforeViewModel.class);
+            overviewBeforeViewModel.init(source.getStringExtra(DATA_CONFIG));
+
+            creationViewModel = new ViewModelProvider(this).get(HostCreationViewModel.class);
+            creationViewModel.init(source.getStringExtra(DATA_CONFIG));
         }
 
         // Setup bottom navigation bar

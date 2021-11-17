@@ -9,10 +9,10 @@ public class PartyInfo {
     private String description;
     private String location;
     private String partyCode;
-    private Integer skipThreshold;
-    private Integer skipTimer;
-    private Integer suggestionLimit;
-    private Boolean areSuggestionsAllowed;
+    private int skipThreshold;
+    private int skipTimer;
+    private int suggestionLimit;
+    private boolean areSuggestionsAllowed;
 
     public long getDate() {
         return date;
@@ -54,35 +54,35 @@ public class PartyInfo {
         this.location = location;
     }
 
-    public Integer getSkipThreshold() {
+    public int getSkipThreshold() {
         return skipThreshold;
     }
 
-    public void setSkipThreshold(Integer skipThreshold) {
+    public void setSkipThreshold(int skipThreshold) {
         this.skipThreshold = skipThreshold;
     }
 
-    public Integer getSkipTimer() {
+    public int getSkipTimer() {
         return skipTimer;
     }
 
-    public void setSkipTimer(Integer skipTimer) {
+    public void setSkipTimer(int skipTimer) {
         this.skipTimer = skipTimer;
     }
 
-    public Integer getSuggestionLimit() {
+    public int getSuggestionLimit() {
         return suggestionLimit;
     }
 
-    public void setSuggestionLimit(Integer suggestionLimit) {
+    public void setSuggestionLimit(int suggestionLimit) {
         this.suggestionLimit = suggestionLimit;
     }
 
-    public Boolean getAreSuggestionsAllowed() {
+    public boolean getAreSuggestionsAllowed() {
         return areSuggestionsAllowed;
     }
 
-    public void setAreSuggestionsAllowed(Boolean areSuggestionsAllowed) {
+    public void setAreSuggestionsAllowed(boolean areSuggestionsAllowed) {
         this.areSuggestionsAllowed = areSuggestionsAllowed;
     }
 

@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Objects;
 
+import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
 import edu.illinois.cs465.jukebox.viewmodel.HostPartyOverviewBeforeViewModel;
 
 /**
@@ -21,6 +22,7 @@ import edu.illinois.cs465.jukebox.viewmodel.HostPartyOverviewBeforeViewModel;
  */
 public class HostPartyOverviewBeforeFragment extends Fragment {
     private HostPartyOverviewBeforeViewModel viewModel;
+    private HostCreationViewModel creationViewModel;
 
     View view;
     Button buttonStart;
@@ -73,6 +75,8 @@ public class HostPartyOverviewBeforeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_host_party_overview_before, container, false);
 
         viewModel = new ViewModelProvider(requireActivity()).get(HostPartyOverviewBeforeViewModel.class);
+        creationViewModel = new ViewModelProvider(requireActivity()).get(HostCreationViewModel.class);
+
         hostCreationGeneralFragment = (HostCreationGeneralFragment) getChildFragmentManager().findFragmentById(R.id.fragmentGeneralPartyOverviewBefore);
         Objects.requireNonNull(hostCreationGeneralFragment).bindViewModel(viewModel.getPartyInfo());
 
