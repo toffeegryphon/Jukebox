@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 
 public class PartyInfo {
     private long date;
+    // TODO This should be renamed as party name
     private String username;
     private String theme;
     private String description;

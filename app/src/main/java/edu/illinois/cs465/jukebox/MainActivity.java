@@ -9,11 +9,17 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import edu.illinois.cs465.jukebox.model.PartyInfo;
 
 public class MainActivity extends AppCompatActivity {
+    private FirebaseFirestore db;
 
     SharedPreferences hostPreferences, guestPreferences;
+    String hostCode;
     boolean wasPartyCreated;
     boolean hasPartyStarted;
 
@@ -29,8 +35,19 @@ public class MainActivity extends AppCompatActivity {
         wasPartyCreated = hostPreferences.getBoolean(PartyInfo.IS_CREATED, false);
         hasPartyStarted = false;
 
+        db = FirebaseFirestore.getInstance(); // TODO This should be elsewhere
+
         buttonHost = (Button) findViewById(R.id.button_host);
         buttonGuest = (Button) findViewById(R.id.button_guest);
+
+        if (wasPartyCreated) {
+            hostCode = hostPreferences.getString(PartyInfo.PARTY_CODE, "");
+            db.collection("partyInfo").document(hostCode)
+                    .get()
+                    .addOnSuccessListener(document -> {
+                        buttonHost.setText(document.getString("username"));
+                    });
+        }
 
         initListeners();
     }
@@ -42,9 +59,7 @@ public class MainActivity extends AppCompatActivity {
             Intent goToHost;
             if (wasPartyCreated) {
                 goToHost = new Intent(context, HostPartyOverviewBeforeActivity.class);
-                String code = hostPreferences.getString(PartyInfo.PARTY_CODE, "");
-                Log.d("TESTING", code);
-                goToHost.putExtra(PartyInfo.PARTY_CODE, code);
+                goToHost.putExtra(PartyInfo.PARTY_CODE, hostCode);
             } else {
                 goToHost = new Intent(context, HostCreationActivity.class);
             }
