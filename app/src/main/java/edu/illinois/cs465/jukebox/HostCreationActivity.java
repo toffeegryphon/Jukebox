@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
@@ -26,7 +27,8 @@ public class HostCreationActivity extends AppCompatActivity {
     private CreationPagerAdapter adapter;
     private ViewPager stepsPager;
 
-    private Button step1, step2, buttonContinue;
+    private Button buttonContinue;
+    private List<Button> indicators;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +40,9 @@ public class HostCreationActivity extends AppCompatActivity {
         stepsPager = findViewById(R.id.steps_pager);
         stepsPager.setAdapter(adapter);
 
-        step1 = findViewById(R.id.step_1);
-        step2 = findViewById(R.id.step_2);
-        step1.setEnabled(true);
-        step2.setEnabled(false);
+        indicators = new ArrayList<>();
+        indicators.add(findViewById(R.id.step_1));
+        indicators.add(findViewById(R.id.step_2));
 
         buttonContinue = findViewById(R.id.button_continue);
         initListeners();
@@ -54,8 +55,6 @@ public class HostCreationActivity extends AppCompatActivity {
 
             if (position + 1 < adapter.getCount()) {
                 stepsPager.setCurrentItem(position + 1);
-                step1.setEnabled(false);
-                step2.setEnabled(true);
             } else {
                 viewModel.saveParty(getSharedPreferences("host", Context.MODE_PRIVATE));
                 String partyCode = Objects.requireNonNull(viewModel.getPartyInfo().getValue()).getPartyCode();
@@ -63,6 +62,27 @@ public class HostCreationActivity extends AppCompatActivity {
                 intent.putExtra(PartyInfo.PARTY_CODE, partyCode);
                 startActivity(intent);
                 Toast.makeText(this.getApplicationContext(), "Party created successfully!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        stepsPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            private int current = 0;
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                indicators.get(current).setEnabled(false);
+                indicators.get(position).setEnabled(true);
+                current = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
     }
@@ -73,11 +93,8 @@ public class HostCreationActivity extends AppCompatActivity {
         adapter.save(position);
         if (position - 1 < 0) {
             super.onBackPressed();
-            return;
         } else {
             stepsPager.setCurrentItem(position - 1);
-            step2.setEnabled(false);
-            step1.setEnabled(true);
         }
     }
 }
