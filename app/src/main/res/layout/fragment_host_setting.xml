@@ -59,28 +59,21 @@
                         app:tickVisible="false" />
                 </LinearLayout>
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="bottom"
-                    android:id="@+id/linearLayoutHostSettingsSkipsTimer" >
+                    android:hint="Time Given to Skip"
 
-                    <TextView
-                        android:id="@+id/label_skip_timer"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/label_skip_timer" />
+                    app:suffixText="s">
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_skip_timer"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:text="30"/>
-                </LinearLayout>
+                        android:textColor="?attr/colorOnPrimary"
+                        android:gravity="end"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -99,52 +92,29 @@
                     android:text="@string/header_suggestions"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
-                <LinearLayout
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switch_suggestion_allow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="bottom"
-                    android:id="@+id/linearLayoutHostSettingsSuggestionsNew" >
+                    android:checked="true"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:text="Allow New Suggestions" />
 
-                    <TextView
-                        android:id="@+id/label_suggestion_allow"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/label_suggestion_allow" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/switch_suggestion_allow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true" />
-                </LinearLayout>
-
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="bottom"
-                    android:id="@+id/linearLayoutHostSettingsSuggestionsLimit">
+                    android:layout_height="wrap_content" >
 
-                    <TextView
-                        android:id="@+id/label_suggestion_limit"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/label_suggestion_limit" />
-
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_suggestion_limit"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:text="3" />
-                </LinearLayout>
+                        android:hint="@string/label_suggestion_limit"
+                        android:textColor="?attr/colorOnPrimary" />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
