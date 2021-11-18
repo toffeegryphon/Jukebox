@@ -56,12 +56,14 @@
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_guest_text"
             android:layout_alignStart="@id/button_host"
             android:layout_alignEnd="@id/button_host"
             android:layout_above="@id/center_anchor"
             android:layout_marginBottom="20dp"
+            android:paddingVertical="10dp"
+            app:cornerRadius="20dp"
             android:textSize="36sp"
+            android:text="@string/button_guest_text"
             />
 
         <Button
@@ -70,10 +72,12 @@
             android:layout_below="@id/center_anchor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_host_text"
-            android:layout_marginTop="20dp"
-            android:textSize="36sp"
+            android:layout_margin="20dp"
+            app:cornerRadius="20dp"
+            android:minWidth="300dp"
             android:paddingVertical="10dp"
+            android:textSize="36sp"
+            android:text="@string/button_host_text"
             />
 
     </RelativeLayout>
