@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HostCreationGeneralFragment" >
+    tools:context=".HostCreationGeneralFragment"
+    >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,10 +31,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/label_creation_general"
                 android:ems="10"
+
                 android:hint="@string/edit_text_name"
                 android:inputType="textPersonName"
+
+                android:textColorHint="@color/white"
                 app:endIconMode="none"
-                app:startIconDrawable="@drawable/ic_host_creation_party_name">
+                app:startIconDrawable="@drawable/ic_host_creation_party_name"
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_text_name"
@@ -52,6 +57,7 @@
                 android:ems="10"
                 android:hint="@string/edit_text_theme"
                 android:paddingVertical="5dp"
+                android:textColorHint="@color/white"
                 app:endIconMode="none"
                 app:startIconDrawable="@drawable/ic_host_creation_party_theme">
 
@@ -79,6 +85,7 @@
                     android:ems="10"
                     android:hint="Date"
                     android:paddingRight="5dp"
+                    android:textColorHint="@color/white"
                     app:startIconDrawable="@drawable/ic_host_creation_party_date">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -101,6 +108,7 @@
                     android:layout_weight="2"
                     android:ems="10"
                     android:hint="Time"
+                    android:textColorHint="@color/white"
                     app:startIconDrawable="@drawable/ic_host_creation_party_time">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -126,6 +134,7 @@
                 android:hint="Location"
                 android:inputType="textPersonName"
                 android:paddingVertical="5dp"
+                android:textColorHint="@color/white"
                 app:endIconMode="none"
                 app:startIconDrawable="@drawable/ic_host_creation_party_location">
 
@@ -150,7 +159,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/linear_layout_host_creation_date_time"
                     android:ems="10"
-                    android:hint="Description">
+                    android:hint="Description"
+                    android:textColorHint="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_text_desc"
