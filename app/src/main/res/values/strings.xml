@@ -15,5 +15,25 @@
     <string name="edit_text_theme">Party Theme</string>
     <string name="label_now_playing">Now Playing</string>
     <string name="label_vote_to_skip">Vote to Skip</string>
+    <string name="songcover_name1">Boku no Sensou</string>
+    <string name="songcover_name2">As long as you love me</string>
+    <string name="songcover_name3">Spin On</string>
+    <string name="songcover_name4">Edamame</string>
+    <string name="songcover_name5">Enemy</string>
+    <string name="songcover_name6">The BADDEST</string>
+    <string name="songcover_name7">Nonstop</string>
+    <string name="songcover_name8">Shivers</string>
+    <string name="songcover_name9">Squid Game</string>
+    <string name="songcover_name10">Way Down in the Hole</string>
+    <string name="songcover_artist1">Eren Jaeger</string>
+    <string name="songcover_artist2">Backstreet Boys</string>
+    <string name="songcover_artist3">That Dude</string>
+    <string name="songcover_artist4">bbno$ &amp; Rich Brian</string>
+    <string name="songcover_artist5">Imagine Dragons &amp; LOL</string>
+    <string name="songcover_artist6">K/DA</string>
+    <string name="songcover_artist7">Drake</string>
+    <string name="songcover_artist8">Ed Sheeran</string>
+    <string name="songcover_artist9">456</string>
+    <string name="songcover_artist10">Tom Waits</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
