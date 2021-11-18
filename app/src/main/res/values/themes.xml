@@ -43,10 +43,4 @@
 
         <item name="textInputStyle">@style/TextInputLayoutStyle</item>
     </style>
-
-    <style name="Theme.Jukebox.TextLarge" parent="Theme.Jukebox">
-        <item name="android:textSize">28sp</item>
-        <item name="android:textFontWeight">500</item>
-        <item name="android:textColor">?attr/colorOnPrimary</item>
-    </style>
 </resources>

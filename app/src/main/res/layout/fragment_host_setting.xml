@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="start"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="48dp"
                 android:id="@+id/linearLayoutHostSettingsSkips" >
 
                 <TextView
@@ -32,7 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/header_skips_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                    style="@style/Header" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -90,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/header_suggestions"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                    style="@style/Header" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switch_suggestion_allow"
