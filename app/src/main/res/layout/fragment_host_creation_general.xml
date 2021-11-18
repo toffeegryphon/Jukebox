@@ -8,96 +8,95 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_layout_edit_text_name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName"
                 android:hint="@string/edit_text_name"
-                app:startIconDrawable="@drawable/ic_host_creation_party_name"
+                android:inputType="textPersonName"
                 app:endIconMode="none"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                >
+                app:startIconDrawable="@drawable/ic_host_creation_party_name">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/edit_text_name"
-                    android:inputType="text"/>
+                    android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_layout_edit_text_theme"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/text_input_layout_edit_text_name"
                 android:ems="10"
                 android:hint="@string/edit_text_theme"
-                app:startIconDrawable="@drawable/ic_host_creation_party_theme"
+                android:paddingVertical="5dp"
                 app:endIconMode="none"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_below="@id/text_input_layout_edit_text_name"
-                android:paddingVertical="5dp">
+                app:startIconDrawable="@drawable/ic_host_creation_party_theme">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_theme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/edit_text_theme"
-                    android:inputType="text"/>
+                    android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
+                android:id="@+id/linear_layout_host_creation_date_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_below="@id/text_input_layout_edit_text_theme"
-                android:id="@+id/linear_layout_host_creation_date_time">
+                android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_input_layout_edit_text_date"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
-                    android:layout_weight="3"
                     android:layout_height="wrap_content"
-                    android:paddingRight="5dp"
+                    android:layout_weight="3"
                     android:ems="10"
                     android:hint="Date"
-                    app:startIconDrawable="@drawable/ic_host_creation_party_date"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    android:paddingRight="5dp"
+                    app:startIconDrawable="@drawable/ic_host_creation_party_date">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_text_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/edit_text_date"
-                        android:inputType="date"
                         android:clickable="false"
                         android:cursorVisible="false"
                         android:focusable="false"
-                        android:focusableInTouchMode="false" />
+                        android:focusableInTouchMode="false"
+                        android:inputType="date" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_input_layout_edit_text_time"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:ems="10"
                     android:hint="Time"
-                    app:startIconDrawable="@drawable/ic_host_creation_party_time"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
+                    app:startIconDrawable="@drawable/ic_host_creation_party_time">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_text_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/edit_text_time"
                         android:clickable="false"
                         android:cursorVisible="false"
                         android:focusable="false"
@@ -109,57 +108,57 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_layout_edit_text_location"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/linear_layout_host_creation_date_time"
                 android:ems="10"
-                android:inputType="textPersonName"
                 android:hint="Location"
+                android:inputType="textPersonName"
                 android:paddingVertical="5dp"
-                app:startIconDrawable="@drawable/ic_host_creation_party_location"
                 app:endIconMode="none"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_below="@id/linear_layout_host_creation_date_time">
+                app:startIconDrawable="@drawable/ic_host_creation_party_location">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/edit_text_location"
-                    android:inputType="text"/>
+                    android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_below="@id/text_input_layout_edit_text_location">
+                android:layout_below="@id/text_input_layout_edit_text_location"
+                android:layout_gravity="start">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_input_layout_edit_text_desc"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/linear_layout_host_creation_date_time"
                     android:ems="10"
-                    android:hint="Description"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_below="@id/linear_layout_host_creation_date_time" >
+                    android:hint="Description">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/edit_text_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
                         android:gravity="start|top"
                         android:inputType="textMultiLine"
+                        android:maxLines="1"
                         android:paddingStart="52dp"
-                        android:scrollbars="vertical"
-                        android:maxLines="1" />
+                        android:scrollbars="vertical" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
-                    android:paddingTop="20dp"
-                    android:paddingLeft="13dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:paddingLeft="13dp"
+                    android:paddingTop="20dp"
                     android:scaleType="fitStart"
                     android:src="@drawable/ic_host_creation_party_desc" />
 
