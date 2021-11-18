@@ -90,7 +90,7 @@ public class HostPartyOverviewDuringFragment extends Fragment {
         artistName = view.findViewById(R.id.textViewHostDuringPartyArtistName);
         artistName.setSelected(true);
 
-        // TODO: Update progress bar and song time countdown for when music is playing
+        // TODO: Update protextViewHostDuringPartySongNamegress bar and song time countdown for when music is playing
         // TODO: Make skip button actually skips the current song
         return view;
     }
