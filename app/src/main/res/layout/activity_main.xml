@@ -53,16 +53,16 @@
 
         <Button
             android:id="@+id/button_guest"
-            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_guest_text"
+            android:layout_above="@id/center_anchor"
             android:layout_alignStart="@id/button_host"
             android:layout_alignEnd="@id/button_host"
-            android:layout_above="@id/center_anchor"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
-            android:textSize="36sp"
-            />
+            android:padding="10dp"
+            android:text="@string/button_guest_text"
+            android:textSize="36sp" />
 
         <Button
             android:id="@+id/button_host"
@@ -74,6 +74,9 @@
             android:layout_marginTop="20dp"
             android:textSize="36sp"
             android:paddingVertical="10dp"
+            android:minWidth="279dp"
+            android:layout_marginHorizontal="57dp"
+            android:maxLines="1"
             />
 
     </RelativeLayout>
