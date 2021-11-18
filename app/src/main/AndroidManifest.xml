@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jukebox">
+
+        <activity
+            android:name=".GuestVoteActivity"
+            android:exported="false" />
         <activity
             android:name=".HostPartyOverviewBeforeActivity"
             android:exported="false" />
@@ -16,18 +20,23 @@
             android:name=".HostPartyOverviewDuringActivity"
             android:exported="false" />
         <activity
-            android:name=".GuestPartyActivity"
+            android:name=".HostPartyOverviewPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GuestJoinPartyActivity"
             android:exported="false" />
         <activity
             android:name=".GuestSuggestionActivity"
             android:exported="false" />
         <activity
             android:name=".HostCreationActivity"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:theme="@style/Theme.Jukebox.NoActionBar" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Jukebox.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

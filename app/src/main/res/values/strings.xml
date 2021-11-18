@@ -1,15 +1,19 @@
 <resources>
     <string name="app_name">Jukebox</string>
-    <string name="button_host_text">HOST A PARTY</string>
-    <string name="button_guest_text">JOIN A PARTY</string>
+    <string name="button_host_text">HOST PARTY</string>
+    <string name="button_guest_text">JOIN PARTY</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="header_skips_text">Skips</string>
-    <string name="label_skip_threshold">Threshold (percent)</string>
+    <string name="label_skip_threshold">Votes needed to skip: %d%%</string>
     <string name="label_skip_timer">Timer (s)</string>
     <string name="header_suggestions">Song Suggestions</string>
     <string name="label_suggestion_allow">Allow New</string>
     <string name="label_suggestion_limit">Limit (number of songs)</string>
     <string name="button_continue">Continue</string>
+    <string name="edit_text_name">Party Name</string>
+    <string name="edit_text_theme">Party Theme</string>
+    <string name="label_now_playing">Now Playing</string>
+    <string name="label_vote_to_skip">Vote to Skip</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

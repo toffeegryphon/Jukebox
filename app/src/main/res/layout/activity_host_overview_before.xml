@@ -13,19 +13,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/host_overview_before_menu"
-        app:itemBackground="@color/black"
+        app:itemBackground="@color/white"
         app:itemIconTint="@drawable/host_party_before_color_selector"
         app:itemTextColor="@drawable/host_party_before_color_selector" />
 
-    <fragment
-        android:id="@+id/fragmentContainerViewBeforeParty"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationViewBeforeParty"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/host_overview_before_nav" />
+        android:paddingBottom="56dp"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="20dp"
+        android:id="@+id/host_overview_before_frame_layout">
+            <fragment
+                android:id="@+id/fragmentContainerViewBeforeParty"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+                app:layout_constraintBottom_toTopOf="@+id/bottomNavigationViewBeforeParty"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navGraph="@navigation/host_overview_before_nav" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

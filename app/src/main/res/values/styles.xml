@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="startIconTint">?attr/colorOnPrimary</item>
+        <item name="android:textColorHint">?attr/colorOnPrimary</item>
+        <item name="boxStrokeColor">@color/focusable</item>
+        <item name="suffixTextColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="Header">
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:textAppearance">@style/TextLarge</item>
+    </style>
+
+    <style name="TextLarge">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+    
+    <style name="FloatingActionButtonStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/fab</item>
+    </style>
+
+    <style name="ExtendedFloatingActionButtonStyle" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="backgroundTint">@color/fab</item>
+    </style>
+</resources>

@@ -1,18 +1,25 @@
 package edu.illinois.cs465.jukebox;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
+import com.google.android.material.slider.Slider;
+
+import edu.illinois.cs465.jukebox.model.PartyInfo;
+import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
 
 /**
  * A simple {@link SavableFragment} subclass.
@@ -23,8 +30,11 @@ public class HostSettingFragment extends SavableFragment {
 
     private HostCreationViewModel viewModel;
 
-    private EditText editThreshold, editTimer, editLimit;
+    private EditText editTimer, editLimit;
     private SwitchCompat switchAllow;
+    private Button endPartyButton;
+    private Slider editThreshold;
+    private TextView labelThreshold;
 
     public HostSettingFragment() {
         // Required empty public constructor
@@ -56,38 +66,54 @@ public class HostSettingFragment extends SavableFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_host_setting, container, false);
 
-        editThreshold = view.findViewById(R.id.edit_skip_threshold);
+        editThreshold = view.findViewById(R.id.slider_skip_threshold);
+        labelThreshold = view.findViewById(R.id.label_skip_threshold);
+        labelThreshold.setText(getResources().getString(R.string.label_skip_threshold, (int) editThreshold.getValue()));
         editTimer = view.findViewById(R.id.edit_skip_timer);
         switchAllow = view.findViewById(R.id.switch_suggestion_allow);
         editLimit = view.findViewById(R.id.edit_suggestion_limit);
+        endPartyButton = view.findViewById(R.id.buttonHostSettingsEndParty);
+
+        bindViewModel();
+
+        initListeners();
+
+        if(getActivity().getClass() == HostPartyOverviewDuringActivity.class) // If host settings is on the during party screen
+        {
+            endPartyButton.setVisibility(View.VISIBLE);
+        } else {
+            endPartyButton.setVisibility(View.GONE);
+        }
 
         return view;
     }
 
+    private void initListeners() {
+        editThreshold.addOnChangeListener((slider, value, fromUser) -> {
+            labelThreshold.setText(getResources().getString(R.string.label_skip_threshold, (int) value));
+        });
+        endPartyButton.setOnClickListener(v -> endButtonClick(getActivity()));
+    }
+
+    public void endButtonClick(FragmentActivity ctx) {
+        new CustomDialogFragment(ctx, "Confirm", "Are you sure you want to end the party?", "End", "Cancel", HostPartyOverviewPostActivity.class, viewModel.getPartyInfo().getValue().getPartyCode()).show(getActivity().getSupportFragmentManager(), "EndPartyDialog");
+    }
+
     public void save() {
-        viewModel.setInteger(HostCreationViewModel.SKIP_THRESHOLD, Integer.parseInt(editThreshold.getText().toString()));
-        viewModel.setInteger(HostCreationViewModel.SKIP_TIMER, Integer.parseInt(editTimer.getText().toString()));
-        viewModel.setInteger(HostCreationViewModel.SUGGESTION_LIMIT, Integer.parseInt(editLimit.getText().toString()));
-        viewModel.setBoolean(HostCreationViewModel.ARE_SUGGESTIONS_ALLOWED, switchAllow.isChecked());
-    }
-
-    private void bindIntegerObserver(TextView view, String key) {
-        final Observer<Integer> observer = view::setText;
-        LiveData<Integer> data = viewModel.getInteger(key, 0);
-        data.observe(this, observer);
-    }
-
-    private void bindBooleanObserver(SwitchCompat view, String key) {
-        final Observer<Boolean> observer = view::setChecked;
-        LiveData<Boolean> data = viewModel.getBoolean(key, true);
-        data.observe(this, observer);
+        viewModel.setHostSettingInfo((int) editThreshold.getValue(), Integer.parseInt(editTimer.getText().toString()), Integer.parseInt(editLimit.getText().toString()), switchAllow.isChecked());
     }
 
     public void bindViewModel() {
-        bindIntegerObserver(editThreshold, HostCreationViewModel.SKIP_THRESHOLD);
-        bindIntegerObserver(editTimer, HostCreationViewModel.SKIP_TIMER);
-        bindIntegerObserver(editLimit, HostCreationViewModel.SUGGESTION_LIMIT);
+        LiveData<PartyInfo> data = viewModel.getPartyInfo();
+        data.observe(getViewLifecycleOwner(), new Observer<PartyInfo>() {
+            @Override
+            public void onChanged(PartyInfo partyInfo) {
+                editThreshold.setValue(partyInfo.getSkipThreshold());
+                editTimer.setText(String.valueOf(partyInfo.getSkipTimer()));
+                editLimit.setText(String.valueOf(partyInfo.getSuggestionLimit()));
+                switchAllow.setChecked(partyInfo.getAreSuggestionsAllowed());
+            }
+        });
 
-        bindBooleanObserver(switchAllow, HostCreationViewModel.ARE_SUGGESTIONS_ALLOWED);
     }
 }

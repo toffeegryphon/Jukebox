@@ -1,18 +1,19 @@
 package edu.illinois.cs465.jukebox;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Objects;
+
+import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
+import edu.illinois.cs465.jukebox.viewmodel.HostPartyOverviewBeforeViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,7 +21,7 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class HostPartyOverviewBeforeFragment extends Fragment {
-    private HostCreationViewModel viewModel;
+    private HostCreationViewModel creationViewModel;
 
     View view;
     Button buttonStart;
@@ -72,18 +73,30 @@ public class HostPartyOverviewBeforeFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_host_party_overview_before, container, false);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(HostCreationViewModel.class);
+        creationViewModel = new ViewModelProvider(requireActivity()).get(HostCreationViewModel.class);
+
         hostCreationGeneralFragment = (HostCreationGeneralFragment) getChildFragmentManager().findFragmentById(R.id.fragmentGeneralPartyOverviewBefore);
         Objects.requireNonNull(hostCreationGeneralFragment).bindViewModel();
+        hostCreationGeneralFragment.setEnabled(false);
 
         // Setup start party button
         buttonStart = (Button) view.findViewById(R.id.button_start);
         buttonStart.setOnClickListener(v -> startButtonClick(getActivity()));
 
+
+
         return view;
     }
 
     public void startButtonClick(FragmentActivity ctx) {
-        new customDialogFragment(ctx, "Confirm", "Are you sure you want to start the party?", "Start", "Cancel", HostPartyOverviewDuringActivity.class).show(getActivity().getSupportFragmentManager(), "StartPartyDialog");
+        new CustomDialogFragment(
+                ctx,
+                "Confirm",
+                "Are you sure you want to start the party?",
+                "Start",
+                "Cancel",
+                HostPartyOverviewDuringActivity.class,
+                creationViewModel.getPartyInfo().getValue().getPartyCode()
+        ).show(getActivity().getSupportFragmentManager(), "StartPartyDialog");
     }
 }

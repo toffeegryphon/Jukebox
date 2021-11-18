@@ -2,9 +2,9 @@ package edu.illinois.cs465.jukebox;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -13,10 +13,11 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
-    public static final String DATA_CONFIG = "config";
+import edu.illinois.cs465.jukebox.model.PartyInfo;
+import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
 
-    private HostCreationViewModel viewModel;
+public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
+    private HostCreationViewModel creationViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +26,8 @@ public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
 
         Intent source = getIntent();
         if (source != null) {
-            viewModel = new ViewModelProvider(
-                    this,
-                    new HostCreationViewModelFactory(source.getStringExtra(DATA_CONFIG))
-            ).get(HostCreationViewModel.class);
+            creationViewModel = new ViewModelProvider(this).get(HostCreationViewModel.class);
+            creationViewModel.init(source.getStringExtra(PartyInfo.PARTY_CODE));
         }
 
         // Setup bottom navigation bar
@@ -41,5 +40,14 @@ public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerViewBeforeParty);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        Fragment navHostFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerViewBeforeParty);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }
