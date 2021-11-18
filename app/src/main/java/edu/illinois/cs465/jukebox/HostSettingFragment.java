@@ -1,17 +1,22 @@
 package edu.illinois.cs465.jukebox;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.slider.Slider;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
 import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
@@ -25,9 +30,11 @@ public class HostSettingFragment extends SavableFragment {
 
     private HostCreationViewModel viewModel;
 
-    private EditText editThreshold, editTimer, editLimit;
+    private EditText editTimer, editLimit;
     private SwitchCompat switchAllow;
     private Button endPartyButton;
+    private Slider editThreshold;
+    private TextView labelThreshold;
 
     public HostSettingFragment() {
         // Required empty public constructor
@@ -59,7 +66,9 @@ public class HostSettingFragment extends SavableFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_host_setting, container, false);
 
-        editThreshold = view.findViewById(R.id.edit_skip_threshold);
+        editThreshold = view.findViewById(R.id.slider_skip_threshold);
+        labelThreshold = view.findViewById(R.id.label_skip_threshold);
+        labelThreshold.setText(getResources().getString(R.string.label_skip_threshold, (int) editThreshold.getValue()));
         editTimer = view.findViewById(R.id.edit_skip_timer);
         switchAllow = view.findViewById(R.id.switch_suggestion_allow);
         editLimit = view.findViewById(R.id.edit_suggestion_limit);
@@ -67,7 +76,7 @@ public class HostSettingFragment extends SavableFragment {
 
         bindViewModel();
 
-        endPartyButton.setOnClickListener(v -> endButtonClick(getActivity()));
+        initListeners();
 
         if(getActivity().getClass() == HostPartyOverviewDuringActivity.class) // If host settings is on the during party screen
         {
@@ -79,12 +88,19 @@ public class HostSettingFragment extends SavableFragment {
         return view;
     }
 
+    private void initListeners() {
+        editThreshold.addOnChangeListener((slider, value, fromUser) -> {
+            labelThreshold.setText(getResources().getString(R.string.label_skip_threshold, (int) value));
+        });
+        endPartyButton.setOnClickListener(v -> endButtonClick(getActivity()));
+    }
+
     public void endButtonClick(FragmentActivity ctx) {
         new CustomDialogFragment(ctx, "Confirm", "Are you sure you want to end the party?", "End", "Cancel", HostPartyOverviewPostActivity.class, viewModel.getPartyInfo().getValue().getPartyCode()).show(getActivity().getSupportFragmentManager(), "EndPartyDialog");
     }
 
     public void save() {
-        viewModel.setHostSettingInfo(Integer.parseInt(editThreshold.getText().toString()), Integer.parseInt(editTimer.getText().toString()), Integer.parseInt(editLimit.getText().toString()), switchAllow.isChecked());
+        viewModel.setHostSettingInfo((int) editThreshold.getValue(), Integer.parseInt(editTimer.getText().toString()), Integer.parseInt(editLimit.getText().toString()), switchAllow.isChecked());
     }
 
     public void bindViewModel() {
@@ -92,7 +108,7 @@ public class HostSettingFragment extends SavableFragment {
         data.observe(getViewLifecycleOwner(), new Observer<PartyInfo>() {
             @Override
             public void onChanged(PartyInfo partyInfo) {
-                editThreshold.setText(String.valueOf(partyInfo.getSkipThreshold()));
+                editThreshold.setValue(partyInfo.getSkipThreshold());
                 editTimer.setText(String.valueOf(partyInfo.getSkipTimer()));
                 editLimit.setText(String.valueOf(partyInfo.getSuggestionLimit()));
                 switchAllow.setChecked(partyInfo.getAreSuggestionsAllowed());
