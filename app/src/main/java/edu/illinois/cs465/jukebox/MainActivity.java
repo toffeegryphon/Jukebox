@@ -3,14 +3,15 @@ package edu.illinois.cs465.jukebox;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.SurfaceView;
 import android.widget.Button;
+import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     boolean guestHasStarted;
 
     Button buttonHost, buttonGuest;
+    VideoView videoView;
+    SurfaceView surfaceView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,38 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        videoView = findViewById(R.id.home_screen_video);
+        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.main_screen_background;
+        Uri uri = Uri.parse(videoPath);
+        videoView.setVideoURI(uri);
+        videoView.start();
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.setLooping(true);
+            }
+        });
+
         initListeners();
+    }
+
+    @Override
+    protected void onResume() {
+        videoView.resume();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        videoView.suspend();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        videoView.stopPlayback();
+        super.onDestroy();
     }
 
     private void initListeners() {
