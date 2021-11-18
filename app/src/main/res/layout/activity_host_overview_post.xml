@@ -155,12 +155,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/clay_davis" />
+                        android:src="@drawable/songcover_aot" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Clay" />
+                        android:text="@string/songcover_artist1" />
 
                 </LinearLayout>
 
@@ -175,12 +175,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/clay_davis" />
+                        android:src="@drawable/songcover_kda" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Clay"/>
+                        android:text="@string/songcover_artist6"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -216,13 +216,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/clay_davis" />
+                        android:src="@drawable/songcover_squid" />
 
                     <TextView
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Clay" />
+                        android:text="@string/songcover_artist9" />
 
                 </LinearLayout>
 
@@ -237,12 +237,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/clay_davis" />
+                        android:src="@drawable/songcover_nonstop" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Clay" />
+                        android:text="@string/songcover_artist7" />
 
                 </LinearLayout>
 
@@ -257,12 +257,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/clay_davis" />
+                        android:src="@drawable/songcover_csgo" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Clay"/>
+                        android:text="@string/songcover_artist3"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -297,14 +297,14 @@
                     android:layout_height="225dp"
                     android:adjustViewBounds="true"
                     android:paddingBottom="15dp"
-                    android:src="@drawable/clay_davis" />
+                    android:src="@drawable/songcover_nonstop" />
 
                 <TextView
                     android:id="@+id/textHostOverviewPostWorstSong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="20dp"
-                    android:text="SHIIEEHHHHHHHHHHHHHHHHHHH"
+                    android:text="@string/songcover_name7"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:singleLine="true"
@@ -316,7 +316,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Clay"
+                    android:text="@string/songcover_artist7"
                     android:paddingBottom="15dp"/>
             </LinearLayout>
 
@@ -353,25 +353,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/clay_davis" />
+                        android:src="@drawable/songcover_nonstop" />
 
                     <TextView
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SHEEE" />
+                        android:text="@string/songcover_name7" />
 
                     <TextView
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Clay" />
+                        android:text="@string/songcover_artist7" />
 
                     <TextView
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5.2 s" />
+                        android:text="2.2 s" />
 
                 </LinearLayout>
 
@@ -386,17 +386,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/clay_davis" />
+                        android:src="@drawable/songcover_shivers" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SHEEE"/>
+                        android:text="@string/songcover_name8"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Clay" />
+                        android:text="@string/songcover_artist8" />
 
                     <TextView
                         android:layout_weight="1"
@@ -417,18 +417,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/clay_davis" />
+                        android:src="@drawable/songcover_edamame" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SHEEE"/>
+                        android:text="@string/songcover_name4"/>
 
                     <TextView
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Clay" />
+                        android:text="@string/songcover_artist4" />
 
                     <TextView
                         android:layout_weight="1"
