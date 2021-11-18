@@ -25,6 +25,7 @@
             android:paddingEnd="0dp"
             android:textSize="20sp"
             android:clickable="false"
+            android:textColor="?attr/colorOnPrimary"
             android:text="1" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -37,6 +38,7 @@
             android:paddingEnd="0dp"
             android:textSize="20sp"
             android:text="2"
+            android:textColor="?attr/colorOnPrimary"
             android:clickable="false"
             android:enabled="false"/>
     </LinearLayout>
