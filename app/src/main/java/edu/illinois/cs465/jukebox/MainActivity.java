@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     .addOnSuccessListener(document -> {
                         PartyInfo info = document.toObject(PartyInfo.class);
                         if (info != null && info.isHasStarted()) {
-                            buttonGuest.setText(String.format("Join back %s", info.getUsername()));
+                            buttonGuest.setText(String.format("Rejoin %s", info.getUsername()));
                             guestHasStarted = true;
                         }
                     });
