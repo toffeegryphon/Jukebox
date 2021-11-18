@@ -48,7 +48,7 @@
             android:text="\u2014"
             android:textSize="20dp"
             android:gravity="center"
-            android:backgroundTint="@color/black"></Button>
+            android:backgroundTint="@color/white"></Button>
     </RelativeLayout>
 
 </FrameLayout>

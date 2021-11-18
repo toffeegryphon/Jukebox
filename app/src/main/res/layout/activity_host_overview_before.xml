@@ -13,7 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/host_overview_before_menu"
-        app:itemBackground="@color/black"
+        app:itemBackground="@color/white"
         app:itemIconTint="@drawable/host_party_before_color_selector"
         app:itemTextColor="@drawable/host_party_before_color_selector" />
 
