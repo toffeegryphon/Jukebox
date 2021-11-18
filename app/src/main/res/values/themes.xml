@@ -20,6 +20,8 @@
         <item name="colorAccent">?attr/colorPrimaryVariant</item>
 
         <item name="textInputStyle">@style/TextInputLayoutStyle</item>
+        <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
+        <item name="extendedFloatingActionButtonStyle">@style/ExtendedFloatingActionButtonStyle</item>
     </style>
 
     <style name="Theme.Jukebox.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -42,5 +44,7 @@
         <item name="colorAccent">?attr/colorPrimaryVariant</item>
 
         <item name="textInputStyle">@style/TextInputLayoutStyle</item>
+        <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
+        <item name="extendedFloatingActionButtonStyle">@style/ExtendedFloatingActionButtonStyle</item>
     </style>
 </resources>

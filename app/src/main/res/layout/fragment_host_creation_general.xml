@@ -17,11 +17,11 @@
 
             <TextView
                 android:id="@+id/label_creation_general"
+                style="@style/Header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:text="Details for your guests..."
-                style="@style/Header" />
+                android:text="Details for your guests..." />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_layout_edit_text_name"
@@ -34,15 +34,14 @@
                 android:inputType="textPersonName"
 
                 app:endIconMode="none"
-                app:startIconDrawable="@drawable/ic_host_creation_party_name"
-                >
+                app:startIconDrawable="@drawable/ic_host_creation_party_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_text_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,8 +60,8 @@
                     android:id="@+id/edit_text_theme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,7 +76,7 @@
                     android:id="@+id/text_input_layout_edit_text_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="5"
                     android:ems="10"
                     android:hint="Date"
                     android:paddingRight="5dp"
@@ -91,8 +90,8 @@
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:textColor="@color/white"
-                        android:inputType="date" />
+                        android:inputType="date"
+                        android:textColor="@color/white" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,7 +99,7 @@
                     android:id="@+id/text_input_layout_edit_text_time"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="4"
                     android:ems="10"
                     android:hint="Time"
                     app:startIconDrawable="@drawable/ic_host_creation_party_time">
@@ -113,8 +112,8 @@
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:textColor="@color/white"
-                        android:inputType="time" />
+                        android:inputType="time"
+                        android:textColor="@color/white" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -135,8 +134,8 @@
                     android:id="@+id/edit_text_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -162,8 +161,8 @@
                         android:inputType="textMultiLine"
                         android:maxLines="1"
                         android:paddingStart="52dp"
-                        android:textColor="@color/white"
-                        android:scrollbars="vertical" />
+                        android:scrollbars="vertical"
+                        android:textColor="@color/white" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

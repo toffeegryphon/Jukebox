@@ -21,6 +21,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
 import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
@@ -31,6 +32,14 @@ import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
  * create an instance of this fragment.
  */
 public class HostCreationGeneralFragment extends SavableFragment {
+    private static final int[] LAYOUTS = {
+            R.id.text_input_layout_edit_text_name,
+            R.id.text_input_layout_edit_text_theme,
+            R.id.text_input_layout_edit_text_date,
+            R.id.text_input_layout_edit_text_time,
+            R.id.text_input_layout_edit_text_location,
+            R.id.text_input_layout_edit_text_desc
+    };
 
     private HostCreationViewModel viewModel;
 
@@ -180,5 +189,13 @@ public class HostCreationGeneralFragment extends SavableFragment {
                 editTextTime.setText(new SimpleDateFormat("h:mm aa").format(new Date(partyInfo.getDate())));
             }
         });
+    }
+
+    public void setEnabled(boolean enabled) {
+        TextInputLayout layout;
+        for (int id : LAYOUTS) {
+            layout = requireView().findViewById(id);
+            layout.setEnabled(enabled);
+        }
     }
 }

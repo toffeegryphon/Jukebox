@@ -17,4 +17,12 @@
         <item name="android:textFontWeight">500</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
+    
+    <style name="FloatingActionButtonStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/fab</item>
+    </style>
+
+    <style name="ExtendedFloatingActionButtonStyle" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="backgroundTint">@color/fab</item>
+    </style>
 </resources>
