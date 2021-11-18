@@ -37,25 +37,26 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:gravity="bottom"
                     android:id="@+id/linearLayoutHostSettingsSkipsPercent" >
 
                     <TextView
                         android:id="@+id/label_skip_threshold"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/label_skip_threshold" />
-
-                    <EditText
-                        android:id="@+id/edit_skip_threshold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:text="30" />
+                        android:gravity="center_vertical"
+                        android:text="@string/label_skip_threshold" />
 
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/slider_skip_threshold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:labelBehavior="gone"
+                        android:valueFrom="0"
+                        android:valueTo="100"
+                        android:stepSize="1"
+                        app:tickVisible="false" />
                 </LinearLayout>
 
                 <LinearLayout
