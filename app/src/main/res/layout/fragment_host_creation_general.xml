@@ -14,11 +14,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/label_creation_general"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:paddingBottom="20dp"
+                android:text="Details for your guests..."
+                android:textAppearance="@style/Theme.Jukebox.TextLarge" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_layout_edit_text_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/label_creation_general"
                 android:ems="10"
                 android:hint="@string/edit_text_name"
                 android:inputType="textPersonName"
@@ -145,7 +155,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_text_desc"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
+                        android:layout_height="100dp"
                         android:gravity="start|top"
                         android:inputType="textMultiLine"
                         android:maxLines="1"
