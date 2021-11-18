@@ -32,11 +32,11 @@
             android:name=".HostCreationActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.MaterialComponents.NoActionBar" />
+            android:theme="@style/Theme.Jukebox.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.NoActionBar">
+            android:theme="@style/Theme.Jukebox.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
