@@ -26,8 +26,8 @@
             android:id="@+id/step_2"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:text="2"
-            android:enabled="false"/>
+            android:enabled="false"
+            android:text="2" />
     </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager
