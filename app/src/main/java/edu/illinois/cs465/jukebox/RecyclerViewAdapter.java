@@ -13,15 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private Context mContext;
     ArrayList<EntryItem> data_entry_list;
+    List<SongModel> data;
 
     public RecyclerViewAdapter(Context mContext, ArrayList<EntryItem> entryList) {
         this.mContext = mContext;
         this.data_entry_list = entryList;
+        this.data = new SongDataSource().list;
     }
 
     @NonNull
@@ -34,15 +37,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.image.setImageResource(R.drawable.clay_davis); // TODO: Use list images
-        holder.song.setText(data_entry_list.get(position).name);
-        holder.artist.setText(data_entry_list.get(position).artist);
+        SongModel entry = data.get(position);
+        holder.image.setImageResource(entry.image);
+        holder.song.setText(entry.name);
+        holder.artist.setText(entry.artist);
         //holder.button.(data_buttons.get(position));
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int _pos = holder.getAdapterPosition();
-
+                data.remove(_pos);
                 data_entry_list.remove(_pos);
                 notifyItemRemoved(_pos);
                 notifyItemRangeChanged(_pos, data_entry_list.size());

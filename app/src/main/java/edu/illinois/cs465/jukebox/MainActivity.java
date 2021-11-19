@@ -53,9 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 hostCode = hostPreferences.getString(PartyInfo.PARTY_CODE, "");
                 db.collection("partyInfo").document(hostCode)
                         .get()
-                        .addOnSuccessListener(document -> {
-                            buttonHost.setText(document.getString("username"));
-                        });
+                        .addOnSuccessListener(document -> buttonHost.setText(String.format("Continue Hosting %s", document.getString("username"))));
                 break;
         }
 
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     .addOnSuccessListener(document -> {
                         PartyInfo info = document.toObject(PartyInfo.class);
                         if (info != null && info.isHasStarted()) {
-                            buttonGuest.setText(info.getUsername());
+                            buttonGuest.setText(String.format("Rejoin %s", info.getUsername()));
                             guestHasStarted = true;
                         }
                     });

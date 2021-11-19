@@ -15,39 +15,44 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_layout_edit_text_name"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <TextView
+                android:id="@+id/label_creation_general"
+                style="@style/Header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="Details for your guests..." />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_edit_text_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_creation_general"
                 android:ems="10"
 
                 android:hint="@string/edit_text_name"
                 android:inputType="textPersonName"
 
-                android:textColorHint="@color/white"
                 app:endIconMode="none"
-                app:startIconDrawable="@drawable/ic_host_creation_party_name"
-                >
+                app:startIconDrawable="@drawable/ic_host_creation_party_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_text_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_layout_edit_text_theme"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_input_layout_edit_text_name"
                 android:ems="10"
                 android:hint="@string/edit_text_theme"
                 android:paddingVertical="5dp"
-                android:textColorHint="@color/white"
                 app:endIconMode="none"
                 app:startIconDrawable="@drawable/ic_host_creation_party_theme">
 
@@ -55,7 +60,8 @@
                     android:id="@+id/edit_text_theme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,14 +74,12 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_input_layout_edit_text_date"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="5"
                     android:ems="10"
                     android:hint="Date"
                     android:paddingRight="5dp"
-                    android:textColorHint="@color/white"
                     app:startIconDrawable="@drawable/ic_host_creation_party_date">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -86,19 +90,18 @@
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:inputType="date" />
+                        android:inputType="date"
+                        android:textColor="@color/white" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_input_layout_edit_text_time"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="4"
                     android:ems="10"
                     android:hint="Time"
-                    android:textColorHint="@color/white"
                     app:startIconDrawable="@drawable/ic_host_creation_party_time">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -109,14 +112,14 @@
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:inputType="time" />
+                        android:inputType="time"
+                        android:textColor="@color/white" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_layout_edit_text_location"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/linear_layout_host_creation_date_time"
@@ -124,7 +127,6 @@
                 android:hint="Location"
                 android:inputType="textPersonName"
                 android:paddingVertical="5dp"
-                android:textColorHint="@color/white"
                 app:endIconMode="none"
                 app:startIconDrawable="@drawable/ic_host_creation_party_location">
 
@@ -132,7 +134,8 @@
                     android:id="@+id/edit_text_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -144,23 +147,22 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_input_layout_edit_text_desc"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/linear_layout_host_creation_date_time"
                     android:ems="10"
-                    android:hint="Description"
-                    android:textColorHint="@color/white">
+                    android:hint="Description">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_text_desc"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="100dp"
                         android:gravity="start|top"
                         android:inputType="textMultiLine"
                         android:maxLines="1"
                         android:paddingStart="52dp"
-                        android:scrollbars="vertical" />
+                        android:scrollbars="vertical"
+                        android:textColor="@color/white" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
