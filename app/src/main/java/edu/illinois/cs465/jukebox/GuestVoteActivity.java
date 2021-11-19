@@ -5,9 +5,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
@@ -34,12 +36,27 @@ public class GuestVoteActivity extends AppCompatActivity {
 
         countdown = new ProgressCountdown(5000, 30, 5000, progressTimeLeft, isActive);
         countdown.start();
+
+        //temporary
+        buttonSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openKahoot();
+            }
+        });
+    }
+
+    public void openKahoot() {
+        Intent intent = new Intent(this, GuestKahootVoting.class);
+        startActivity(intent);
     }
 
     private class ProgressCountdown extends CountDownTimer {
         ProgressBar bar;
         MutableLiveData<Boolean> isActive;
         long maxMillis;
+
+
 
         public ProgressCountdown(long currentMillis, long intervalMillis, long maxMillis, ProgressBar bar, MutableLiveData<Boolean> isActive) {
             super(currentMillis, intervalMillis);
