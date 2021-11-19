@@ -1,50 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GuestVoteActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="20dp">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/current_song_layout"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="#282365"
+        android:paddingHorizontal="20dp"
+        android:paddingBottom="20dp">
     <TextView
         android:id="@+id/label_now_playing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/label_now_playing"
-        android:textSize="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/label_song_title" />
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:paddingTop="20dp"/>
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imageViewGuestAlbumCover"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:layout_marginHorizontal="20dp"-->
+<!--        android:scaleType="fitXY"-->
+<!--        android:src="@drawable/clay_davis"-->
+<!--        android:adjustViewBounds="true"-->
+<!--        android:layout_marginTop="20dp"/>-->
 
     <TextView
         android:id="@+id/label_song_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="10dp"
+        android:text="SHIIEEHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"
+        android:textSize="16sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:singleLine="true"
+        android:scrollHorizontally="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit ="marquee_forever" />
+
+    <TextView
+        android:id="@+id/label_song_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Senator Clay Davis"
+        android:textSize="14sp"
+        android:paddingHorizontal="20dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:singleLine="true"
+        android:scrollHorizontally="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit ="marquee_forever" />
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/skip_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/current_song_layout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/progress_time_left"/>
+        app:layout_constraintEnd_toEndOf="parent">
+    <TextView
+        android:id="@+id/label_skip_song"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vote to skip the current song?"
+        android:textSize="23dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/progress_time_left"
+        android:gravity="center"
+        android:paddingBottom="20dp"/>
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progress_time_left"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="64dp"
-        android:paddingBottom="64dp"
-        app:trackThickness="28dp"
-        app:layout_constraintBottom_toTopOf="@id/button_skip" />
+    android:id="@+id/progress_time_left"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:paddingBottom="100dp"
+    app:trackThickness="28dp"
+    app:layout_constraintBottom_toTopOf="@id/button_skip"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleX="2"
-        android:scaleY="2"
+        android:scaleX="3"
+        android:scaleY="3"
         android:src="@drawable/ic_host_skip_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck"
+        app:layout_constraintTop_toBottomOf="@id/progress_time_left"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -54,6 +120,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_skip"
-        android:paddingTop="64dp" />
+        android:paddingTop="80dp"
+        android:textSize="16sp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

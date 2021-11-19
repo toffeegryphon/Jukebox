@@ -29,6 +29,9 @@
             android:name=".GuestSuggestionActivity"
             android:exported="false" />
         <activity
+            android:name=".GuestKahootVoting"
+            android:exported="false" />
+        <activity
             android:name=".HostCreationActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"
