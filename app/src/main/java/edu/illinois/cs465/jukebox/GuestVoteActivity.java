@@ -6,6 +6,7 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
@@ -63,6 +64,7 @@ public class GuestVoteActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK) {
                 int choice = data.getIntExtra("vote", 0);
                 buttonSkip.setEnabled(false);
+                Toast.makeText(this, "Vote submitted!", Toast.LENGTH_SHORT).show();
             }
         }
     }
