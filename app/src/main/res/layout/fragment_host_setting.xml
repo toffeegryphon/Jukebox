@@ -109,7 +109,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/label_suggestion_limit"
-                        android:textColor="?attr/colorOnPrimary" />
+                        android:textColor="?attr/colorOnPrimary"
+                        android:gravity="end"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </LinearLayout>
