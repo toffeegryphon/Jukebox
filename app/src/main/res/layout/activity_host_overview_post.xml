@@ -193,6 +193,7 @@
 
                 android:text="Most Skipped Artists"
                 android:textSize="20sp"
+                android:paddingBottom="10dp"
 
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
