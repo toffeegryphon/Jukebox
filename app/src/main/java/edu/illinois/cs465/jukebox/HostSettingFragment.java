@@ -111,6 +111,13 @@ public class HostSettingFragment extends SavableFragment {
                 editTimer.setText(String.valueOf(partyInfo.getSkipTimer()));
                 editLimit.setText(String.valueOf(partyInfo.getSuggestionLimit()));
                 switchAllow.setChecked(partyInfo.getAreSuggestionsAllowed());
+
+                if (getActivity().getClass() == HostCreationActivity.class) {
+                    editThreshold.setValue(20);
+                    editTimer.setText("20");
+                    switchAllow.setChecked(true);
+                    editLimit.setText("10");
+                }
             }
         });
 
