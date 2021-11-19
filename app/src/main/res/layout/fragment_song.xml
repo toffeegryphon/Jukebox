@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/fragment_song_cover"
             android:text="SHIIEEHH"
-            android:textSize="20sp"
+            android:textSize="17sp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"></TextView>
         <TextView
@@ -38,17 +38,18 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"></TextView>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/fragment_song_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:background="@drawable/trashcan"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:text="\u2014"
             android:textSize="20dp"
             android:gravity="center"
-            android:backgroundTint="@color/white"></Button>
+            android:backgroundTint="@color/white"></androidx.appcompat.widget.AppCompatButton>
     </RelativeLayout>
 
 </FrameLayout>

@@ -4,7 +4,7 @@
         <item name="startIconTint">?attr/colorOnPrimary</item>
         <item name="android:textColorHint">?attr/colorOnPrimary</item>
         <item name="boxStrokeColor">@color/focusable</item>
-        <item name="suffixTextColor">?attr/colorOnPrimary</item>
+        <item name="suffixTextColor">?attr/colorSecondaryVariant</item>
     </style>
 
     <style name="Header">
