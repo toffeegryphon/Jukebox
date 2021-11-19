@@ -56,7 +56,8 @@
                         android:valueFrom="0"
                         android:valueTo="100"
                         android:stepSize="1"
-                        app:tickVisible="false" />
+                        app:tickVisible="false"
+                        android:value="20"/>
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -72,7 +73,8 @@
                         android:layout_height="wrap_content"
                         android:textColor="?attr/colorOnPrimary"
                         android:gravity="end"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:text="30"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -110,7 +112,9 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/label_suggestion_limit"
                         android:textColor="?attr/colorOnPrimary"
-                        android:gravity="end"/>
+                        android:gravity="end"
+                        android:text="10"
+                        android:inputType="number"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </LinearLayout>

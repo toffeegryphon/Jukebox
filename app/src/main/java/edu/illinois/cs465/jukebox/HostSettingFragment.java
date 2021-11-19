@@ -1,7 +1,6 @@
 package edu.illinois.cs465.jukebox;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
@@ -106,6 +104,7 @@ public class HostSettingFragment extends SavableFragment {
     public void bindViewModel() {
         LiveData<PartyInfo> data = viewModel.getPartyInfo();
         data.observe(getViewLifecycleOwner(), new Observer<PartyInfo>() {
+
             @Override
             public void onChanged(PartyInfo partyInfo) {
                 editThreshold.setValue(partyInfo.getSkipThreshold());

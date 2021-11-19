@@ -151,7 +151,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/linear_layout_host_creation_date_time"
                     android:ems="10"
-                    android:hint="Description">
+                    android:hint="Description"
+                    app:startIconDrawable="@drawable/ic_host_creation_party_desc">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_text_desc"
@@ -160,19 +161,18 @@
                         android:gravity="start|top"
                         android:inputType="textMultiLine"
                         android:maxLines="1"
-                        android:paddingStart="52dp"
                         android:scrollbars="vertical"
                         android:textColor="@color/white" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="13dp"
-                    android:paddingTop="20dp"
-                    android:scaleType="fitStart"
-                    android:src="@drawable/ic_host_creation_party_desc" />
+<!--                <ImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:paddingLeft="13dp"-->
+<!--                    android:paddingTop="20dp"-->
+<!--                    android:scaleType="fitStart"-->
+<!--                    android:src="@drawable/ic_host_creation_party_desc" />-->
 
             </FrameLayout>
         </RelativeLayout>
