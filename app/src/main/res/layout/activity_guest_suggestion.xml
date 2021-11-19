@@ -62,14 +62,18 @@
                 android:inputType="textPersonName"
                 android:hint="Search"
                 app:startIconDrawable="@drawable/ic_search_icon"
+                app:startIconTint="@color/white"
+                app:endIconTint="@color/white"
                 app:endIconMode="clear_text"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:textColorHint="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edit_search_text_name"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
