@@ -305,7 +305,7 @@
                     android:id="@+id/textHostOverviewPostWorstSong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
+                    android:paddingTop="15dp"
                     android:text="@string/songcover_name7"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
@@ -313,6 +313,7 @@
                     android:scrollHorizontally="true"
                     android:ellipsize="marquee"
                     android:marqueeRepeatLimit ="marquee_forever"
+                    android:textSize="18sp"
                     />
 
                 <TextView
