@@ -12,6 +12,8 @@ import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
@@ -53,7 +55,13 @@ public class MainActivity extends AppCompatActivity {
                 hostCode = hostPreferences.getString(PartyInfo.PARTY_CODE, "");
                 db.collection("partyInfo").document(hostCode)
                         .get()
-                        .addOnSuccessListener(document -> buttonHost.setText(String.format("Continue Hosting %s", document.getString("username"))));
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot document) {
+                                buttonHost.setText("Continue Hosting");
+                                //TODO: Add auto fitting and do: buttonHost.setText(String.format("Continue Hosting %s", document.getString("username")));
+                            }
+                        });
                 break;
         }
 
