@@ -65,7 +65,8 @@
                 app:startIconTint="@color/white"
                 app:endIconTint="@color/white"
                 app:endIconMode="clear_text"
-                android:textColorHint="@color/white">
+                android:textColorHint="@color/white"
+                android:paddingBottom="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
