@@ -1,6 +1,9 @@
 package edu.illinois.cs465.jukebox;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.internal.TextWatcherAdapter;
 import com.google.android.material.slider.Slider;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
@@ -32,7 +36,9 @@ public class HostSettingFragment extends SavableFragment {
     private SwitchCompat switchAllow;
     private Button endPartyButton;
     private Slider editThreshold;
-    private TextView labelThreshold;
+    private TextView skipThreshold;
+    private TextView skipThresholdWarning;
+    private TextView skipTimerWarning;
 
     public HostSettingFragment() {
         // Required empty public constructor
@@ -65,9 +71,13 @@ public class HostSettingFragment extends SavableFragment {
         View view = inflater.inflate(R.layout.fragment_host_setting, container, false);
 
         editThreshold = view.findViewById(R.id.slider_skip_threshold);
-        labelThreshold = view.findViewById(R.id.label_skip_threshold);
-        labelThreshold.setText(getResources().getString(R.string.label_skip_threshold, (int) editThreshold.getValue()));
+        skipThreshold = view.findViewById(R.id.skip_threshold_number);
+        skipThreshold.setText(getResources().getString(R.string.skip_threshold_number, (int) editThreshold.getValue()));
+        skipThresholdWarning = view.findViewById(R.id.skip_threshold_warning_text);
+        skipThresholdWarning.setVisibility(View.GONE);
         editTimer = view.findViewById(R.id.edit_skip_timer);
+        skipTimerWarning = view.findViewById(R.id.skip_timer_warning_text);
+        skipTimerWarning.setVisibility(View.GONE);
         switchAllow = view.findViewById(R.id.switch_suggestion_allow);
         editLimit = view.findViewById(R.id.edit_suggestion_limit);
         endPartyButton = view.findViewById(R.id.buttonHostSettingsEndParty);
@@ -88,8 +98,49 @@ public class HostSettingFragment extends SavableFragment {
 
     private void initListeners() {
         editThreshold.addOnChangeListener((slider, value, fromUser) -> {
-            labelThreshold.setText(getResources().getString(R.string.label_skip_threshold, (int) value));
+            skipThreshold.setText(getResources().getString(R.string.skip_threshold_number, (int) value));
+            if ((int) value == 0) {
+                skipThresholdWarning.setVisibility(View.VISIBLE);
+                skipThresholdWarning.setText(getResources().getString(R.string.skip_threshold_warning_0));
+            }
+            else if ((int) value < 10) {
+                skipThresholdWarning.setVisibility(View.VISIBLE);
+                skipThresholdWarning.setText(getResources().getString(R.string.skip_threshold_warning_too_low, (int) value));
+            } else if ((int) value == 100) {
+                skipThresholdWarning.setVisibility(View.VISIBLE);
+                skipThresholdWarning.setText(getResources().getString(R.string.skip_threshold_warning_100));
+            } else if ((int) value > 50) {
+                skipThresholdWarning.setVisibility(View.VISIBLE);
+                skipThresholdWarning.setText(getResources().getString(R.string.skip_threshold_warning_too_high, (int) value));
+            } else {
+                skipThresholdWarning.setVisibility(View.GONE);
+            }
         });
+        editTimer.addTextChangedListener(new TextWatcher() {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void afterTextChanged(Editable editable) {
+                if (String.valueOf(editTimer.getText()).isEmpty()) {
+                    skipTimerWarning.setVisibility(View.GONE);
+                    return;
+                }
+
+                int value = Integer.parseInt(String.valueOf(editTimer.getText()));
+                if (value <= 0) {
+                    skipTimerWarning.setVisibility(View.VISIBLE);
+                    skipTimerWarning.setText(getResources().getString(R.string.skip_timer_warning_0));
+                } else if (value < 15) {
+                    skipTimerWarning.setVisibility(View.VISIBLE);
+                    skipTimerWarning.setText(getResources().getString(R.string.skip_timer_warning_too_low, value));
+                } else if (value > 60) {
+                    skipTimerWarning.setVisibility(View.VISIBLE);
+                    skipTimerWarning.setText(getResources().getString(R.string.skip_timer_warning_too_high, value));
+                } else {
+                    skipTimerWarning.setVisibility(View.GONE);
+                }
+            }
+        });
+
         endPartyButton.setOnClickListener(v -> endButtonClick(getActivity()));
     }
 

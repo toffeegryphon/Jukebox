@@ -2,6 +2,7 @@
 <resources>
     <color name="dark_blue">#13133E</color>
     <color name="purple_1">#B056F7</color>
+    <color name="purple_1_disabled">#39236a</color>
     <color name="purple_2">#8E49F1</color>
     <color name="indigo">#614EE5</color>
     <color name="spotify_green">#1DB954</color>
@@ -12,4 +13,6 @@
     <color name="darkgray">#202020</color>
     <color name="transparent">#00000000</color>
     <color name="black">#ff000000</color>
+    <color name="red">#bd3c4d</color>
+    <color name="purple_background_highlight">#282365</color>
 </resources>
