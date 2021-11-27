@@ -128,7 +128,7 @@ public class HostSettingFragment extends SavableFragment {
         {
             endPartyButton.setVisibility(View.VISIBLE);
 
-            int padding_in_dp = 116;
+            int padding_in_dp = 125;
             final float scale = getResources().getDisplayMetrics().density;
             int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
             songSuggestionsLayout.setPadding(0, 0, 0, padding_in_px);
@@ -193,7 +193,13 @@ public class HostSettingFragment extends SavableFragment {
     }
 
     public void save() {
-        viewModel.setHostSettingInfo((int) skipThresholdSlider.getValue(), Integer.parseInt(editTimer.getText().toString()), Integer.parseInt(editLimit.getText().toString()), switchAllow.isChecked());
+        int skip = (int) skipThresholdSlider.getValue();
+        int time = 0;
+        if (!editTimer.getText().toString().isEmpty()) { time = Integer.parseInt(editTimer.getText().toString()); }
+        int limit = 0;
+        if (!editLimit.getText().toString().isEmpty()) { limit = Integer.parseInt(editLimit.getText().toString()); }
+        boolean allow = switchAllow.isChecked();
+        viewModel.setHostSettingInfo(skip, time, limit, allow);
     }
 
     public void bindViewModel() {
@@ -207,7 +213,12 @@ public class HostSettingFragment extends SavableFragment {
                 editLimit.setText(String.valueOf(partyInfo.getSuggestionLimit()));
                 switchAllow.setChecked(partyInfo.getAreSuggestionsAllowed());
 
-                if (getActivity().getClass() == HostCreationActivity.class) {
+                // TODO: Should only run below on first time
+                if (getActivity().getClass() == HostCreationActivity.class
+                        && partyInfo.getSkipThreshold() == 0
+                        && partyInfo.getSkipTimer() == 0
+                        && partyInfo.getSuggestionLimit() == 0
+                        && partyInfo.getAreSuggestionsAllowed() == false) {
                     skipThresholdSlider.setValue(20);
                     editTimer.setText("20");
                     switchAllow.setChecked(true);

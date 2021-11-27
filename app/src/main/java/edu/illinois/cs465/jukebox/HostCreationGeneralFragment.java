@@ -2,13 +2,17 @@ package edu.illinois.cs465.jukebox;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
@@ -40,16 +44,27 @@ public class HostCreationGeneralFragment extends SavableFragment {
             R.id.text_input_layout_edit_text_location,
             R.id.text_input_layout_edit_text_desc
     };
+    private static final int[] FIELDS = {
+            R.id.edit_text_name,
+            R.id.edit_text_theme,
+            R.id.edit_text_date,
+            R.id.edit_text_time,
+            R.id.edit_text_location,
+            R.id.edit_text_desc
+    };
 
     private HostCreationViewModel viewModel;
 
     TextInputEditText editTextName, editTextTheme, editTextDate, editTextTime, editTextLoc, editTextDesc;
+    FrameLayout fragmentFrameLayout;
 
     private Calendar dateTime;
     DatePickerDialog.OnDateSetListener dateListener;
     DatePickerDialog dateDialog;
     TimePickerDialog.OnTimeSetListener timeListener;
     TimePickerDialog timeDialog;
+
+    private static boolean isReadOnlyDescExpanded = false;
 
     public HostCreationGeneralFragment() {
         // Required empty public constructor
@@ -117,6 +132,7 @@ public class HostCreationGeneralFragment extends SavableFragment {
         editTextTime = view.findViewById(R.id.edit_text_time);
         editTextLoc = view.findViewById(R.id.edit_text_location);
         editTextDesc = view.findViewById(R.id.edit_text_desc);
+        fragmentFrameLayout = view.findViewById(R.id.host_creation_frame_layout);
 
         initListeners(view);
 
@@ -128,6 +144,17 @@ public class HostCreationGeneralFragment extends SavableFragment {
                 editTextTime.setText(new SimpleDateFormat("h:mm aa").format(new Date(partyInfo.getDate())));
             }
         });
+
+        // Fix bottom padding for when "start party" button is visible
+        if(getActivity().getClass() == HostPartyOverviewBeforeActivity.class)
+        {
+            int padding_in_dp = 85;
+            final float scale = getResources().getDisplayMetrics().density;
+            int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+            fragmentFrameLayout.setPadding(0, 0, 0, padding_in_px);
+        } else {
+            fragmentFrameLayout.setPadding(0,0,0,0);
+        }
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -158,6 +185,7 @@ public class HostCreationGeneralFragment extends SavableFragment {
                 }
             }
         });
+
         editTextDate.setOnClickListener(v -> dateDialog.show());
 
         editTextTime.setOnClickListener(v -> timeDialog.show());
@@ -191,11 +219,35 @@ public class HostCreationGeneralFragment extends SavableFragment {
         });
     }
 
-    public void setEnabled(boolean enabled) {
-        TextInputLayout layout;
-        for (int id : LAYOUTS) {
-            layout = requireView().findViewById(id);
-            layout.setEnabled(enabled);
+    public void setFocusableFields(boolean enabled) {
+        TextInputEditText editText;
+        for (int id : FIELDS) {
+            editText = requireView().findViewById(id);
+
+            // Allow description to be expanded
+            if (id == R.id.edit_text_desc && !enabled) {
+                editTextDesc.setOnFocusChangeListener(null);
+                editTextDesc.setFocusable(false);
+                editTextDesc.setOnClickListener(view -> {
+                    if (!isReadOnlyDescExpanded) {
+                        editTextDesc.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                        editTextDesc.setMaxLines(100);
+                        editTextDesc.clearFocus();
+                        isReadOnlyDescExpanded = true;
+                    } else {
+                        editTextDesc.setMaxLines(1);
+                        editTextDesc.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_VARIATION_NORMAL);
+                        editTextDesc.clearFocus();
+                        isReadOnlyDescExpanded = false;
+                    }
+                });
+            } else {
+                editText.setFocusable(enabled);
+                editText.setClickable(enabled);
+                if (!enabled) {
+                    editText.setOnClickListener(null);
+                }
+            }
         }
     }
 }

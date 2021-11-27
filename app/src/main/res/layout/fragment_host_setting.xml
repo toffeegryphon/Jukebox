@@ -104,7 +104,9 @@
                         android:layout_height="wrap_content"
                         android:hint="Time given to skip"
                         app:suffixText="s"
-                        android:id="@+id/skip_timer_text_input_layout">
+                        android:id="@+id/skip_timer_text_input_layout"
+                        app:errorTextColor="@color/red"
+                        app:errorIconTint="@color/red">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_skip_timer"
@@ -168,7 +170,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/item_background_rounded"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    android:id="@+id/suggestion_limit_text_input_layout"
+                    app:errorTextColor="@color/red"
+                    app:errorIconTint="@color/red">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_suggestion_limit"

@@ -3,6 +3,9 @@ package edu.illinois.cs465.jukebox;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -13,6 +16,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +34,8 @@ public class HostCreationActivity extends AppCompatActivity {
 
     private Button buttonContinue;
     private List<Button> indicators;
+
+    TextInputLayout nameLayout, themeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +61,40 @@ public class HostCreationActivity extends AppCompatActivity {
             adapter.save(position);
 
             if (position + 1 < adapter.getCount()) {
-                stepsPager.setCurrentItem(position + 1);
+                // Validate fields
+                nameLayout = adapter.getItem(position).getView().findViewById(R.id.text_input_layout_edit_text_name);
+                themeLayout = adapter.getItem(position).getView().findViewById(R.id.text_input_layout_edit_text_theme);
+                //dateLayout = adapter.getItem(position).getView().findViewById(R.id.text_input_layout_edit_text_date);
+                //timeLayout = adapter.getItem(position).getView().findViewById(R.id.text_input_layout_edit_text_time);
+                //locLayout = adapter.getItem(position).getView().findViewById(R.id.text_input_layout_edit_text_location);
+                //descLayout = adapter.getItem(position).getView().findViewById(R.id.text_input_layout_edit_text_desc);
+
+                boolean validName = isValidField(nameLayout, "Enter a valid party name");
+                boolean validTheme = isValidField(themeLayout, "Enter a valid party theme");
+                //boolean validDate = isValidField(dateLayout, "Enter a party date");
+                //boolean validTime = isValidField(timeLayout, "Enter a party time");
+                //boolean validLoc = isValidField(locLayout, "Enter a party location");
+                //boolean validDesc = isValidField(descLayout, "Enter a party description");
+
+                if (validName && validTheme) {
+                    stepsPager.setCurrentItem(position + 1);
+                }
             } else {
-                viewModel.saveParty(getSharedPreferences("host", Context.MODE_PRIVATE));
-                String partyCode = Objects.requireNonNull(viewModel.getPartyInfo().getValue()).getPartyCode();
-                Intent intent = new Intent(HostCreationActivity.this, HostPartyOverviewBeforeActivity.class);
-                intent.putExtra(PartyInfo.PARTY_CODE, partyCode);
-                startActivity(intent);
-                Toast.makeText(this.getApplicationContext(), "Party created successfully!", Toast.LENGTH_SHORT).show();
+                // *** No need to validate since values default to 0 if empty ***
+                //skipTimerLayout = adapter.getItem(position).getView().findViewById(R.id.skip_timer_text_input_layout);
+                //suggestionLimitLayout = adapter.getItem(position).getView().findViewById(R.id.suggestion_limit_text_input_layout);
+
+                //boolean validSkipTimer = isValidField(skipTimerLayout, "Enter a valid time");
+                //boolean validSuggestionLimit = isValidField(suggestionLimitLayout, "Enter a valid suggestion limit");
+
+                //if (validSkipTimer && validSuggestionLimit) {
+                    viewModel.saveParty(getSharedPreferences("host", Context.MODE_PRIVATE));
+                    String partyCode = Objects.requireNonNull(viewModel.getPartyInfo().getValue()).getPartyCode();
+                    Intent intent = new Intent(HostCreationActivity.this, HostPartyOverviewBeforeActivity.class);
+                    intent.putExtra(PartyInfo.PARTY_CODE, partyCode);
+                    startActivity(intent);
+                    Toast.makeText(this.getApplicationContext(), "Party created successfully!", Toast.LENGTH_SHORT).show();
+                //}
             }
         });
 
@@ -85,6 +118,26 @@ public class HostCreationActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private boolean isValidField(TextInputLayout layout, String error_text) {
+        if (layout.getEditText().getText().toString().isEmpty()) {
+            layout.setErrorEnabled(true);
+            layout.setError(error_text);
+            layout.getEditText().addTextChangedListener(new TextWatcher() {
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+                public void afterTextChanged(Editable editable) {
+                    if (!layout.getEditText().getText().toString().isEmpty()) {
+                        layout.setErrorEnabled(false);
+                    }
+                }
+            });
+            return false;
+        } else {
+            layout.setErrorEnabled(false);
+            return true;
+        }
     }
 
     @Override
