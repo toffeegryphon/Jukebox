@@ -4,12 +4,12 @@
     <string name="button_guest_text">JOIN PARTY</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="header_skips_text">Skips</string>
-    <string name="label_skip_threshold">Votes needed to skip: %d%%</string>
+    <string name="header_skips_text">Song Skips</string>
+    <string name="label_skip_threshold">Percentage of votes needed to skip</string>
     <string name="label_skip_timer">Timer (s)</string>
     <string name="header_suggestions">Song Suggestions</string>
     <string name="label_suggestion_allow">Allow New</string>
-    <string name="label_suggestion_limit">Limit (number of songs)</string>
+    <string name="label_suggestion_limit">Max number of suggestions</string>
     <string name="button_continue">Continue</string>
     <string name="edit_text_name">Party Name</string>
     <string name="edit_text_theme">Party Theme</string>
@@ -35,5 +35,13 @@
     <string name="songcover_artist8">Ed Sheeran</string>
     <string name="songcover_artist9">456</string>
     <string name="songcover_artist10">Tom Waits</string>
+    <string name="skip_threshold_number">%d%%</string>
+    <string name="skip_threshold_warning_too_low">Warning: This only requires %d%% of guests to vote in order to skip which may lead to many song skips</string>
+    <string name="skip_threshold_warning_0">Warning: This only requires 1 guest to vote in order to skip which may lead to many song skips</string>
+    <string name="skip_threshold_warning_too_high">Warning: This requires %d%% of guests to vote in order to skip which may lead to very few song skips</string>
+    <string name="skip_threshold_warning_100">Warning: This requires every guest to vote in order to skip which may lead to very few song skips</string>
+    <string name="skip_timer_warning_too_low">Warning: This only gives guests %d seconds to vote to skip which may not be enough time</string>
+    <string name="skip_timer_warning_0">Warning: This will disable guests from being able to skip</string>
+    <string name="skip_timer_warning_too_high">Warning: This gives guests %d seconds to vote to skip which may lead to songs being skipped in the middle</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

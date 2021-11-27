@@ -61,10 +61,9 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
             android:paddingVertical="10dp"
-            app:cornerRadius="20dp"
-            android:textSize="26sp"
             android:text="@string/button_guest_text"
-            />
+            android:textSize="26sp"
+            app:cornerRadius="20dp" />
 
         <Button
             android:id="@+id/button_host"

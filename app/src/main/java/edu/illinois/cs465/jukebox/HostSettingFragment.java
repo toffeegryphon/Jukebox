@@ -1,11 +1,18 @@
 package edu.illinois.cs465.jukebox;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.SwitchCompat;
@@ -14,7 +21,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.internal.TextWatcherAdapter;
 import com.google.android.material.slider.Slider;
+
+import java.util.ArrayList;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
 import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
@@ -31,8 +41,18 @@ public class HostSettingFragment extends SavableFragment {
     private EditText editTimer, editLimit;
     private SwitchCompat switchAllow;
     private Button endPartyButton;
-    private Slider editThreshold;
-    private TextView labelThreshold;
+    private TextView skipThreshold;
+    private TextView skipThresholdWarning;
+    private TextView skipTimerWarning;
+    private LinearLayout songSuggestionsLayout;
+
+    private CustomSliderBar skipThresholdSlider;
+    private float totalSpan = 100;
+    private float firstOffSpan = 9;
+    private float purpleSpan = 41;
+    private float secondOffSpan = 50;
+    private ArrayList<SliderProgressItem> progressItemList;
+    private SliderProgressItem mProgressItem;
 
     public HostSettingFragment() {
         // Required empty public constructor
@@ -64,32 +84,107 @@ public class HostSettingFragment extends SavableFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_host_setting, container, false);
 
-        editThreshold = view.findViewById(R.id.slider_skip_threshold);
-        labelThreshold = view.findViewById(R.id.label_skip_threshold);
-        labelThreshold.setText(getResources().getString(R.string.label_skip_threshold, (int) editThreshold.getValue()));
+        // Setup custom slider
+        skipThresholdSlider = view.findViewById(R.id.slider_skip_threshold);
+        progressItemList = new ArrayList<SliderProgressItem>();
+
+        mProgressItem = new SliderProgressItem();
+        mProgressItem.progressItemPercentage = ((firstOffSpan / totalSpan) * 100);
+        mProgressItem.color = R.color.purple_1_not_active;
+        progressItemList.add(mProgressItem);
+
+        mProgressItem = new SliderProgressItem();
+        mProgressItem.progressItemPercentage = (purpleSpan / totalSpan) * 100;
+        mProgressItem.color = R.color.purple_1_active;
+        progressItemList.add(mProgressItem);
+
+        mProgressItem = new SliderProgressItem();
+        mProgressItem.progressItemPercentage = (secondOffSpan / totalSpan) * 100;
+        mProgressItem.color = R.color.purple_1_not_active;
+        progressItemList.add(mProgressItem);
+
+        skipThresholdSlider.initData(progressItemList);
+        skipThresholdSlider.invalidate();
+
+
+        skipThreshold = view.findViewById(R.id.skip_threshold_number);
+        skipThreshold.setText(getResources().getString(R.string.skip_threshold_number, (int) skipThresholdSlider.getValue()));
+        skipThresholdWarning = view.findViewById(R.id.skip_threshold_warning_text);
+        skipThresholdWarning.setVisibility(View.GONE);
         editTimer = view.findViewById(R.id.edit_skip_timer);
+        skipTimerWarning = view.findViewById(R.id.skip_timer_warning_text);
+        skipTimerWarning.setVisibility(View.GONE);
         switchAllow = view.findViewById(R.id.switch_suggestion_allow);
         editLimit = view.findViewById(R.id.edit_suggestion_limit);
         endPartyButton = view.findViewById(R.id.buttonHostSettingsEndParty);
+        songSuggestionsLayout = view.findViewById(R.id.linearLayoutHostSettingsSuggestions);
 
         bindViewModel();
 
         initListeners();
 
-        if(getActivity().getClass() == HostPartyOverviewDuringActivity.class) // If host settings is on the during party screen
+        // Fix bottom padding for when "end party" button is visible
+        if(getActivity().getClass() == HostPartyOverviewDuringActivity.class)
         {
             endPartyButton.setVisibility(View.VISIBLE);
+
+            int padding_in_dp = 125;
+            final float scale = getResources().getDisplayMetrics().density;
+            int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+            songSuggestionsLayout.setPadding(0, 0, 0, padding_in_px);
         } else {
             endPartyButton.setVisibility(View.GONE);
+            songSuggestionsLayout.setPadding(0,0,0,0);
         }
 
         return view;
     }
 
     private void initListeners() {
-        editThreshold.addOnChangeListener((slider, value, fromUser) -> {
-            labelThreshold.setText(getResources().getString(R.string.label_skip_threshold, (int) value));
+        skipThresholdSlider.addOnChangeListener((slider, value, fromUser) -> {
+                    skipThreshold.setText(getResources().getString(R.string.skip_threshold_number, (int) value));
+                    if ((int) value == 0) {
+                        skipThresholdWarning.setVisibility(View.VISIBLE);
+                        skipThresholdWarning.setText(getResources().getString(R.string.skip_threshold_warning_0));
+                    } else if ((int) value < 10) {
+                        skipThresholdWarning.setVisibility(View.VISIBLE);
+                        skipThresholdWarning.setText(getResources().getString(R.string.skip_threshold_warning_too_low, (int) value));
+                    } else if ((int) value == 100) {
+                        skipThresholdWarning.setVisibility(View.VISIBLE);
+                        skipThresholdWarning.setText(getResources().getString(R.string.skip_threshold_warning_100));
+                    } else if ((int) value > 50) {
+                        skipThresholdWarning.setVisibility(View.VISIBLE);
+                        skipThresholdWarning.setText(getResources().getString(R.string.skip_threshold_warning_too_high, (int) value));
+                    } else {
+                        skipThresholdWarning.setVisibility(View.GONE);
+                    }
+                });
+
+        editTimer.addTextChangedListener(new TextWatcher() {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void afterTextChanged(Editable editable) {
+                if (String.valueOf(editTimer.getText()).isEmpty()) {
+                    skipTimerWarning.setVisibility(View.GONE);
+                    return;
+                }
+
+                int value = Integer.parseInt(String.valueOf(editTimer.getText()));
+                if (value <= 0) {
+                    skipTimerWarning.setVisibility(View.VISIBLE);
+                    skipTimerWarning.setText(getResources().getString(R.string.skip_timer_warning_0));
+                } else if (value < 15) {
+                    skipTimerWarning.setVisibility(View.VISIBLE);
+                    skipTimerWarning.setText(getResources().getString(R.string.skip_timer_warning_too_low, value));
+                } else if (value > 60) {
+                    skipTimerWarning.setVisibility(View.VISIBLE);
+                    skipTimerWarning.setText(getResources().getString(R.string.skip_timer_warning_too_high, value));
+                } else {
+                    skipTimerWarning.setVisibility(View.GONE);
+                }
+            }
         });
+
         endPartyButton.setOnClickListener(v -> endButtonClick(getActivity()));
     }
 
@@ -98,7 +193,13 @@ public class HostSettingFragment extends SavableFragment {
     }
 
     public void save() {
-        viewModel.setHostSettingInfo((int) editThreshold.getValue(), Integer.parseInt(editTimer.getText().toString()), Integer.parseInt(editLimit.getText().toString()), switchAllow.isChecked());
+        int skip = (int) skipThresholdSlider.getValue();
+        int time = 0;
+        if (!editTimer.getText().toString().isEmpty()) { time = Integer.parseInt(editTimer.getText().toString()); }
+        int limit = 0;
+        if (!editLimit.getText().toString().isEmpty()) { limit = Integer.parseInt(editLimit.getText().toString()); }
+        boolean allow = switchAllow.isChecked();
+        viewModel.setHostSettingInfo(skip, time, limit, allow);
     }
 
     public void bindViewModel() {
@@ -107,19 +208,23 @@ public class HostSettingFragment extends SavableFragment {
 
             @Override
             public void onChanged(PartyInfo partyInfo) {
-                editThreshold.setValue(partyInfo.getSkipThreshold());
+                skipThresholdSlider.setValue(partyInfo.getSkipThreshold());
                 editTimer.setText(String.valueOf(partyInfo.getSkipTimer()));
                 editLimit.setText(String.valueOf(partyInfo.getSuggestionLimit()));
                 switchAllow.setChecked(partyInfo.getAreSuggestionsAllowed());
 
-                if (getActivity().getClass() == HostCreationActivity.class) {
-                    editThreshold.setValue(20);
+                // TODO: Should only run below on first time
+                if (getActivity().getClass() == HostCreationActivity.class
+                        && partyInfo.getSkipThreshold() == 0
+                        && partyInfo.getSkipTimer() == 0
+                        && partyInfo.getSuggestionLimit() == 0
+                        && partyInfo.getAreSuggestionsAllowed() == false) {
+                    skipThresholdSlider.setValue(20);
                     editTimer.setText("20");
                     switchAllow.setChecked(true);
                     editLimit.setText("10");
                 }
             }
         });
-
     }
 }

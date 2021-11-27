@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     tools:context=".HostSettingFragment"
-    android:paddingBottom="76dp" > <!-- bottomNavBar=56 + 20 -->
+    android:paddingBottom="20dp" >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="start"
-                android:layout_marginBottom="48dp"
+                android:layout_marginBottom="40dp"
                 android:id="@+id/linearLayoutHostSettingsSkips" >
 
                 <TextView
@@ -32,23 +32,44 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/header_skips_text"
-                    style="@style/Header" />
+                    android:textAppearance="@style/TextLarge"
+                    android:paddingBottom="20dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="bottom"
+                    android:background="@drawable/item_background_rounded"
+                    android:padding="10dp"
+                    android:layout_marginBottom="15dp"
                     android:id="@+id/linearLayoutHostSettingsSkipsPercent" >
 
-                    <TextView
-                        android:id="@+id/label_skip_threshold"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/label_skip_threshold" />
+                        android:layout_height="wrap_content">
 
-                    <com.google.android.material.slider.Slider
+                        <TextView
+                            android:id="@+id/label_skip_threshold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/label_skip_threshold"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/skip_threshold_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:gravity="center_vertical"
+                            android:paddingRight="10dp"
+                            android:text="@string/skip_threshold_number"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                    <edu.illinois.cs465.jukebox.CustomSliderBar
                         android:id="@+id/slider_skip_threshold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -57,25 +78,59 @@
                         android:valueTo="100"
                         android:stepSize="1"
                         app:tickVisible="false"
-                        android:value="20"/>
+                        android:value="20"
+                        app:trackColor="@color/transparent"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:id="@+id/skip_threshold_warning_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/skip_threshold_warning_too_low"
+                        android:textSize="13sp"
+                        android:textColor="@color/red"
+                        android:visibility="visible" />
                 </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Time Given to Skip"
+                    android:background="@drawable/item_background_rounded"
+                    android:padding="10dp">
 
-                    app:suffixText="s">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_skip_timer"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="?attr/colorOnPrimary"
-                        android:gravity="end"
-                        android:inputType="number"
-                        android:text="30"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:hint="Time given to skip"
+                        app:suffixText="s"
+                        android:id="@+id/skip_timer_text_input_layout"
+                        app:errorTextColor="@color/red"
+                        app:errorIconTint="@color/red">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_skip_timer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/colorOnPrimary"
+                            android:gravity="end"
+                            android:inputType="number"
+                            android:text="30"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/skip_timer_warning_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/skip_timer_warning_too_high"
+                        android:textSize="13sp"
+                        android:textColor="@color/red"
+                        android:paddingTop="15dp"
+                        android:visibility="visible"
+                        android:layout_below="@id/skip_timer_text_input_layout"/>
+
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -85,14 +140,15 @@
                 android:gravity="start"
                 app:layout_constraintTop_toBottomOf="@id/linearLayoutHostSettingsSkips"
                 android:id="@+id/linearLayoutHostSettingsSuggestions"
-                >
+                android:paddingBottom="116dp">
 
                 <TextView
                     android:id="@+id/header_suggestions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/header_suggestions"
-                    style="@style/Header" />
+                    android:textAppearance="@style/TextLarge"
+                    android:paddingBottom="20dp"/>
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switch_suggestion_allow"
@@ -100,11 +156,24 @@
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:textColor="?attr/colorOnPrimary"
-                    android:text="Allow New Suggestions" />
+                    android:text="Allow new suggestions"
+                    android:textSize="16sp"
+                    app:thumbTint="@color/fab"
+                    app:switchMinWidth="60dp"
+                    android:background="@drawable/item_background_rounded"
+                    android:paddingVertical="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="15dp"
+                    android:layout_marginBottom="15dp"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/item_background_rounded"
+                    android:padding="10dp"
+                    android:id="@+id/suggestion_limit_text_input_layout"
+                    app:errorTextColor="@color/red"
+                    app:errorIconTint="@color/red">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_suggestion_limit"
@@ -129,5 +198,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:visibility="visible"
-        android:id="@+id/buttonHostSettingsEndParty" />
+        android:id="@+id/buttonHostSettingsEndParty"
+        android:layout_marginBottom="56dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
