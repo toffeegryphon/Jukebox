@@ -69,7 +69,7 @@
 
                     </RelativeLayout>
 
-                    <com.google.android.material.slider.Slider
+                    <edu.illinois.cs465.jukebox.CustomSliderBar
                         android:id="@+id/slider_skip_threshold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -78,7 +78,9 @@
                         android:valueTo="100"
                         android:stepSize="1"
                         app:tickVisible="false"
-                        android:value="20" />
+                        android:value="20"
+                        app:trackColor="@color/transparent"
+                        android:layout_gravity="center" />
 
                     <TextView
                         android:id="@+id/skip_threshold_warning_text"
