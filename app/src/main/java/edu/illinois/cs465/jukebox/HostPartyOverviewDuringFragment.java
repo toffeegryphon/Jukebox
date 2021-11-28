@@ -1,5 +1,6 @@
 package edu.illinois.cs465.jukebox;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +10,20 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
+
+import edu.illinois.cs465.jukebox.model.PartyInfo;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HostPartyOverviewDuringFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class HostPartyOverviewDuringFragment extends Fragment {
+    private DocumentReference partyReference;
 
     View view;
     ImageView playPauseIcon;
@@ -60,6 +69,9 @@ public class HostPartyOverviewDuringFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        String partyCode = requireActivity().getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "AAAA");
+        partyReference = FirebaseFirestore.getInstance().collection("partyInfo").document(partyCode);
     }
 
     @Override
@@ -90,8 +102,21 @@ public class HostPartyOverviewDuringFragment extends Fragment {
         artistName = view.findViewById(R.id.textViewHostDuringPartyArtistName);
         artistName.setSelected(true);
 
+        updateSong();
+
         // TODO: Update progress bar and song time countdown for when music is playing
         // TODO: Make skip button actually skips the current song
         return view;
+    }
+
+    private void updateSong() {
+        partyReference.addSnapshotListener((value, error) -> {
+            if (value != null) {
+                String currentSong = value.getString("currentSong");
+                if (!currentSong.equals(songName.getText().toString())) {
+                    songName.setText(currentSong);
+                }
+            }
+        });
     }
 }
