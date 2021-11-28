@@ -43,5 +43,6 @@
     <string name="skip_timer_warning_too_low">Warning: This only gives guests %d seconds to vote to skip which may not be enough time</string>
     <string name="skip_timer_warning_0">Warning: This will disable guests from being able to skip</string>
     <string name="skip_timer_warning_too_high">Warning: This gives guests %d seconds to vote to skip which may lead to songs being skipped in the middle</string>
+    <string name="default_song_title">SHIIEEHHHHHHHHHHHHHHHHHHH</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

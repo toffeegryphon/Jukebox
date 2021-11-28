@@ -17,6 +17,8 @@ public class PartyInfo {
 
     private boolean hasStarted = false;
 
+    private String currentSong;
+
     public static final String PARTY_CODE = "partyCode";
     public static final String HOST_MODE = "hostMode";
     public static final int HOST_DEFAULT = 0;
@@ -110,4 +112,8 @@ public class PartyInfo {
     public void setHasStarted(boolean hasStarted) {
         this.hasStarted = hasStarted;
     }
+
+    public String getCurrentSong() { return currentSong; }
+
+    public void setCurrentSong(String currentSong) { this.currentSong = currentSong; }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,13 +18,17 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
 import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
 
 public class HostPartyOverviewDuringActivity extends AppCompatActivity {
     private FirebaseFirestore db;
+    private DocumentReference partyReference;
     private HostCreationViewModel creationViewModel;
 
     @Override
@@ -39,8 +44,8 @@ public class HostPartyOverviewDuringActivity extends AppCompatActivity {
             creationViewModel = new ViewModelProvider(this).get(HostCreationViewModel.class);
             creationViewModel.init(partyCode);
 
-            db.collection("partyInfo").document(partyCode)
-                    .update("hasStarted", true)
+            partyReference = db.collection("partyInfo").document(partyCode);
+            partyReference.update("hasStarted", true)
                     .addOnSuccessListener(unused -> Log.d("TESTING", "STARTED!"))
                     .addOnFailureListener(e -> Log.d("TESTING", e.getMessage()));
 
@@ -48,6 +53,8 @@ public class HostPartyOverviewDuringActivity extends AppCompatActivity {
                     .putInt(PartyInfo.HOST_MODE, PartyInfo.HOST_STARTED)
                     .apply();
         }
+
+        updateSong();
 
         // Setup bottom navigation bar
         BottomNavigationView navView = findViewById(R.id.bottomNavigationViewDuringParty);
@@ -66,5 +73,15 @@ public class HostPartyOverviewDuringActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    private void updateSong() {
+        String songTitle = getString(R.string.default_song_title);
+
+        // TODO Move these to onStart
+        // TextView viewSongTitle = findViewById(R.id.textViewHostDuringPartySongName);
+        // viewSongTitle.setText(songTitle);
+        Objects.requireNonNull(creationViewModel.getPartyInfo().getValue()).setCurrentSong(songTitle);
+        partyReference.update("currentSong", songTitle);
     }
 }
