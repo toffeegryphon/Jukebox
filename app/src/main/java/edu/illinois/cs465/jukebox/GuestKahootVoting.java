@@ -18,7 +18,7 @@ import androidx.lifecycle.Observer;
 public class GuestKahootVoting extends AppCompatActivity {
     ProgressBar progressTimeLeft;
     MutableLiveData<Boolean> isActive;
-    GuestKahootVoting.ProgressCountdown countdown;
+    ProgressCountdown countdown;
 
     ImageButton kahootOne;
     ImageButton kahootTwo;
@@ -54,7 +54,7 @@ public class GuestKahootVoting extends AppCompatActivity {
             }
         });
 
-        countdown = new GuestKahootVoting.ProgressCountdown(5000, 30, 5000, progressTimeLeft, isActive);
+        countdown = new ProgressCountdown(5000, 30, 5000, progressTimeLeft, isActive);
         countdown.start();
 
         kahootOne.setOnClickListener(v-> openGuestDuring(1));
@@ -68,35 +68,5 @@ public class GuestKahootVoting extends AppCompatActivity {
         intent.putExtra("vote", choice);
         setResult(RESULT_OK, intent);
         finish();
-    }
-
-    private class ProgressCountdown extends CountDownTimer {
-        ProgressBar bar;
-        MutableLiveData<Boolean> isActive;
-        long maxMillis;
-
-
-
-        public ProgressCountdown(long currentMillis, long intervalMillis, long maxMillis, ProgressBar bar, MutableLiveData<Boolean> isActive) {
-            super(currentMillis, intervalMillis);
-
-            this.isActive = isActive;
-            this.isActive.setValue(true);
-
-            this.maxMillis = maxMillis;
-            this.bar = bar;
-            this.bar.setProgress((int) (currentMillis * bar.getMax() / maxMillis));
-        }
-
-        @Override
-        public void onTick(long millisUntilFinished) {
-            bar.setProgress((int) (millisUntilFinished * bar.getMax() / maxMillis));
-        }
-
-        @Override
-        public void onFinish() {
-            bar.setProgress(0);
-            isActive.setValue(false);
-        }
     }
 }
