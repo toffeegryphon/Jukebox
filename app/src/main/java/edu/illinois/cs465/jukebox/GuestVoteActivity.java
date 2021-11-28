@@ -62,9 +62,17 @@ public class GuestVoteActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
-                int choice = data.getIntExtra("vote", 0);
                 buttonSkip.setEnabled(false);
-                Toast.makeText(this, "Vote submitted!", Toast.LENGTH_SHORT).show();
+                int choice = data.getIntExtra("vote", 0);
+                switch (choice) {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        Toast.makeText(this, "Vote submitted!", Toast.LENGTH_SHORT).show();
+                    default:
+                        Toast.makeText(this, "Time ran out, no vote made.", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
