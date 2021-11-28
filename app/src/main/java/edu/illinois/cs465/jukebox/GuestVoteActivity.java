@@ -45,16 +45,12 @@ public class GuestVoteActivity extends AppCompatActivity {
         countdown.start();
 
         //temporary
-        buttonSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openKahoot();
-            }
-        });
+        buttonSkip.setOnClickListener(view -> openKahoot());
     }
 
     public void openKahoot() {
         Intent intent = new Intent(this, GuestKahootVoting.class);
+        intent.putExtra(ProgressCountdown.REMAINING_MILLIS, countdown.getRemainingMillis());
         startActivityForResult(intent, 1);
     }
 

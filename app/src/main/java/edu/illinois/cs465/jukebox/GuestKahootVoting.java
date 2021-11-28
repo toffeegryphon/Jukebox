@@ -30,6 +30,11 @@ public class GuestKahootVoting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_voting_kahoot);
 
+        long currentMillis = 5000;
+        if (getIntent().hasExtra(ProgressCountdown.REMAINING_MILLIS)) {
+            currentMillis = getIntent().getLongExtra(ProgressCountdown.REMAINING_MILLIS, 5000);
+        }
+
         progressTimeLeft = findViewById(R.id.time_skip);
         kahootOne = findViewById(R.id.one_kahoot);
         kahootTwo = findViewById(R.id.two_kahoot);
@@ -54,7 +59,7 @@ public class GuestKahootVoting extends AppCompatActivity {
             }
         });
 
-        countdown = new ProgressCountdown(5000, 30, 5000, progressTimeLeft, isActive);
+        countdown = new ProgressCountdown(currentMillis, 30, 5000, progressTimeLeft, isActive);
         countdown.start();
 
         kahootOne.setOnClickListener(v-> openGuestDuring(1));
