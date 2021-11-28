@@ -88,6 +88,7 @@ public class GuestVoteActivity extends AppCompatActivity {
                     case 3:
                     case 4:
                         Toast.makeText(this, "Vote submitted!", Toast.LENGTH_SHORT).show();
+                        break;
                     default:
                         Toast.makeText(this, "Time ran out, no vote made.", Toast.LENGTH_SHORT).show();
                 }
