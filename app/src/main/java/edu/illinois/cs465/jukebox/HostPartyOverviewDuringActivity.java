@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -19,9 +20,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
+import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
 
 public class HostPartyOverviewDuringActivity extends AppCompatActivity {
     private FirebaseFirestore db;
+    private HostCreationViewModel creationViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +35,15 @@ public class HostPartyOverviewDuringActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra(PartyInfo.PARTY_CODE)) {
             String partyCode = getIntent().getStringExtra(PartyInfo.PARTY_CODE);
+
+            creationViewModel = new ViewModelProvider(this).get(HostCreationViewModel.class);
+            creationViewModel.init(partyCode);
+
             db.collection("partyInfo").document(partyCode)
                     .update("hasStarted", true)
                     .addOnSuccessListener(unused -> Log.d("TESTING", "STARTED!"))
                     .addOnFailureListener(e -> Log.d("TESTING", e.getMessage()));
+
             getSharedPreferences("host", Context.MODE_PRIVATE).edit()
                     .putInt(PartyInfo.HOST_MODE, PartyInfo.HOST_STARTED)
                     .apply();
