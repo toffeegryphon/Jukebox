@@ -1,5 +1,6 @@
 package edu.illinois.cs465.jukebox;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -8,10 +9,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import edu.illinois.cs465.jukebox.model.PartyInfo;
 
 public class GuestVoteActivity extends AppCompatActivity {
     ProgressBar progressTimeLeft;
@@ -21,6 +30,8 @@ public class GuestVoteActivity extends AppCompatActivity {
 
     TextView songName;
     TextView artistName;
+
+    private DocumentReference partyReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +44,17 @@ public class GuestVoteActivity extends AppCompatActivity {
 
         songName = findViewById(R.id.label_song_title);
         songName.setSelected(true);
+
+        String partyCode = getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "AAAA");
+        partyReference = FirebaseFirestore.getInstance().collection("partyInfo").document(partyCode);
+        partyReference.addSnapshotListener((value, error) -> {
+            if (value != null) {
+                String currentSong = value.getString("currentSong");
+                if (!currentSong.equals(songName.getText().toString())) {
+                    songName.setText(currentSong);
+                }
+            }
+        });
 
         artistName = findViewById(R.id.label_song_artist);
         artistName.setSelected(true);
