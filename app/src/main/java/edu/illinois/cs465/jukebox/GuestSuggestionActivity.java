@@ -32,20 +32,27 @@ public class GuestSuggestionActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        for (int i = 0; i < 10; i++) {
-            addGuestSuggestionListItem(R.drawable.ic_launcher_background, "Song " + i, "Artist " + i);
-        }
+        addGuestSuggestionListItem(R.drawable.songcover_onandon, R.string.songcover_name1, R.string.songcover_artist1, R.string.songcover_url1);
+        addGuestSuggestionListItem(R.drawable.songcover_heroestonight, R.string.songcover_name2, R.string.songcover_artist2, R.string.songcover_url2);
+        addGuestSuggestionListItem(R.drawable.songcover_invincible, R.string.songcover_name3, R.string.songcover_artist3, R.string.songcover_url3);
+        addGuestSuggestionListItem(R.drawable.songcover_myheart, R.string.songcover_name4, R.string.songcover_artist4, R.string.songcover_url4);
+        addGuestSuggestionListItem(R.drawable.songcover_blank, R.string.songcover_name5, R.string.songcover_artist5, R.string.songcover_url5);
+        addGuestSuggestionListItem(R.drawable.songcover_symbolism, R.string.songcover_name6, R.string.songcover_artist6, R.string.songcover_url6);
+        addGuestSuggestionListItem(R.drawable.songcover_whywelose, R.string.songcover_name7, R.string.songcover_artist7, R.string.songcover_url7);
+        addGuestSuggestionListItem(R.drawable.songcover_cradles, R.string.songcover_name8, R.string.songcover_artist8, R.string.songcover_url8);
+        addGuestSuggestionListItem(R.drawable.songcover_shine, R.string.songcover_name9, R.string.songcover_artist9, R.string.songcover_url9);
+        addGuestSuggestionListItem(R.drawable.songcover_invisible, R.string.songcover_name10, R.string.songcover_artist10, R.string.songcover_url10);
 
         submitButton = findViewById(R.id.guest_suggestion_submit_button);
         submitButton.setOnClickListener(v -> Toast.makeText(this.getApplicationContext(), "Submitted song suggestions!", Toast.LENGTH_SHORT).show());
     }
 
-    public void addGuestSuggestionListItem(int image, String song_name, String artist) {
-        addGuestSuggestionListItem(image, song_name, artist, new Button(this));
+    public void addGuestSuggestionListItem(int image, int song_name, int artist, int url) {
+        addGuestSuggestionListItem(image, song_name, artist, url, new Button(this));
     }
 
-    public void addGuestSuggestionListItem(int image, String song_name, String artist, Button button) {
-        EntryItem item = new EntryItem(image, song_name, artist, button);
+    public void addGuestSuggestionListItem(int image, int song_name, int artist, int url, Button button) {
+        EntryItem item = new EntryItem(image, song_name, artist, url, button);
         entryList.add(item);
     }
 }

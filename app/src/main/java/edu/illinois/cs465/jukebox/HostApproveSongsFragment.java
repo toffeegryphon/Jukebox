@@ -46,9 +46,16 @@ public class HostApproveSongsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        for (int i = 0; i < 10; i++) {
-            addHostApprovalListItem(R.drawable.ic_launcher_background, "Song " + i, "Artist " + i);
-        }
+        addHostApprovalListItem(R.drawable.songcover_onandon, R.string.songcover_name1, R.string.songcover_artist1, R.string.songcover_url1);
+        addHostApprovalListItem(R.drawable.songcover_heroestonight, R.string.songcover_name2, R.string.songcover_artist2, R.string.songcover_url2);
+        addHostApprovalListItem(R.drawable.songcover_invincible, R.string.songcover_name3, R.string.songcover_artist3, R.string.songcover_url3);
+        addHostApprovalListItem(R.drawable.songcover_myheart, R.string.songcover_name4, R.string.songcover_artist4, R.string.songcover_url4);
+        addHostApprovalListItem(R.drawable.songcover_blank, R.string.songcover_name5, R.string.songcover_artist5, R.string.songcover_url5);
+        addHostApprovalListItem(R.drawable.songcover_symbolism, R.string.songcover_name6, R.string.songcover_artist6, R.string.songcover_url6);
+        addHostApprovalListItem(R.drawable.songcover_whywelose, R.string.songcover_name7, R.string.songcover_artist7, R.string.songcover_url7);
+        addHostApprovalListItem(R.drawable.songcover_cradles, R.string.songcover_name8, R.string.songcover_artist8, R.string.songcover_url8);
+        addHostApprovalListItem(R.drawable.songcover_shine, R.string.songcover_name9, R.string.songcover_artist9, R.string.songcover_url9);
+        addHostApprovalListItem(R.drawable.songcover_invisible, R.string.songcover_name10, R.string.songcover_artist10, R.string.songcover_url10);
 
         approveButton = view.findViewById(R.id.host_approve_button);
         approveButton.setOnClickListener(v -> Toast.makeText(getActivity(), "Approved song suggestions!", Toast.LENGTH_SHORT).show());
@@ -60,12 +67,12 @@ public class HostApproveSongsFragment extends Fragment {
         return view;
     }
 
-    public void addHostApprovalListItem(int image, String song_name, String artist) {
-        addHostApprovalListItem(image, song_name, artist, new Button(getActivity()));
+    public void addHostApprovalListItem(int image, int song_name, int artist, int url) {
+        addHostApprovalListItem(image, song_name, artist, url, new Button(getActivity()));
     }
 
-    public void addHostApprovalListItem(int image, String song_name, String artist, Button button) {
-        EntryItem item = new EntryItem(image, song_name, artist, button);
+    public void addHostApprovalListItem(int image, int song_name, int artist, int url, Button button) {
+        EntryItem item = new EntryItem(image, song_name, artist, url, button);
         entryList.add(item);
     }
 }

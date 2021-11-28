@@ -19,12 +19,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private Context mContext;
     ArrayList<EntryItem> data_entry_list;
-    List<SongModel> data;
 
     public RecyclerViewAdapter(Context mContext, ArrayList<EntryItem> entryList) {
         this.mContext = mContext;
         this.data_entry_list = entryList;
-        this.data = new SongDataSource().list;
     }
 
     @NonNull
@@ -37,7 +35,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SongModel entry = data.get(position);
+        EntryItem entry = data_entry_list.get(position);
         holder.image.setImageResource(entry.image);
         holder.song.setText(entry.name);
         holder.artist.setText(entry.artist);
@@ -46,7 +44,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
                 int _pos = holder.getAdapterPosition();
-                data.remove(_pos);
                 data_entry_list.remove(_pos);
                 notifyItemRemoved(_pos);
                 notifyItemRangeChanged(_pos, data_entry_list.size());

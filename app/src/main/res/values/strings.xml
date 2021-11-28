@@ -15,26 +15,36 @@
     <string name="edit_text_theme">Party Theme</string>
     <string name="label_now_playing">Now Playing</string>
     <string name="label_vote_to_skip">Vote to Skip</string>
-    <string name="songcover_name1">Boku no Sensou</string>
-    <string name="songcover_name2">As long as you love me</string>
-    <string name="songcover_name3">Spin On</string>
-    <string name="songcover_name4">Edamame</string>
-    <string name="songcover_name5">Enemy</string>
-    <string name="songcover_name6">The BADDEST</string>
-    <string name="songcover_name7">Nonstop</string>
-    <string name="songcover_name8">Shivers</string>
-    <string name="songcover_name9">Squid Game</string>
-    <string name="songcover_name10">Way Down in the Hole</string>
-    <string name="songcover_artist1">Eren Jaeger</string>
-    <string name="songcover_artist2">Backstreet Boys</string>
-    <string name="songcover_artist3">Flusha</string>
-    <string name="songcover_artist4">bbno$ &amp; Rich Brian</string>
-    <string name="songcover_artist5">Imagine Dragons &amp; LOL</string>
-    <string name="songcover_artist6">K/DA</string>
-    <string name="songcover_artist7">Drake</string>
-    <string name="songcover_artist8">Ed Sheeran</string>
-    <string name="songcover_artist9">456</string>
-    <string name="songcover_artist10">Tom Waits</string>
+    <string name="songcover_name1">On &amp; On</string>
+    <string name="songcover_name2">Heroes Tonight</string>
+    <string name="songcover_name3">Invincible</string>
+    <string name="songcover_name4">My Heart</string>
+    <string name="songcover_name5">Blank</string>
+    <string name="songcover_name6">Symbolism</string>
+    <string name="songcover_name7">Why We Lose</string>
+    <string name="songcover_name8">Cradles</string>
+    <string name="songcover_name9">Shine</string>
+    <string name="songcover_name10">Invisible</string>
+    <string name="songcover_artist1">Cartoon, Daniel Levi</string>
+    <string name="songcover_artist2">Janji, Johnning</string>
+    <string name="songcover_artist3">DEAF KEV</string>
+    <string name="songcover_artist4">Different Heaven, EH!DE</string>
+    <string name="songcover_artist5">Disfigure</string>
+    <string name="songcover_artist6">Electro-Light</string>
+    <string name="songcover_artist7">Cartoon, Coleman Trapp</string>
+    <string name="songcover_artist8">Sub Urban</string>
+    <string name="songcover_artist9">Spektrem</string>
+    <string name="songcover_artist10">Julius Dreisig, Zeus X Crona</string>
+    <string name="songcover_url1">https://www.dropbox.com/s/5f1l6seztxvq373/Cartoon%20-%20On%20_%20On%20%28feat.%20Daniel%20Levi%29%20_NCS%20Release_.mp3?dl=1</string>
+    <string name="songcover_url2">https://www.dropbox.com/s/drg346o7itlc2z8/Janji%20-%20Heroes%20Tonight%20%28feat.%20Johnning%29%20_NCS%20Release_.mp3?dl=1</string>
+    <string name="songcover_url3">https://www.dropbox.com/s/ja78o8y5lbmuve7/DEAF%20KEV%20-%20Invincible%20_NCS%20Release_.mp3?dl=1</string>
+    <string name="songcover_url4">https://www.dropbox.com/s/uv6xwz2hrfb02q8/Different%20Heaven%20_%20EH%20DE%20-%20My%20Heart%20_NCS%20Release_.mp3?dl=1</string>
+    <string name="songcover_url5">https://www.dropbox.com/s/by9a041qc3z8wq9/Disfigure%20-%20Blank%20_NCS%20Release_.mp3?dl=1</string>
+    <string name="songcover_url6">https://www.dropbox.com/s/2giv46b72vlqtl9/Electro-Light%20-%20Symbolism%20_NCS%20Release_.mp3?dl=1</string>
+    <string name="songcover_url7">https://www.dropbox.com/s/t5sgl6fz11t5bpv/Cartoon%20-%20Why%20We%20Lose%20%28feat.%20Coleman%20Trapp%29%20_NCS%20Release_.mp3?dl=1</string>
+    <string name="songcover_url8">https://www.dropbox.com/s/u0q0qhca42m01v1/Sub%20Urban%20-%20Cradles%20%5BNCS%20Release%5D.mp3?dl=1</string>
+    <string name="songcover_url9">https://www.dropbox.com/s/hqnr4t994hk5bpt/Spektrem%20-%20Shine%20_NCS%20Release_.mp3?dl=1</string>
+    <string name="songcover_url10">https://www.dropbox.com/s/i9cuhhgeq1x5u9c/Julius%20Dreisig%20%26%20Zeus%20X%20Crona%20-%20Invisible.mp3?dl=1</string>
     <string name="skip_threshold_number">%d%%</string>
     <string name="skip_threshold_warning_too_low">Warning: This only requires %d%% of guests to vote in order to skip which may lead to many song skips</string>
     <string name="skip_threshold_warning_0">Warning: This only requires 1 guest to vote in order to skip which may lead to many song skips</string>

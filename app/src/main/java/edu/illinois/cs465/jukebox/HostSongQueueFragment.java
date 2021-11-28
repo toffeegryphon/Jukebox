@@ -45,9 +45,16 @@ public class HostSongQueueFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        for (int i = 0; i < 10; i++) {
-            addHostQueueListItem(R.drawable.ic_launcher_background, "Song " + i, "Artist " + i);
-        }
+        addHostQueueListItem(R.drawable.songcover_onandon, R.string.songcover_name1, R.string.songcover_artist1, R.string.songcover_url1);
+        addHostQueueListItem(R.drawable.songcover_heroestonight, R.string.songcover_name2, R.string.songcover_artist2, R.string.songcover_url2);
+        addHostQueueListItem(R.drawable.songcover_invincible, R.string.songcover_name3, R.string.songcover_artist3, R.string.songcover_url3);
+        addHostQueueListItem(R.drawable.songcover_myheart, R.string.songcover_name4, R.string.songcover_artist4, R.string.songcover_url4);
+        addHostQueueListItem(R.drawable.songcover_blank, R.string.songcover_name5, R.string.songcover_artist5, R.string.songcover_url5);
+        addHostQueueListItem(R.drawable.songcover_symbolism, R.string.songcover_name6, R.string.songcover_artist6, R.string.songcover_url6);
+        addHostQueueListItem(R.drawable.songcover_whywelose, R.string.songcover_name7, R.string.songcover_artist7, R.string.songcover_url7);
+        addHostQueueListItem(R.drawable.songcover_cradles, R.string.songcover_name8, R.string.songcover_artist8, R.string.songcover_url8);
+        addHostQueueListItem(R.drawable.songcover_shine, R.string.songcover_name9, R.string.songcover_artist9, R.string.songcover_url9);
+        addHostQueueListItem(R.drawable.songcover_invisible, R.string.songcover_name10, R.string.songcover_artist10, R.string.songcover_url10);
 
         queueCount = view.findViewById(R.id.host_queue_song_count);
         queueCount.setText(String.valueOf(entryList.size()));
@@ -55,12 +62,12 @@ public class HostSongQueueFragment extends Fragment {
         return view;
     }
 
-    public void addHostQueueListItem(int image, String song_name, String artist) {
-        addHostQueueListItem(image, song_name, artist, new Button(getActivity()));
+    public void addHostQueueListItem(int image, int song_name, int artist, int url) {
+        addHostQueueListItem(image, song_name, artist, url, new Button(getActivity()));
     }
 
-    public void addHostQueueListItem(int image, String song_name, String artist, Button button) {
-        EntryItem item = new EntryItem(image, song_name, artist, button);
+    public void addHostQueueListItem(int image, int song_name, int artist, int url, Button button) {
+        EntryItem item = new EntryItem(image, song_name, artist, url, button);
         entryList.add(item);
     }
 }
