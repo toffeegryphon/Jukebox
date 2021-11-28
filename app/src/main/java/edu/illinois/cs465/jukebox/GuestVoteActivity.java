@@ -52,6 +52,7 @@ public class GuestVoteActivity extends AppCompatActivity {
                 String currentSong = value.getString("currentSong");
                 if (!currentSong.equals(songName.getText().toString())) {
                     songName.setText(currentSong);
+                    startCountdown();
                 }
             }
         });
@@ -63,8 +64,7 @@ public class GuestVoteActivity extends AppCompatActivity {
         isActive = new MutableLiveData<>();
         isActive.observe(this, isEnabled -> buttonSkip.setEnabled(isEnabled));
 
-        countdown = new ProgressCountdown(5000, 30, 5000, progressTimeLeft, isActive);
-        countdown.start();
+        startCountdown();
 
         //temporary
         buttonSkip.setOnClickListener(view -> openKahoot());
@@ -94,5 +94,14 @@ public class GuestVoteActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private void startCountdown() {
+        if (countdown != null) {
+            countdown.cancel();
+        }
+        isActive.setValue(true);
+        countdown = new ProgressCountdown(5000, 30, 5000, progressTimeLeft, isActive);
+        countdown.start();
     }
 }
