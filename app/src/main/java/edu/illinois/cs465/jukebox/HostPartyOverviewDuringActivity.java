@@ -3,9 +3,13 @@ package edu.illinois.cs465.jukebox;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,13 +21,20 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.util.Objects;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
 import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
 
 public class HostPartyOverviewDuringActivity extends AppCompatActivity {
     private FirebaseFirestore db;
+    private DocumentReference partyReference;
     private HostCreationViewModel creationViewModel;
 
     @Override
@@ -39,8 +50,8 @@ public class HostPartyOverviewDuringActivity extends AppCompatActivity {
             creationViewModel = new ViewModelProvider(this).get(HostCreationViewModel.class);
             creationViewModel.init(partyCode);
 
-            db.collection("partyInfo").document(partyCode)
-                    .update("hasStarted", true)
+            partyReference = db.collection("partyInfo").document(partyCode);
+            partyReference.update("hasStarted", true)
                     .addOnSuccessListener(unused -> Log.d("TESTING", "STARTED!"))
                     .addOnFailureListener(e -> Log.d("TESTING", e.getMessage()));
 

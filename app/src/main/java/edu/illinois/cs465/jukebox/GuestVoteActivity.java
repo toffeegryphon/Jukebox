@@ -1,5 +1,6 @@
 package edu.illinois.cs465.jukebox;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -8,10 +9,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import edu.illinois.cs465.jukebox.model.PartyInfo;
 
 public class GuestVoteActivity extends AppCompatActivity {
     ProgressBar progressTimeLeft;
@@ -21,6 +30,8 @@ public class GuestVoteActivity extends AppCompatActivity {
 
     TextView songName;
     TextView artistName;
+
+    private DocumentReference partyReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +45,18 @@ public class GuestVoteActivity extends AppCompatActivity {
         songName = findViewById(R.id.label_song_title);
         songName.setSelected(true);
 
+        String partyCode = getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "AAAA");
+        partyReference = FirebaseFirestore.getInstance().collection("partyInfo").document(partyCode);
+        partyReference.addSnapshotListener((value, error) -> {
+            if (value != null) {
+                String currentSong = value.getString("currentSong");
+                if (!currentSong.equals(songName.getText().toString())) {
+                    songName.setText(currentSong);
+                    startCountdown();
+                }
+            }
+        });
+
         artistName = findViewById(R.id.label_song_artist);
         artistName.setSelected(true);
 
@@ -41,20 +64,15 @@ public class GuestVoteActivity extends AppCompatActivity {
         isActive = new MutableLiveData<>();
         isActive.observe(this, isEnabled -> buttonSkip.setEnabled(isEnabled));
 
-        countdown = new ProgressCountdown(5000, 30, 5000, progressTimeLeft, isActive);
-        countdown.start();
+        startCountdown();
 
         //temporary
-        buttonSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openKahoot();
-            }
-        });
+        buttonSkip.setOnClickListener(view -> openKahoot());
     }
 
     public void openKahoot() {
         Intent intent = new Intent(this, GuestKahootVoting.class);
+        intent.putExtra(ProgressCountdown.REMAINING_MILLIS, countdown.getRemainingMillis());
         startActivityForResult(intent, 1);
     }
 
@@ -62,40 +80,28 @@ public class GuestVoteActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
-                int choice = data.getIntExtra("vote", 0);
                 buttonSkip.setEnabled(false);
-                Toast.makeText(this, "Vote submitted!", Toast.LENGTH_SHORT).show();
+                int choice = data.getIntExtra("vote", 0);
+                switch (choice) {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        Toast.makeText(this, "Vote submitted!", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(this, "Time ran out, no vote made.", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
 
-    private class ProgressCountdown extends CountDownTimer {
-        ProgressBar bar;
-        MutableLiveData<Boolean> isActive;
-        long maxMillis;
-
-
-
-        public ProgressCountdown(long currentMillis, long intervalMillis, long maxMillis, ProgressBar bar, MutableLiveData<Boolean> isActive) {
-            super(currentMillis, intervalMillis);
-
-            this.isActive = isActive;
-            this.isActive.setValue(true);
-
-            this.maxMillis = maxMillis;
-            this.bar = bar;
-            this.bar.setProgress((int) (currentMillis * bar.getMax() / maxMillis));
+    private void startCountdown() {
+        if (countdown != null) {
+            countdown.cancel();
         }
-
-        @Override
-        public void onTick(long millisUntilFinished) {
-            bar.setProgress((int) (millisUntilFinished * bar.getMax() / maxMillis));
-        }
-
-        @Override
-        public void onFinish() {
-            bar.setProgress(0);
-            isActive.setValue(false);
-        }
+        isActive.setValue(true);
+        countdown = new ProgressCountdown(5000, 30, 5000, progressTimeLeft, isActive);
+        countdown.start();
     }
 }
