@@ -49,6 +49,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name="edu.illinois.cs465.jukebox.viewmodel.MusicService" />
     </application>
 
 </manifest>
