@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:scaleType="fitXY"
-        android:src="@drawable/clay_davis"
+        android:src="@drawable/songcover_onandon"
         android:adjustViewBounds="true"/>
 
     <TextView
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
-        android:text="@string/default_song_title"
+        android:text="@string/songcover_name1"
         android:textSize="48sp"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -40,7 +40,7 @@
         android:id="@+id/textViewHostDuringPartyArtistName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Senator Clay Davisssssssssssssssssss"
+        android:text="@string/songcover_artist1"
         android:textSize="24sp"
         android:paddingHorizontal="20dp"
         android:focusable="true"
@@ -48,7 +48,8 @@
         android:singleLine="true"
         android:scrollHorizontally="true"
         android:ellipsize="marquee"
-        android:marqueeRepeatLimit ="marquee_forever" />
+        android:marqueeRepeatLimit ="marquee_forever"
+        android:textColor="@color/lightgray"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -64,16 +65,17 @@
             android:indeterminateTint="@color/white"
             android:max="100000"
             android:paddingTop="10dp"
-            android:progress="50000"
-            android:progressBackgroundTint="@color/indigo"/>
+            android:progress="0"
+            android:progressBackgroundTint="@color/indigo" />
 
         <TextView
+            android:id="@+id/songCurrentTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/progressBarHostDuringPartySongTime"
             android:layout_alignStart="@id/progressBarHostDuringPartySongTime"
-            android:text="1:23"
-            android:id="@+id/songCurrentTime"/>
+            android:text="0:00"
+            android:textColor="@color/lightgray" />
 
         <TextView
             android:id="@+id/songTotalTime"
@@ -81,7 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/progressBarHostDuringPartySongTime"
             android:layout_alignEnd="@id/progressBarHostDuringPartySongTime"
-            android:text="-1:23" />
+            android:text="-3:28"
+            android:textColor="@color/lightgray"/>
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

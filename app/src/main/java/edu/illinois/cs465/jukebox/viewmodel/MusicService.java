@@ -10,7 +10,9 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
+import android.widget.Button;
 
+import edu.illinois.cs465.jukebox.R;
 import edu.illinois.cs465.jukebox.SongEntry;
 
 /*
@@ -27,6 +29,8 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private SongEntry currSong;
     private final IBinder musicBind = new MusicBinder();
     private boolean isMediaPlayerPrepared = false;
+    private boolean initialPlay = true;
+    private boolean isStopped = false;
 
     private ArrayList<MusicServiceListener> mListeners;
 
@@ -41,8 +45,20 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         songQueue = new ArrayList<>();
         previousSongs = new ArrayList<>();
         isMediaPlayerPrepared = false;
+        initialPlay = true;
+        isStopped = false;
 
         initMusicPlayer();
+    }
+
+    private void createNew() {
+        mListeners = new ArrayList<>();
+        rand = new Random();
+        songQueue = new ArrayList<>();
+        previousSongs = new ArrayList<>();
+        isMediaPlayerPrepared = false;
+        initialPlay = true;
+        isStopped = false;
     }
 
     public void initMusicPlayer(){
@@ -53,8 +69,27 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         player.setOnPreparedListener(this);
     }
 
-    public void setSongList(ArrayList<SongEntry> songQueue){
-        this.songQueue = songQueue;
+    private SongEntry addSongListItem(int image, int song_name, int artist, int url) {
+        Button deleteButton = new Button(this);
+        return addSongListItem(image, song_name, artist, url, deleteButton);
+    }
+
+    private SongEntry addSongListItem(int image, int song_name, int artist, int url, Button button) {
+        SongEntry item = new SongEntry(image, song_name, artist, url, button);
+        songQueue.add(item);
+        if (currSong == null) {
+            if (songQueue.size() == 1) {
+                currSong = item;
+            } else {
+                currSong = songQueue.get(0);
+            }
+        }
+        return item;
+    }
+
+    public void setSongList(ArrayList<SongEntry> _songQueue){
+        songQueue.clear();
+        songQueue.addAll(_songQueue);
 
         if (!mListeners.isEmpty()) {
             for (MusicServiceListener l : mListeners) {
@@ -87,15 +122,19 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     public void playSong(boolean removeFromSongQueue) {
+        if (isStopped) return;
+
         isMediaPlayerPrepared = false;
+        initialPlay = false;
 
         player.reset();
 
-        if (removeFromSongQueue) {
+        if (removeFromSongQueue && !songQueue.isEmpty()) {
+            SongEntry prevSong = currSong;
             currSong = songQueue.remove(0);
 
             // Avoid playing the same song twice in a row
-            while (songQueue.get(0).equals(currSong)) {
+            while (!songQueue.isEmpty() && songQueue.get(0).equals(prevSong)) {
                 currSong = songQueue.remove(0);
             }
 
@@ -107,6 +146,34 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
                 }
             }
         }
+
+        if (songQueue.isEmpty()) {
+            if (currSong != null) {
+                songQueue.add(currSong);
+            } else {
+                // Add default songs if users did not suggest any
+                addSongListItem(R.drawable.songcover_onandon, R.string.songcover_name1, R.string.songcover_artist1, R.string.songcover_url1);
+                addSongListItem(R.drawable.songcover_heroestonight, R.string.songcover_name2, R.string.songcover_artist2, R.string.songcover_url2);
+                addSongListItem(R.drawable.songcover_invincible, R.string.songcover_name3, R.string.songcover_artist3, R.string.songcover_url3);
+                addSongListItem(R.drawable.songcover_myheart, R.string.songcover_name4, R.string.songcover_artist4, R.string.songcover_url4);
+                addSongListItem(R.drawable.songcover_blank, R.string.songcover_name5, R.string.songcover_artist5, R.string.songcover_url5);
+                addSongListItem(R.drawable.songcover_symbolism, R.string.songcover_name6, R.string.songcover_artist6, R.string.songcover_url6);
+                addSongListItem(R.drawable.songcover_whywelose, R.string.songcover_name7, R.string.songcover_artist7, R.string.songcover_url7);
+                addSongListItem(R.drawable.songcover_cradles, R.string.songcover_name8, R.string.songcover_artist8, R.string.songcover_url8);
+                addSongListItem(R.drawable.songcover_shine, R.string.songcover_name9, R.string.songcover_artist9, R.string.songcover_url9);
+                addSongListItem(R.drawable.songcover_invisible, R.string.songcover_name10, R.string.songcover_artist10, R.string.songcover_url10);
+
+                currSong = songQueue.remove(0);
+                songQueue.add(currSong);
+            }
+
+            if (!mListeners.isEmpty()) {
+                for (MusicServiceListener l : mListeners) {
+                    l.onQueueUpdate(this.songQueue);
+                }
+            }
+        }
+
         previousSongs.add(0, currSong);
 
         String title = getResources().getString(currSong.name);
@@ -150,18 +217,32 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     public int getPosition() {
-        return player.getCurrentPosition();
+        if (!isStopped) {
+            return player.getCurrentPosition();
+        } else {
+            return 0;
+        }
     }
 
     public int getDuration() {
-        return player.getDuration();
+        if (!isStopped) {
+            return player.getDuration();
+        } else {
+            return 0;
+        }
     }
 
     public boolean isPlaying() {
-        return player.isPlaying();
+        if (!isStopped) {
+            return player.isPlaying();
+        } else {
+            return false;
+        }
     }
 
     public void pausePlayer() {
+        if (isStopped) return;
+
         player.pause();
 
         if (!mListeners.isEmpty()) {
@@ -172,10 +253,14 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     public void seekTo(int posn) {
+        if (isStopped) return;
+
         player.seekTo(posn);
     }
 
     public void startPlayer() {
+        if (isStopped) return;
+
         player.start();
 
         if (!mListeners.isEmpty()) {
@@ -202,15 +287,17 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         playSong(true);
     }
 
-    public boolean removeSongFromQueue(int index) {
-        return removeSongFromQueue(songQueue.get(index));
+    public boolean removeSongFromQueue(int index, boolean actuallyRemove) {
+        return removeSongFromQueue(songQueue.get(index), actuallyRemove);
     }
 
-    public boolean removeSongFromQueue(SongEntry songToRemove) {
+    public boolean removeSongFromQueue(SongEntry songToRemove, boolean actuallyRemove) {
+        if (songQueue.size() == 1) { return false; }
+
         boolean removed = songQueue.remove(songToRemove);
 
         // Place song at end of the queue so that it's not gone forever
-        if (removed) {
+        if (removed && !actuallyRemove) {
             songQueue.add(songToRemove);
         }
 
@@ -223,11 +310,24 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         return removed;
     }
 
+    public void stopMusicService() {
+        isStopped = true;
+        player.pause();
+        isMediaPlayerPrepared = false;
+        currSong = null;
+        unregisterAllListeners();
+        stopForeground(true);
+
+        createNew();
+    }
+
     @Override
     public void onDestroy() {
+        isStopped = true;
         player.stop();
         player.release();
         isMediaPlayerPrepared = false;
+        currSong = null;
         unregisterAllListeners();
         stopForeground(true);
     }
@@ -248,6 +348,8 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public boolean isMediaPlayerPrepared() {
         return isMediaPlayerPrepared;
     }
+
+    public boolean isInitialPlay() { return initialPlay; }
 
     public interface MusicServiceListener {
         void onRegister(ArrayList<SongEntry> songList);
@@ -270,6 +372,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     private void unregisterAllListeners() {
-        mListeners = null;
+        mListeners = new ArrayList<>();
     }
 }

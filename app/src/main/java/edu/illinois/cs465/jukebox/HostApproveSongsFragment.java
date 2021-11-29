@@ -1,6 +1,13 @@
 package edu.illinois.cs465.jukebox;
 
+import android.annotation.SuppressLint;
+import android.app.ListActivity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,18 +16,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 public class HostApproveSongsFragment extends Fragment {
 
     ArrayList<SongEntry> entryList;
 
     RecyclerView recyclerView;
+    RecyclerViewAdapter adapter;
     Button approveButton;
     TextView suggestionCount;
+
+    private MusicService musicService;
+    private Intent playIntent;
+    private boolean musicBound = false;
+    private MusicService.MusicServiceListener musicListener;
+    private RecyclerViewAdapter.RecyclerViewListener recyclerListener;
 
     public HostApproveSongsFragment() {
 
@@ -29,6 +47,12 @@ public class HostApproveSongsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (playIntent == null) {
+            playIntent = new Intent(this.getContext(), MusicService.class);
+            requireActivity().bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+            requireActivity().startService(playIntent);
+        }
     }
 
     @Override
@@ -42,24 +66,85 @@ public class HostApproveSongsFragment extends Fragment {
 
         entryList = new ArrayList<SongEntry>();
 
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getActivity(), entryList);
+        adapter = new RecyclerViewAdapter(getActivity(), entryList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        addHostApprovalListItem(R.drawable.songcover_onandon, R.string.songcover_name1, R.string.songcover_artist1, R.string.songcover_url1);
-        addHostApprovalListItem(R.drawable.songcover_heroestonight, R.string.songcover_name2, R.string.songcover_artist2, R.string.songcover_url2);
-        addHostApprovalListItem(R.drawable.songcover_invincible, R.string.songcover_name3, R.string.songcover_artist3, R.string.songcover_url3);
-        addHostApprovalListItem(R.drawable.songcover_myheart, R.string.songcover_name4, R.string.songcover_artist4, R.string.songcover_url4);
-        addHostApprovalListItem(R.drawable.songcover_blank, R.string.songcover_name5, R.string.songcover_artist5, R.string.songcover_url5);
-        addHostApprovalListItem(R.drawable.songcover_symbolism, R.string.songcover_name6, R.string.songcover_artist6, R.string.songcover_url6);
-        addHostApprovalListItem(R.drawable.songcover_whywelose, R.string.songcover_name7, R.string.songcover_artist7, R.string.songcover_url7);
-        addHostApprovalListItem(R.drawable.songcover_cradles, R.string.songcover_name8, R.string.songcover_artist8, R.string.songcover_url8);
-        addHostApprovalListItem(R.drawable.songcover_shine, R.string.songcover_name9, R.string.songcover_artist9, R.string.songcover_url9);
-        addHostApprovalListItem(R.drawable.songcover_invisible, R.string.songcover_name10, R.string.songcover_artist10, R.string.songcover_url10);
+        recyclerListener = new RecyclerViewAdapter.RecyclerViewListener() {
+            @Override
+            public void onDeleteButtonPressed(int _pos) {
+                if (musicBound) {
+                    musicService.removeSongFromQueue(_pos, true);
+                }
+                suggestionCount.setText(String.valueOf(entryList.size()));
+            }
+        };
+        adapter.registerListener(recyclerListener);
+
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) { return false; }
+
+            // Commented because adding red background lagged on my emulator. Feel free to try it out
+//            @Override
+//            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+//                                    float dX, float dY, int actionState, boolean isCurrentlyActive) {
+//                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+//
+//                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+//                    Bitmap icon;
+//                    Paint paint = new Paint();
+//
+//                    View itemView = viewHolder.itemView;
+//                    float height = (float) itemView.getBottom() - (float) itemView.getTop();
+//                    float width = height / 3;
+//
+//                    if (dX < 0) {
+//                        paint.setColor(Color.parseColor("#D32F2F"));
+//
+//                        RectF background = new RectF(
+//                                (float) itemView.getRight() + dX, (float) itemView.getTop(),
+//                                (float) itemView.getRight(), (float) itemView.getBottom());
+//                        c.drawRect(background, paint);
+//
+//                        icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.trashcan);
+//                        RectF iconDest = new RectF(
+//                                (float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width,
+//                                (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
+//                        c.drawBitmap(icon, null, iconDest, paint);
+//                    }
+//                } else if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+//                    final float alpha = 1.0f - Math.abs(dY) / (float) viewHolder.itemView.getHeight();
+//                    viewHolder.itemView.setAlpha(alpha);
+//                    viewHolder.itemView.setTranslationY(dY);
+//                }
+//            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                int position = viewHolder.getAdapterPosition();
+                SongEntry removedSong = entryList.remove(position);
+                adapter.notifyDataSetChanged();
+
+                if (musicBound) {
+                    musicService.removeSongFromQueue(removedSong, true);
+                }
+
+                suggestionCount.setText(String.valueOf(entryList.size()));
+
+                // TODO: Undo button?
+                // TODO: Add red background?
+                // Helpful link: https://medium.com/nemanja-kovacevic/recyclerview-swipe-to-delete-no-3rd-party-lib-necessary-6bf6a6601214
+                String toastText = "Removed '" + getResources().getString(removedSong.name) + "'";
+                Toast.makeText(getActivity(), toastText, Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         approveButton = view.findViewById(R.id.host_approve_button);
         approveButton.setOnClickListener(v -> Toast.makeText(getActivity(), "Approved song suggestions!", Toast.LENGTH_SHORT).show());
-
 
         suggestionCount = view.findViewById(R.id.host_queue_song_count);
         suggestionCount.setText(String.valueOf(entryList.size()));
@@ -67,12 +152,64 @@ public class HostApproveSongsFragment extends Fragment {
         return view;
     }
 
-    public void addHostApprovalListItem(int image, int song_name, int artist, int url) {
-        addHostApprovalListItem(image, song_name, artist, url, new Button(getActivity()));
+    @SuppressLint("NotifyDataSetChanged")
+    private void updateList(ArrayList<SongEntry> songList) {
+        entryList.clear();
+        entryList.addAll(songList);
+        Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+        suggestionCount.setText(String.valueOf(entryList.size()));
     }
 
-    public void addHostApprovalListItem(int image, int song_name, int artist, int url, Button button) {
-        SongEntry item = new SongEntry(image, song_name, artist, url, button);
-        entryList.add(item);
+    private ServiceConnection musicConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
+            musicService = binder.getService();
+
+            musicListener = new MusicService.MusicServiceListener() {
+                @Override
+                public void onRegister(ArrayList<SongEntry> songList) {
+                    updateList(songList);
+                }
+
+                public void onMediaPlayerPrepared() { }
+                public void onMediaPlayerPause() { }
+                public void onMediaPlayerUnpause() { }
+                public void onMediaPlayerNewSong() { }
+
+                @Override
+                public void onQueueUpdate(ArrayList<SongEntry> songList) {
+                    updateList(songList);
+                }
+            };
+
+            musicService.registerListener(musicListener);
+            musicBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            musicService.unregisterListener(musicListener);
+            musicBound = false;
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        if (musicBound) {
+            musicService.unregisterListener(musicListener);
+        }
+        adapter.unregisterListener(recyclerListener);
+        super.onDestroy();
     }
+
+//    public void addHostApprovalListItem(int image, int song_name, int artist, int url) {
+//        addHostApprovalListItem(image, song_name, artist, url, new Button(getActivity()));
+//    }
+//
+//    public void addHostApprovalListItem(int image, int song_name, int artist, int url, Button button) {
+//        SongEntry item = new SongEntry(image, song_name, artist, url, button);
+//        entryList.add(item);
+//    }
 }

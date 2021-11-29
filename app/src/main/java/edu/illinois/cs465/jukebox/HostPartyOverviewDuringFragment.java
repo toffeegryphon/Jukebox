@@ -42,16 +42,13 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
     TextView textCurrentTime, textTotalTime;
     Handler handler = new Handler();
 
-    private ArrayList<SongEntry> songList;
     private MusicService musicService;
     private Intent playIntent;
     private boolean musicBound = false;
     private MediaController mediaController;
     private MusicService.MusicServiceListener musicListener;
 
-    public HostPartyOverviewDuringFragment() {
-        // Required empty public constructor
-    }
+    public HostPartyOverviewDuringFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,20 +88,6 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
         songProgressBar = view.findViewById(R.id.progressBarHostDuringPartySongTime);
         textCurrentTime = view.findViewById(R.id.songCurrentTime);
         textTotalTime = view.findViewById(R.id.songTotalTime);
-
-        songList = new ArrayList<>();
-
-        // Initialize songs (they will be reused in MusicService.java)
-        addSongListItem(R.drawable.songcover_onandon, R.string.songcover_name1, R.string.songcover_artist1, R.string.songcover_url1);
-        addSongListItem(R.drawable.songcover_heroestonight, R.string.songcover_name2, R.string.songcover_artist2, R.string.songcover_url2);
-        addSongListItem(R.drawable.songcover_invincible, R.string.songcover_name3, R.string.songcover_artist3, R.string.songcover_url3);
-        addSongListItem(R.drawable.songcover_myheart, R.string.songcover_name4, R.string.songcover_artist4, R.string.songcover_url4);
-        addSongListItem(R.drawable.songcover_blank, R.string.songcover_name5, R.string.songcover_artist5, R.string.songcover_url5);
-        addSongListItem(R.drawable.songcover_symbolism, R.string.songcover_name6, R.string.songcover_artist6, R.string.songcover_url6);
-        addSongListItem(R.drawable.songcover_whywelose, R.string.songcover_name7, R.string.songcover_artist7, R.string.songcover_url7);
-        addSongListItem(R.drawable.songcover_cradles, R.string.songcover_name8, R.string.songcover_artist8, R.string.songcover_url8);
-        addSongListItem(R.drawable.songcover_shine, R.string.songcover_name9, R.string.songcover_artist9, R.string.songcover_url9);
-        addSongListItem(R.drawable.songcover_invisible, R.string.songcover_name10, R.string.songcover_artist10, R.string.songcover_url10);
 
         setController();
 
@@ -182,9 +165,11 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
     // The only exception is in onServiceConnected in the case that we are reconnecting to the service
     private void updateSongInformation() {
         SongEntry currSong = musicService.getCurrentSong();
-        songName.setText(getResources().getString(currSong.name));
-        artistName.setText(getResources().getString(currSong.artist));
-        songCover.setImageResource(currSong.image);
+        if (currSong != null) {
+            songName.setText(getResources().getString(currSong.name));
+            artistName.setText(getResources().getString(currSong.artist));
+            songCover.setImageResource(currSong.image);
+        }
     }
 
     private String millisecondsToTimer(long millis) {
@@ -198,8 +183,7 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
             MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
             musicService = binder.getService();
 
-            if (musicService.getSongQueueSize() == 0) {
-                musicService.setSongList(songList);
+            if (musicService.isInitialPlay()) {
                 musicService.playSong(true);
             } else {
                 updateSongTime();
@@ -214,7 +198,7 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
             }
 
             musicListener = new MusicService.MusicServiceListener() {
-                public void onRegister(ArrayList<SongEntry> songList) { }
+                public void onRegister(ArrayList<SongEntry> _songList) { }
 
                 @Override
                 public void onMediaPlayerPrepared() {
@@ -254,16 +238,16 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
         }
     };
 
-    public SongEntry addSongListItem(int image, int song_name, int artist, int url) {
-        Button deleteButton = new Button(this.getContext());
-        return addSongListItem(image, song_name, artist, url, deleteButton);
-    }
-
-    public SongEntry addSongListItem(int image, int song_name, int artist, int url, Button button) {
-        SongEntry item = new SongEntry(image, song_name, artist, url, button);
-        songList.add(item);
-        return item;
-    }
+//    public SongEntry addSongListItem(int image, int song_name, int artist, int url) {
+//        Button deleteButton = new Button(this.getContext());
+//        return addSongListItem(image, song_name, artist, url, deleteButton);
+//    }
+//
+//    public SongEntry addSongListItem(int image, int song_name, int artist, int url, Button button) {
+//        SongEntry item = new SongEntry(image, song_name, artist, url, button);
+//        songList.add(item);
+//        return item;
+//    }
 
     private void setController(){
         mediaController = new MediaController(requireActivity());
@@ -361,15 +345,4 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
         }
         super.onDestroy();
     }
-    // TODO: Is this still needed?
-//    private void updateSong() {
-//        partyReference.addSnapshotListener((value, error) -> {
-//            if (value != null) {
-//                String currentSong = value.getString("currentSong");
-//                if (!currentSong.equals(songName.getText().toString())) {
-//                    songName.setText(currentSong);
-//                }
-//            }
-//        });
-//    }
 }
