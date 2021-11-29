@@ -26,6 +26,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private ArrayList<SongEntry> previousSongs;
     private SongEntry currSong;
     private final IBinder musicBind = new MusicBinder();
+    private boolean isMediaPlayerPrepared = false;
 
     private ArrayList<MusicServiceListener> mListeners;
 
@@ -39,6 +40,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         player = new MediaPlayer();
         songQueue = new ArrayList<>();
         previousSongs = new ArrayList<>();
+        isMediaPlayerPrepared = false;
 
         initMusicPlayer();
     }
@@ -85,6 +87,8 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     public void playSong(boolean removeFromSongQueue) {
+        isMediaPlayerPrepared = false;
+
         player.reset();
 
         if (removeFromSongQueue) {
@@ -223,6 +227,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public void onDestroy() {
         player.stop();
         player.release();
+        isMediaPlayerPrepared = false;
         unregisterAllListeners();
         stopForeground(true);
     }
@@ -230,6 +235,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     @Override
     public void onPrepared(MediaPlayer mp) {
         mp.start();
+        isMediaPlayerPrepared = true;
 
         if (!mListeners.isEmpty()) {
             for (MusicServiceListener l : mListeners) {
@@ -237,6 +243,10 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
                 l.onMediaPlayerUnpause();
             }
         }
+    }
+
+    public boolean isMediaPlayerPrepared() {
+        return isMediaPlayerPrepared;
     }
 
     public interface MusicServiceListener {

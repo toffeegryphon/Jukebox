@@ -71,6 +71,7 @@ public class HostSongQueueFragment extends Fragment {
                 if (musicBound) {
                     musicService.removeSongFromQueue(_pos);
                 }
+                queueCount.setText(String.valueOf(entryList.size()));
             }
         };
         adapter.registerListener(recyclerListener);
@@ -81,6 +82,14 @@ public class HostSongQueueFragment extends Fragment {
         return view;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private void updateList(ArrayList<SongEntry> songList) {
+        entryList.clear();
+        entryList.addAll(songList);
+        Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+        queueCount.setText(String.valueOf(entryList.size()));
+    }
+
     private ServiceConnection musicConnection = new ServiceConnection() {
 
         @Override
@@ -89,12 +98,9 @@ public class HostSongQueueFragment extends Fragment {
             musicService = binder.getService();
 
             musicListener = new MusicService.MusicServiceListener() {
-                @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onRegister(ArrayList<SongEntry> songList) {
-                    entryList.clear();
-                    entryList.addAll(songList);
-                    Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+                    updateList(songList);
                 }
 
                 public void onMediaPlayerPrepared() { }
@@ -102,12 +108,9 @@ public class HostSongQueueFragment extends Fragment {
                 public void onMediaPlayerUnpause() { }
                 public void onMediaPlayerNewSong() { }
 
-                @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onQueueUpdate(ArrayList<SongEntry> songList) {
-                    entryList.clear();
-                    entryList.addAll(songList);
-                    Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+                    updateList(songList);
                 }
             };
 

@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,14 +117,16 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
         playPauseIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (musicBound && musicService.isPlaying()) {
-                    handler.removeCallbacks(updater);
-                    musicService.pausePlayer();
-                    playPauseIcon.setImageResource(R.drawable.ic_host_play_button);
-                } else {
-                    musicService.startPlayer();
-                    playPauseIcon.setImageResource(R.drawable.ic_host_pause_button);
-                    updateProgressBar();
+                if (musicBound && musicService.isMediaPlayerPrepared()) {
+                    if (musicService.isPlaying()) {
+                        handler.removeCallbacks(updater);
+                        musicService.pausePlayer();
+                        playPauseIcon.setImageResource(R.drawable.ic_host_play_button);
+                    } else {
+                        musicService.startPlayer();
+                        playPauseIcon.setImageResource(R.drawable.ic_host_pause_button);
+                        updateProgressBar();
+                    }
                 }
             }
         });
