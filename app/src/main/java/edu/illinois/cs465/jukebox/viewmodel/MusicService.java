@@ -1,19 +1,17 @@
 package edu.illinois.cs465.jukebox.viewmodel;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
 import android.app.Service;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 
-import edu.illinois.cs465.jukebox.EntryItem;
+import edu.illinois.cs465.jukebox.SongEntry;
 
 /*
  * This is demo code to accompany the Mobiletuts+ series:
@@ -24,12 +22,12 @@ import edu.illinois.cs465.jukebox.EntryItem;
 
 public class MusicService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
     private MediaPlayer player;
-    private ArrayList<EntryItem> songQueue;
-    private ArrayList<EntryItem> previousSongs;
-    private EntryItem currSong;
+    private ArrayList<SongEntry> songQueue;
+    private ArrayList<SongEntry> previousSongs;
+    private SongEntry currSong;
     private final IBinder musicBind = new MusicBinder();
 
-    private ArrayList<Listener> mListeners;
+    private ArrayList<MusicServiceListener> mListeners;
 
     private Random rand;
 
@@ -53,8 +51,14 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         player.setOnPreparedListener(this);
     }
 
-    public void setSongList(ArrayList<EntryItem> songQueue){
+    public void setSongList(ArrayList<SongEntry> songQueue){
         this.songQueue = songQueue;
+
+        if (!mListeners.isEmpty()) {
+            for (MusicServiceListener l : mListeners) {
+                l.onQueueUpdate(this.songQueue);
+            }
+        }
     }
 
     public int getSongQueueSize() {
@@ -92,6 +96,12 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             }
 
             songQueue.add(currSong); // Add current song to end of queue
+
+            if (!mListeners.isEmpty()) {
+                for (MusicServiceListener l : mListeners) {
+                    l.onQueueUpdate(this.songQueue);
+                }
+            }
         }
         previousSongs.add(0, currSong);
 
@@ -110,7 +120,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         player.prepareAsync();
 
         if (!mListeners.isEmpty()) {
-            for (Listener l : mListeners) {
+            for (MusicServiceListener l : mListeners) {
                 l.onMediaPlayerNewSong();
             }
         }
@@ -131,7 +141,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         return false;
     }
 
-    public EntryItem getCurrentSong() {
+    public SongEntry getCurrentSong() {
         return currSong;
     }
 
@@ -151,7 +161,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         player.pause();
 
         if (!mListeners.isEmpty()) {
-            for (Listener l : mListeners) {
+            for (MusicServiceListener l : mListeners) {
                 l.onMediaPlayerPause();
             }
         }
@@ -165,7 +175,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         player.start();
 
         if (!mListeners.isEmpty()) {
-            for (Listener l : mListeners) {
+            for (MusicServiceListener l : mListeners) {
                 l.onMediaPlayerUnpause();
             }
         }
@@ -188,12 +198,22 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         playSong(true);
     }
 
-    public boolean removeSong(EntryItem songToRemove) {
+    public boolean removeSongFromQueue(int index) {
+        return removeSongFromQueue(songQueue.get(index));
+    }
+
+    public boolean removeSongFromQueue(SongEntry songToRemove) {
         boolean removed = songQueue.remove(songToRemove);
 
         // Place song at end of the queue so that it's not gone forever
         if (removed) {
             songQueue.add(songToRemove);
+        }
+
+        if (!mListeners.isEmpty()) {
+            for (MusicServiceListener l : mListeners) {
+                l.onQueueUpdate(this.songQueue);
+            }
         }
 
         return removed;
@@ -212,27 +232,30 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         mp.start();
 
         if (!mListeners.isEmpty()) {
-            for (Listener l : mListeners) {
+            for (MusicServiceListener l : mListeners) {
                 l.onMediaPlayerPrepared();
                 l.onMediaPlayerUnpause();
             }
         }
     }
 
-    public interface Listener {
-        public void onMediaPlayerPrepared();
-        public void onMediaPlayerPause();
-        public void onMediaPlayerUnpause();
-        public void onMediaPlayerNewSong();
+    public interface MusicServiceListener {
+        void onRegister(ArrayList<SongEntry> songList);
+        void onMediaPlayerPrepared();
+        void onMediaPlayerPause();
+        void onMediaPlayerUnpause();
+        void onMediaPlayerNewSong();
+        void onQueueUpdate(ArrayList<SongEntry> songList);
     }
 
-    public void registerListener(Listener listener) {
+    public void registerListener(MusicServiceListener listener) {
         if (!mListeners.contains(listener)) {
             mListeners.add(listener);
+            listener.onRegister(songQueue);
         }
     }
 
-    public boolean unregisterListener(Listener listener) {
+    public boolean unregisterListener(MusicServiceListener listener) {
         return mListeners.remove(listener);
     }
 

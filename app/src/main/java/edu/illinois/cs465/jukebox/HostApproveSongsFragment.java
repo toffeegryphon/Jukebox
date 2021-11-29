@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class HostApproveSongsFragment extends Fragment {
 
-    ArrayList<EntryItem> entryList;
+    ArrayList<SongEntry> entryList;
 
     RecyclerView recyclerView;
     Button approveButton;
@@ -40,7 +40,7 @@ public class HostApproveSongsFragment extends Fragment {
         RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0,0,true,false);
         recyclerView.addItemDecoration(decoration);
 
-        entryList = new ArrayList<EntryItem>();
+        entryList = new ArrayList<SongEntry>();
 
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(getActivity(), entryList);
         recyclerView.setAdapter(adapter);
@@ -72,7 +72,7 @@ public class HostApproveSongsFragment extends Fragment {
     }
 
     public void addHostApprovalListItem(int image, int song_name, int artist, int url, Button button) {
-        EntryItem item = new EntryItem(image, song_name, artist, url, button);
+        SongEntry item = new SongEntry(image, song_name, artist, url, button);
         entryList.add(item);
     }
 }

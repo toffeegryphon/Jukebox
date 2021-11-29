@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class GuestSuggestionActivity extends AppCompatActivity {
 
-    ArrayList<EntryItem> entryList;
+    ArrayList<SongEntry> entryList;
 
     RecyclerView recyclerView;
     Button submitButton;
@@ -26,7 +26,7 @@ public class GuestSuggestionActivity extends AppCompatActivity {
         RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0, 0, true, false);
         recyclerView.addItemDecoration(decoration);
 
-        entryList = new ArrayList<EntryItem>();
+        entryList = new ArrayList<SongEntry>();
 
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, entryList);
         recyclerView.setAdapter(adapter);
@@ -52,7 +52,7 @@ public class GuestSuggestionActivity extends AppCompatActivity {
     }
 
     public void addGuestSuggestionListItem(int image, int song_name, int artist, int url, Button button) {
-        EntryItem item = new EntryItem(image, song_name, artist, url, button);
+        SongEntry item = new SongEntry(image, song_name, artist, url, button);
         entryList.add(item);
     }
 }

@@ -4,11 +4,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -27,9 +24,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
 import edu.illinois.cs465.jukebox.viewmodel.MusicService;
@@ -47,12 +41,12 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
     TextView textCurrentTime, textTotalTime;
     Handler handler = new Handler();
 
-    private ArrayList<EntryItem> songList;
+    private ArrayList<SongEntry> songList;
     private MusicService musicService;
     private Intent playIntent;
     private boolean musicBound = false;
     private MediaController mediaController;
-    private MusicService.Listener musicListener;
+    private MusicService.MusicServiceListener musicListener;
 
     public HostPartyOverviewDuringFragment() {
         // Required empty public constructor
@@ -184,7 +178,7 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
     // Make sure musicBound is true before calling this
     // The only exception is in onServiceConnected in the case that we are reconnecting to the service
     private void updateSongInformation() {
-        EntryItem currSong = musicService.getCurrentSong();
+        SongEntry currSong = musicService.getCurrentSong();
         songName.setText(getResources().getString(currSong.name));
         artistName.setText(getResources().getString(currSong.artist));
         songCover.setImageResource(currSong.image);
@@ -216,7 +210,9 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
                 }
             }
 
-            musicListener = new MusicService.Listener() {
+            musicListener = new MusicService.MusicServiceListener() {
+                public void onRegister(ArrayList<SongEntry> songList) { }
+
                 @Override
                 public void onMediaPlayerPrepared() {
                     updater.run();
@@ -239,6 +235,8 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
                         updateSongInformation();
                     }
                 }
+
+                public void onQueueUpdate(ArrayList<SongEntry> songList) { }
             };
 
             musicService.registerListener(musicListener);
@@ -253,13 +251,15 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
         }
     };
 
-    public void addSongListItem(int image, int song_name, int artist, int url) {
-        addSongListItem(image, song_name, artist, url, new Button(this.getContext()));
+    public SongEntry addSongListItem(int image, int song_name, int artist, int url) {
+        Button deleteButton = new Button(this.getContext());
+        return addSongListItem(image, song_name, artist, url, deleteButton);
     }
 
-    public void addSongListItem(int image, int song_name, int artist, int url, Button button) {
-        EntryItem item = new EntryItem(image, song_name, artist, url, button);
+    public SongEntry addSongListItem(int image, int song_name, int artist, int url, Button button) {
+        SongEntry item = new SongEntry(image, song_name, artist, url, button);
         songList.add(item);
+        return item;
     }
 
     private void setController(){

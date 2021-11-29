@@ -1,10 +1,16 @@
 package edu.illinois.cs465.jukebox;
 
+import android.annotation.SuppressLint;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -12,21 +18,35 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 public class HostSongQueueFragment extends Fragment {
 
-    ArrayList<EntryItem> entryList;
+    ArrayList<SongEntry> entryList;
 
     RecyclerView recyclerView;
+    RecyclerViewAdapter adapter;
     TextView queueCount;
 
-    public HostSongQueueFragment() {
+    private MusicService musicService;
+    private Intent playIntent;
+    private boolean musicBound = false;
+    private MusicService.MusicServiceListener musicListener;
+    private RecyclerViewAdapter.RecyclerViewListener recyclerListener;
 
-    }
+    public HostSongQueueFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(playIntent == null) {
+            playIntent = new Intent(this.getContext(), MusicService.class);
+            requireActivity().bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+            requireActivity().startService(playIntent);
+        }
     }
 
     @Override
@@ -39,22 +59,21 @@ public class HostSongQueueFragment extends Fragment {
         RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0,(int) (56 * density),true,true);
         recyclerView.addItemDecoration(decoration);
 
-        entryList = new ArrayList<EntryItem>();
+        entryList = new ArrayList<SongEntry>();
 
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getActivity(), entryList);
+        adapter = new RecyclerViewAdapter(getActivity(), entryList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        addHostQueueListItem(R.drawable.songcover_onandon, R.string.songcover_name1, R.string.songcover_artist1, R.string.songcover_url1);
-        addHostQueueListItem(R.drawable.songcover_heroestonight, R.string.songcover_name2, R.string.songcover_artist2, R.string.songcover_url2);
-        addHostQueueListItem(R.drawable.songcover_invincible, R.string.songcover_name3, R.string.songcover_artist3, R.string.songcover_url3);
-        addHostQueueListItem(R.drawable.songcover_myheart, R.string.songcover_name4, R.string.songcover_artist4, R.string.songcover_url4);
-        addHostQueueListItem(R.drawable.songcover_blank, R.string.songcover_name5, R.string.songcover_artist5, R.string.songcover_url5);
-        addHostQueueListItem(R.drawable.songcover_symbolism, R.string.songcover_name6, R.string.songcover_artist6, R.string.songcover_url6);
-        addHostQueueListItem(R.drawable.songcover_whywelose, R.string.songcover_name7, R.string.songcover_artist7, R.string.songcover_url7);
-        addHostQueueListItem(R.drawable.songcover_cradles, R.string.songcover_name8, R.string.songcover_artist8, R.string.songcover_url8);
-        addHostQueueListItem(R.drawable.songcover_shine, R.string.songcover_name9, R.string.songcover_artist9, R.string.songcover_url9);
-        addHostQueueListItem(R.drawable.songcover_invisible, R.string.songcover_name10, R.string.songcover_artist10, R.string.songcover_url10);
+        recyclerListener = new RecyclerViewAdapter.RecyclerViewListener() {
+            @Override
+            public void onDeleteButtonPressed(int _pos) {
+                if (musicBound) {
+                    musicService.removeSongFromQueue(_pos);
+                }
+            }
+        };
+        adapter.registerListener(recyclerListener);
 
         queueCount = view.findViewById(R.id.host_queue_song_count);
         queueCount.setText(String.valueOf(entryList.size()));
@@ -62,12 +81,53 @@ public class HostSongQueueFragment extends Fragment {
         return view;
     }
 
-    public void addHostQueueListItem(int image, int song_name, int artist, int url) {
-        addHostQueueListItem(image, song_name, artist, url, new Button(getActivity()));
-    }
+    private ServiceConnection musicConnection = new ServiceConnection() {
 
-    public void addHostQueueListItem(int image, int song_name, int artist, int url, Button button) {
-        EntryItem item = new EntryItem(image, song_name, artist, url, button);
-        entryList.add(item);
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
+            musicService = binder.getService();
+
+            musicListener = new MusicService.MusicServiceListener() {
+                @SuppressLint("NotifyDataSetChanged")
+                @Override
+                public void onRegister(ArrayList<SongEntry> songList) {
+                    entryList.clear();
+                    entryList.addAll(songList);
+                    Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+                }
+
+                public void onMediaPlayerPrepared() { }
+                public void onMediaPlayerPause() { }
+                public void onMediaPlayerUnpause() { }
+                public void onMediaPlayerNewSong() { }
+
+                @SuppressLint("NotifyDataSetChanged")
+                @Override
+                public void onQueueUpdate(ArrayList<SongEntry> songList) {
+                    entryList.clear();
+                    entryList.addAll(songList);
+                    Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+                }
+            };
+
+            musicService.registerListener(musicListener);
+            musicBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            musicService.unregisterListener(musicListener);
+            musicBound = false;
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        if (musicBound) {
+            musicService.unregisterListener(musicListener);
+        }
+        adapter.unregisterListener(recyclerListener);
+        super.onDestroy();
     }
 }
