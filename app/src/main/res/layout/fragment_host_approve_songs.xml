@@ -15,19 +15,24 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingBottom="10dp">
+
         <TextView
+            android:id="@+id/songSuggestionsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:textSize="20sp"
-            android:text="Suggestions"
-            android:textStyle="bold" />
+            android:text="Song Suggestions"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:paddingBottom="5dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textSize="20sp"
+            android:layout_alignTop="@id/songSuggestionsText"
+            android:layout_alignBottom="@id/songSuggestionsText"
+            android:textSize="28sp"
             android:text="4"
             android:id="@+id/host_queue_song_count"/>
 

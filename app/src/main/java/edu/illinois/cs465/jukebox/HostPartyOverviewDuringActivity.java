@@ -1,12 +1,19 @@
 package edu.illinois.cs465.jukebox;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,10 +34,14 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
 import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
+import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 public class HostPartyOverviewDuringActivity extends AppCompatActivity {
     private FirebaseFirestore db;
@@ -76,6 +87,7 @@ public class HostPartyOverviewDuringActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
         startActivity(intent);
     }
 }

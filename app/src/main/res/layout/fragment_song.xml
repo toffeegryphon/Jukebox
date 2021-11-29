@@ -7,49 +7,57 @@
     android:id="@+id/fragment_song_parent_layout"
     android:paddingBottom="5dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/fragment_song_cover"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/clay_davis"
-            >
-        </ImageView>
-        <TextView
-            android:id="@+id/fragment_song_name"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/fragment_song_cover"
-            android:text="SHIIEEHH"
-            android:textSize="17sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"></TextView>
-        <TextView
-            android:id="@+id/fragment_song_artist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/fragment_song_cover"
-            android:layout_below="@id/fragment_song_name"
-            android:text="Senator Clay Davis"
-            android:textSize="15sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"></TextView>
+            android:background="@color/purple_background_highlight"
+            android:padding="10dp">
+            <ImageView
+                android:id="@+id/fragment_song_cover"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/clay_davis"
+                >
+            </ImageView>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/fragment_song_button"
-            android:background="@drawable/trashcan"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:text="\u2014"
-            android:textSize="20dp"
-            android:gravity="center"
-            android:backgroundTint="@color/white"></androidx.appcompat.widget.AppCompatButton>
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/fragment_song_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@id/fragment_song_cover"
+                android:paddingRight="60dp"
+                android:text="SHIIEEHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"
+                android:textSize="17sp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/fragment_song_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_song_name"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/fragment_song_cover"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingRight="60dp"
+                android:text="Senator Clay Davisssssssssssssss"
+                android:textSize="14sp"
+                android:textColor="@color/lightgray"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/fragment_song_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/trashcan"
+                android:backgroundTint="@color/white"
+                android:gravity="center" />
+        </RelativeLayout>
 
 </FrameLayout>

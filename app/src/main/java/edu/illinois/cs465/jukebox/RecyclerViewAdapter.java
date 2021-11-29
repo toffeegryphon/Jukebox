@@ -8,23 +8,26 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private Context mContext;
-    ArrayList<EntryItem> data_entry_list;
-    List<SongModel> data;
+    ArrayList<SongEntry> data_entry_list;
 
-    public RecyclerViewAdapter(Context mContext, ArrayList<EntryItem> entryList) {
+    private ArrayList<RecyclerViewListener> mListeners;
+
+    public RecyclerViewAdapter(Context mContext, ArrayList<SongEntry> entryList) {
         this.mContext = mContext;
         this.data_entry_list = entryList;
-        this.data = new SongDataSource().list;
+        mListeners = new ArrayList<>();
     }
 
     @NonNull
@@ -37,7 +40,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SongModel entry = data.get(position);
+        SongEntry entry = data_entry_list.get(position);
         holder.image.setImageResource(entry.image);
         holder.song.setText(entry.name);
         holder.artist.setText(entry.artist);
@@ -46,10 +49,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
                 int _pos = holder.getAdapterPosition();
-                data.remove(_pos);
-                data_entry_list.remove(_pos);
+                SongEntry removedSong = data_entry_list.remove(_pos);
                 notifyItemRemoved(_pos);
                 notifyItemRangeChanged(_pos, data_entry_list.size());
+
+                // TODO: Undo button?
+                String toastText = "Removed '" + holder.itemView.getResources().getString(removedSong.name) + "'";
+                Toast.makeText(holder.itemView.getContext(), toastText, Toast.LENGTH_SHORT).show();
+
+                if (!mListeners.isEmpty()) {
+                    for (RecyclerViewListener l : mListeners) {
+                        l.onDeleteButtonPressed(_pos);
+                    }
+                }
             }
         });
     }
@@ -75,5 +87,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             button = itemView.findViewById(R.id.fragment_song_button);
             parentLayout = itemView.findViewById(R.id.fragment_song_parent_layout);
         }
+    }
+
+    public interface RecyclerViewListener {
+        void onDeleteButtonPressed(int _pos);
+    }
+
+    public void registerListener(RecyclerViewListener listener) {
+        if (!mListeners.contains(listener)) {
+            mListeners.add(listener);
+        }
+    }
+
+    public boolean unregisterListener(RecyclerViewListener listener) {
+        return mListeners.remove(listener);
     }
 }

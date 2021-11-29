@@ -47,15 +47,6 @@ public class GuestVoteActivity extends AppCompatActivity {
 
         String partyCode = getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "AAAA");
         partyReference = FirebaseFirestore.getInstance().collection("partyInfo").document(partyCode);
-        partyReference.addSnapshotListener((value, error) -> {
-            if (value != null) {
-                String currentSong = value.getString("currentSong");
-                if (!currentSong.equals(songName.getText().toString())) {
-                    songName.setText(currentSong);
-                    startCountdown();
-                }
-            }
-        });
 
         artistName = findViewById(R.id.label_song_artist);
         artistName.setSelected(true);

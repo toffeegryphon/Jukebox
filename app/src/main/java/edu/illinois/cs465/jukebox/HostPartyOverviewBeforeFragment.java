@@ -96,6 +96,7 @@ public class HostPartyOverviewBeforeFragment extends Fragment {
                 "Start",
                 "Cancel",
                 HostPartyOverviewDuringActivity.class,
+                null,
                 creationViewModel.getPartyInfo().getValue().getPartyCode()
         ).show(getActivity().getSupportFragmentManager(), "StartPartyDialog");
     }

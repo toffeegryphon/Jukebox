@@ -1,8 +1,13 @@
 package edu.illinois.cs465.jukebox;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -28,6 +33,7 @@ import java.util.ArrayList;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
 import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
+import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 /**
  * A simple {@link SavableFragment} subclass.
@@ -54,22 +60,15 @@ public class HostSettingFragment extends SavableFragment {
     private ArrayList<SliderProgressItem> progressItemList;
     private SliderProgressItem mProgressItem;
 
+    private MusicService musicService;
+    private Intent playIntent;
+    private boolean musicBound = false;
+    private MusicService.MusicServiceListener musicListener;
+    private RecyclerViewAdapter.RecyclerViewListener recyclerListener;
+
     public HostSettingFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment HostSettingFragment.
-     */
-    public static HostSettingFragment newInstance() {
-        HostSettingFragment fragment = new HostSettingFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -132,6 +131,12 @@ public class HostSettingFragment extends SavableFragment {
             final float scale = getResources().getDisplayMetrics().density;
             int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
             songSuggestionsLayout.setPadding(0, 0, 0, padding_in_px);
+
+            if (playIntent == null) {
+                playIntent = new Intent(this.getContext(), MusicService.class);
+                getActivity().bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+                getActivity().startService(playIntent);
+            }
         } else {
             endPartyButton.setVisibility(View.GONE);
             songSuggestionsLayout.setPadding(0,0,0,0);
@@ -189,7 +194,7 @@ public class HostSettingFragment extends SavableFragment {
     }
 
     public void endButtonClick(FragmentActivity ctx) {
-        new CustomDialogFragment(ctx, "Confirm", "Are you sure you want to end the party?", "End", "Cancel", HostPartyOverviewPostActivity.class, viewModel.getPartyInfo().getValue().getPartyCode()).show(getActivity().getSupportFragmentManager(), "EndPartyDialog");
+        new CustomDialogFragment(ctx, "Confirm", "Are you sure you want to end the party?", "End", "Cancel", HostPartyOverviewPostActivity.class, musicService, viewModel.getPartyInfo().getValue().getPartyCode()).show(getActivity().getSupportFragmentManager(), "EndPartyDialog");
     }
 
     public void save() {
@@ -227,4 +232,16 @@ public class HostSettingFragment extends SavableFragment {
             }
         });
     }
+
+    private ServiceConnection musicConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
+            musicService = binder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) { }
+    };
 }
