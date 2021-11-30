@@ -60,6 +60,7 @@
         android:layout_height="wrap_content"
         android:text="Senator Clay Davis"
         android:textSize="14sp"
+        android:textColor="@color/lightgray"
         android:paddingHorizontal="20dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -92,14 +93,16 @@
         android:paddingBottom="20dp"/>
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
-    android:id="@+id/progress_time_left"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:paddingBottom="100dp"
-    app:trackThickness="28dp"
-    app:layout_constraintBottom_toTopOf="@id/button_skip"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent" />
+        android:id="@+id/progress_time_left"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="100dp"
+        app:trackThickness="28dp"
+        app:layout_constraintBottom_toTopOf="@id/button_skip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:max="1000"
+        android:progress="1000"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_skip"
@@ -122,7 +125,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_skip"
         android:paddingTop="80dp"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -51,6 +51,7 @@
             android:weightSum="2"
             android:paddingTop="30dp">
             <LinearLayout
+                android:id="@+id/kahoot_ll_one"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -65,24 +66,32 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/songcover_kda"
+                    android:src="@drawable/songcover_heroestonight"
                     android:background="@null"/>
                 <TextView
                     android:id="@+id/title_one"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="The BADDEST"
+                    android:text="@string/songcover_name2"
                     android:textSize="18sp"
-                    android:paddingTop="5dp"/>
+                    android:paddingTop="5dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"/>
                 <TextView
+                    android:id="@+id/artist_one"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="K/DA"
-                    android:textSize="14sp"/>
+                    android:text="@string/songcover_artist2"
+                    android:textSize="14sp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"/>
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/kahoot_ll_two"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -97,21 +106,28 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/songcover_nonstop"
+                    android:src="@drawable/songcover_invincible"
                     android:background="@null"/>
                 <TextView
                     android:id="@+id/title_two"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nonstop"
+                    android:text="@string/songcover_name3"
                     android:textSize="18sp"
-                    android:paddingTop="5dp"/>
+                    android:paddingTop="5dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"/>
 
                 <TextView
+                    android:id="@+id/artist_two"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Drake"
-                    android:textSize="14sp"/>
+                    android:text="@string/songcover_artist3"
+                    android:textSize="14sp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"/>
 
             </LinearLayout>
 
@@ -128,6 +144,7 @@
             android:weightSum="2"
             android:paddingTop="20dp">
             <LinearLayout
+                android:id="@+id/kahoot_ll_three"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -142,24 +159,32 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/songcover_shivers"
+                    android:src="@drawable/songcover_myheart"
                     android:background="@null"/>
                 <TextView
                     android:id="@+id/title_three"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Shivers"
+                    android:text="@string/songcover_name4"
                     android:textSize="18sp"
-                    android:paddingTop="5dp"/>
+                    android:paddingTop="5dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"/>
                 <TextView
+                    android:id="@+id/artist_three"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ed Sheeran"
-                    android:textSize="14sp"/>
+                    android:text="@string/songcover_artist4"
+                    android:textSize="14sp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"/>
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/kahoot_ll_four"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -174,21 +199,28 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/songcover_squid"
+                    android:src="@drawable/songcover_blank"
                     android:background="@null"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Squid Game"
-                    android:textSize="18sp"
-                    android:paddingTop="5dp"/>
-
                 <TextView
                     android:id="@+id/title_four"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="456"
-                    android:textSize="14sp"/>
+                    android:text="@string/songcover_name5"
+                    android:textSize="18sp"
+                    android:paddingTop="5dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"/>
+
+                <TextView
+                    android:id="@+id/artist_four"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/songcover_artist5"
+                    android:textSize="14sp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"/>
 
             </LinearLayout>
 

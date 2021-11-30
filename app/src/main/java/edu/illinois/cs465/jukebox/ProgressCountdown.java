@@ -20,12 +20,13 @@ public class ProgressCountdown extends CountDownTimer {
 
         this.maxMillis = maxMillis;
         this.bar = bar;
-        this.bar.setProgress((int) (currentMillis * bar.getMax() / maxMillis));
+        this.bar.setMax((int) maxMillis);
+        this.bar.setProgress((int) currentMillis);
     }
 
     @Override
     public void onTick(long millisUntilFinished) {
-        bar.setProgress((int) (millisUntilFinished * bar.getMax() / maxMillis));
+        bar.setProgress((int) millisUntilFinished);
         remainingMillis = millisUntilFinished;
     }
 
