@@ -284,6 +284,17 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         playSong(true);
     }
 
+    public void voteToSkipPlaySong(int index) {
+        assert(index < songQueue.size());
+
+        SongEntry songToPlay = songQueue.get(index);
+        boolean removed = removeSongFromQueue(index, true);
+        if (removed) {
+            addSongToQueue(0, songToPlay);
+            playNext();
+        }
+    }
+
     public void addSongToQueue(int index, SongEntry songToAdd) {
         songQueue.add(index, songToAdd);
 

@@ -144,8 +144,8 @@
                         android:layout_below="@id/popularArtistImage1"
                         android:layout_alignStart="@id/popularArtistImage1"
                         android:layout_alignEnd="@id/popularArtistImage1"
-                        android:gravity="center"
                         android:ellipsize="end"
+                        android:gravity="center"
                         android:maxLines="1"
                         android:text="@string/songcover_artist1" />
 
