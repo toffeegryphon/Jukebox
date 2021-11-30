@@ -132,21 +132,26 @@ public class GuestVoteActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
-                buttonSkip.setEnabled(false);
-                int choice = data.getIntExtra("vote", 0);
+                int choice = data.getIntExtra("vote", -1);
 
-                if (choice != 0) {
+                if (choice >= 0) {
+                    buttonSkip.setEnabled(false);
                     String newSongTitle = data.getStringExtra("songName");
 
                     if (musicBound) {
-                        musicService.voteToSkipPlaySong(choice - 1);
+                        musicService.voteToSkipPlaySong(choice);
                     }
 
                     String snackbarText = "Vote for '" + newSongTitle + "' submitted!";
                     Snackbar.make(findViewById(R.id.guestVotingConstraintLayout), snackbarText, Snackbar.LENGTH_SHORT).show();
 
                 } else {
-                    Snackbar.make(findViewById(R.id.guestVotingConstraintLayout), "You did not vote in time!", Snackbar.LENGTH_SHORT).show();
+                    String errorMessage = data.getStringExtra("songName");
+                    Snackbar.make(findViewById(R.id.guestVotingConstraintLayout), errorMessage, Snackbar.LENGTH_SHORT).show();
+
+                    if (choice == -1) {
+                        buttonSkip.setEnabled(false);
+                    }
                 }
             }
         }

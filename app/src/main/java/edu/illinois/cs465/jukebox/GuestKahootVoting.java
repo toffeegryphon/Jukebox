@@ -23,6 +23,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
 
@@ -47,6 +49,7 @@ public class GuestKahootVoting extends AppCompatActivity {
     private ImageButton[] images;
     private TextView[] titles;
     private TextView[] artists;
+    private int[] indices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,8 @@ public class GuestKahootVoting extends AppCompatActivity {
         artists[2] = findViewById(R.id.artist_three);
         artists[3] = findViewById(R.id.artist_four);
 
+        indices = new int[4];
+
         isActive = new MutableLiveData<>();
         isActive.observe(this, new Observer<Boolean>() {
             @Override
@@ -97,26 +102,26 @@ public class GuestKahootVoting extends AppCompatActivity {
                         images[i].setEnabled(isEnabled);
                     }
                 } else {
-                    openGuestDuring(0, ""); // Time ran out
+                    openGuestDuring(-1, "You did not vote in time!"); // Time ran out
                 }
             }
         });
 
         images[0].setOnClickListener(v -> {
             partyReference.update("currentSong", titles[0].getText().toString());
-            openGuestDuring(1, titles[0].getText().toString());
+            openGuestDuring(indices[0], titles[0].getText().toString());
         });
         images[1].setOnClickListener(v -> {
             partyReference.update("currentSong", titles[1].getText().toString());
-            openGuestDuring(2, titles[1].getText().toString());
+            openGuestDuring(indices[1], titles[1].getText().toString());
         });
         images[2].setOnClickListener(v -> {
             partyReference.update("currentSong", titles[2].getText().toString());
-            openGuestDuring(3, titles[2].getText().toString());
+            openGuestDuring(indices[2], titles[2].getText().toString());
         });
         images[3].setOnClickListener(v -> {
             partyReference.update("currentSong", titles[3].getText().toString());
-            openGuestDuring(4, titles[3].getText().toString());
+            openGuestDuring(indices[3], titles[3].getText().toString());
         });
     }
 
@@ -130,12 +135,12 @@ public class GuestKahootVoting extends AppCompatActivity {
             musicListener = new MusicService.MusicServiceListener() {
                 @Override
                 public void onRegister(ArrayList<SongEntry> _songList) {
-                    songList = _songList;
-                    Log.d("SIZE:", String.valueOf(songList.size()));
+                    songList = new ArrayList<>(_songList);
 
                     if (!songList.isEmpty()) {
                         SongEntry currSong = musicService.getCurrentSong();
                         if (currSong != null) {
+                            Collections.shuffle(songList, new Random(currSong.name));
                             int added = 0;
                             int i = 0;
                             while(added < 4 && i < Math.max(songList.size(), 4)) {
@@ -146,7 +151,7 @@ public class GuestKahootVoting extends AppCompatActivity {
                                 }
 
                                 SongEntry currSongChoice = songList.get(i);
-                                if (currSong == currSongChoice && added > 0) {
+                                if (currSong == currSongChoice) {
                                     i++;
                                     continue;
                                 }
@@ -154,8 +159,18 @@ public class GuestKahootVoting extends AppCompatActivity {
                                 images[added].setImageResource(currSongChoice.image);
                                 titles[added].setText(currSongChoice.name);
                                 artists[added].setText(currSongChoice.artist);
+                                indices[added] = _songList.indexOf(currSongChoice);
                                 added++;
                                 i++;
+                            }
+
+                            if (added == 0 && !songList.isEmpty()) {
+                                SongEntry currSongChoice = songList.get(0);
+                                layouts[0].setVisibility(View.VISIBLE);
+                                images[0].setImageResource(currSongChoice.image);
+                                titles[0].setText(currSongChoice.name);
+                                artists[0].setText(currSongChoice.artist);
+                                indices[0] = _songList.indexOf(currSongChoice);
                             }
                         }
                     } else {
@@ -179,7 +194,9 @@ public class GuestKahootVoting extends AppCompatActivity {
                     updateCountdown();
                 }
 
-                public void onMediaPlayerNewSong() { }
+                public void onMediaPlayerNewSong() {
+                    // TODO: Return to main
+                }
                 public void onQueueUpdate(ArrayList<SongEntry> songList) { }
             };
 
@@ -220,5 +237,10 @@ public class GuestKahootVoting extends AppCompatActivity {
         intent.putExtra("songName", newSongTitle);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        openGuestDuring(-2, "Your vote was cancelled!");
     }
 }
