@@ -132,11 +132,11 @@
                     android:gravity="center">
 
                     <ImageView
+                        android:id="@+id/popularArtistImage1"
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/songcover_onandon"
-                        android:id="@+id/popularArtistImage1"/>
+                        android:src="@drawable/songcover_onandon" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -159,11 +159,11 @@
                     android:gravity="center">
 
                     <ImageView
+                        android:id="@+id/popularArtistImage2"
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/songcover_heroestonight"
-                        android:id="@+id/popularArtistImage2"/>
+                        android:src="@drawable/songcover_heroestonight" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -186,11 +186,11 @@
                     android:gravity="center">
 
                     <ImageView
+                        android:id="@+id/popularArtistImage3"
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/songcover_invincible"
-                        android:id="@+id/popularArtistImage3"/>
+                        android:src="@drawable/songcover_invincible" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -235,23 +235,23 @@
                     android:gravity="center">
 
                     <ImageView
+                        android:id="@+id/mostSkippedArtist1"
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/songcover_squid"
-                        android:id="@+id/mostSkippedArtist1"/>
+                        android:src="@drawable/songcover_myheart" />
 
                     <TextView
-                        android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/songcover_artist4"
                         android:layout_below="@id/mostSkippedArtist1"
                         android:layout_alignStart="@id/mostSkippedArtist1"
                         android:layout_alignEnd="@id/mostSkippedArtist1"
+                        android:layout_weight="1"
                         android:ellipsize="end"
+                        android:gravity="center"
                         android:maxLines="1"
-                        android:gravity="center"/>
+                        android:text="@string/songcover_artist4" />
 
                 </RelativeLayout>
 
@@ -263,22 +263,22 @@
                     android:gravity="center">
 
                     <ImageView
+                        android:id="@+id/mostSkippedArtist2"
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/songcover_nonstop"
-                        android:id="@+id/mostSkippedArtist2"/>
+                        android:src="@drawable/songcover_blank" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/songcover_artist7"
                         android:layout_below="@id/mostSkippedArtist2"
                         android:layout_alignStart="@id/mostSkippedArtist2"
                         android:layout_alignEnd="@id/mostSkippedArtist2"
-                        android:maxLines="1"
                         android:ellipsize="end"
-                        android:gravity="center"/>
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="@string/songcover_artist5" />
 
                 </RelativeLayout>
 
@@ -293,13 +293,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/songcover_csgo"
+                        android:src="@drawable/songcover_symbolism"
                         android:id="@+id/mostSkippedArtist3"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/songcover_artist3"
+                        android:text="@string/songcover_artist6"
                         android:layout_below="@id/mostSkippedArtist3"
                         android:layout_alignStart="@id/mostSkippedArtist3"
                         android:layout_alignEnd="@id/mostSkippedArtist3"
@@ -340,14 +340,14 @@
                     android:layout_height="225dp"
                     android:adjustViewBounds="true"
                     android:paddingBottom="15dp"
-                    android:src="@drawable/songcover_nonstop" />
+                    android:src="@drawable/songcover_invisible" />
 
                 <TextView
                     android:id="@+id/textHostOverviewPostWorstSong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="15dp"
-                    android:text="@string/songcover_name7"
+                    android:text="@string/songcover_name10"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:singleLine="true"
@@ -360,7 +360,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/songcover_artist7"
+                    android:text="@string/songcover_artist10"
                     android:paddingBottom="15dp"
                     android:textColor="@color/lightgray"
                     android:maxLines="1"
@@ -401,28 +401,28 @@
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/songcover_nonstop"
+                        android:src="@drawable/songcover_invisible"
                         android:id="@+id/fastestSkippedSong1"/>
 
                     <TextView
                         android:id="@+id/fastestSkippedSong1Title"
-                        android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/songcover_name7"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:gravity="center"
                         android:layout_below="@id/fastestSkippedSong1"
                         android:layout_alignStart="@id/fastestSkippedSong1"
-                        android:layout_alignEnd="@id/fastestSkippedSong1" />
+                        android:layout_alignEnd="@id/fastestSkippedSong1"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="@string/songcover_name10" />
 
                     <TextView
                         android:id="@+id/fastestSkippedSong1Artist"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/songcover_artist7"
+                        android:text="@string/songcover_artist10"
                         android:textColor="@color/lightgray"
                         android:maxLines="1"
                         android:ellipsize="end"
@@ -456,13 +456,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/songcover_shivers" />
+                        android:src="@drawable/songcover_myheart" />
 
                     <TextView
                         android:id="@+id/fastestSkippedSong2Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/songcover_name8"
+                        android:text="@string/songcover_name4"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:gravity="center"
@@ -474,7 +474,7 @@
                         android:id="@+id/fastestSkippedSong2Artist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/songcover_artist8"
+                        android:text="@string/songcover_artist4"
                         android:textColor="@color/lightgray"
                         android:maxLines="1"
                         android:ellipsize="end"
@@ -508,13 +508,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/songcover_edamame" />
+                        android:src="@drawable/songcover_shine" />
 
                     <TextView
                         android:id="@+id/fastestSkippedSong3Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/songcover_name4"
+                        android:text="@string/songcover_name9"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:gravity="center"
@@ -527,7 +527,7 @@
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/songcover_artist4"
+                        android:text="@string/songcover_artist9"
                         android:textColor="@color/lightgray"
                         android:maxLines="1"
                         android:ellipsize="end"

@@ -25,6 +25,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -68,11 +70,13 @@ public class GuestSuggestionActivity extends AppCompatActivity {
 
         recyclerListener = new RecyclerViewAdapter.RecyclerViewListener() {
             @Override
-            public void onDeleteButtonPressed(int _pos) {
+            public void onDeleteButtonPressed(RecyclerViewAdapter.ViewHolder holder, int _pos, SongEntry removedSong) {
 
                 // TODO: Get host settings' suggestion limit instead of hardcoding '10'
                 String newSuggestionCount = String.valueOf(entryList.size()) + " / " + "10";
                 suggestionCount.setText(newSuggestionCount);
+
+                createSnackbarText(_pos, removedSong);
             }
         };
         adapter.registerListener(recyclerListener);
@@ -81,6 +85,7 @@ public class GuestSuggestionActivity extends AppCompatActivity {
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) { return false; }
 
             // Commented because adding red background lagged on my emulator. Feel free to try it out
+            // Helpful link: https://medium.com/nemanja-kovacevic/recyclerview-swipe-to-delete-no-3rd-party-lib-necessary-6bf6a6601214
 //            @Override
 //            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
 //                                    float dX, float dY, int actionState, boolean isCurrentlyActive) {
@@ -127,11 +132,7 @@ public class GuestSuggestionActivity extends AppCompatActivity {
                 String newSuggestionCount = String.valueOf(entryList.size()) + " / " + "10";
                 suggestionCount.setText(newSuggestionCount);
 
-                // TODO: Undo button?
-                // TODO: Add red background?
-                // Helpful link: https://medium.com/nemanja-kovacevic/recyclerview-swipe-to-delete-no-3rd-party-lib-necessary-6bf6a6601214
-                String toastText = "Removed '" + getResources().getString(removedSong.name) + "'";
-                Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
+                createSnackbarText(position, removedSong);
             }
         };
 
@@ -162,6 +163,26 @@ public class GuestSuggestionActivity extends AppCompatActivity {
         });
 
         suggestionCount = findViewById(R.id.guestSuggestionCount);
+    }
+
+    private void createSnackbarText(int position, SongEntry removedSong) {
+        String snackbarText = "Removed '" + getResources().getString(removedSong.name) + "'";
+        Snackbar snackbar = Snackbar
+                .make(recyclerView, snackbarText, Snackbar.LENGTH_LONG)
+                .setAction("UNDO", new View.OnClickListener() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onClick(View view) {
+                        entryList.add(position, removedSong);
+                        adapter.notifyDataSetChanged();
+                        recyclerView.scrollToPosition(position);
+
+                        // TODO: Get host settings' suggestion limit instead of hardcoding '10'
+                        String newSuggestionCount = String.valueOf(entryList.size()) + " / " + "10";
+                        suggestionCount.setText(newSuggestionCount);
+                    }
+                });
+        snackbar.show();
     }
 
     @SuppressLint("NotifyDataSetChanged")

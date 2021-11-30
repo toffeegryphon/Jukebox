@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -69,11 +71,13 @@ public class HostSongQueueFragment extends Fragment {
 
         recyclerListener = new RecyclerViewAdapter.RecyclerViewListener() {
             @Override
-            public void onDeleteButtonPressed(int _pos) {
+            public void onDeleteButtonPressed(RecyclerViewAdapter.ViewHolder holder, int _pos, SongEntry removedSong) {
                 if (musicBound) {
                     musicService.removeSongFromQueue(_pos, true);
                 }
                 queueCount.setText(String.valueOf(entryList.size()));
+
+                createSnackbarText(_pos, removedSong);
             }
         };
         adapter.registerListener(recyclerListener);
@@ -82,6 +86,7 @@ public class HostSongQueueFragment extends Fragment {
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) { return false; }
 
             // Commented because adding red background lagged on my emulator. Feel free to try it out
+            // Helpful link: https://medium.com/nemanja-kovacevic/recyclerview-swipe-to-delete-no-3rd-party-lib-necessary-6bf6a6601214
 //            @Override
 //            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
 //                                    float dX, float dY, int actionState, boolean isCurrentlyActive) {
@@ -119,7 +124,7 @@ public class HostSongQueueFragment extends Fragment {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                int position = viewHolder.getAdapterPosition();
+                final int position = viewHolder.getAdapterPosition();
                 SongEntry removedSong = entryList.remove(position);
                 adapter.notifyDataSetChanged();
 
@@ -129,11 +134,7 @@ public class HostSongQueueFragment extends Fragment {
 
                 queueCount.setText(String.valueOf(entryList.size()));
 
-                // TODO: Undo button?
-                // TODO: Add red background?
-                // Helpful link: https://medium.com/nemanja-kovacevic/recyclerview-swipe-to-delete-no-3rd-party-lib-necessary-6bf6a6601214
-                String toastText = "Removed '" + getResources().getString(removedSong.name) + "'";
-                Toast.makeText(getActivity(), toastText, Toast.LENGTH_SHORT).show();
+                createSnackbarText(position, removedSong);
             }
         };
 
@@ -144,6 +145,26 @@ public class HostSongQueueFragment extends Fragment {
         queueCount.setText(String.valueOf(entryList.size()));
 
         return view;
+    }
+
+    private void createSnackbarText(int position, SongEntry removedSong) {
+        String snackbarText = "Removed '" + getResources().getString(removedSong.name) + "'";
+        Snackbar snackbar = Snackbar
+                .make(recyclerView, snackbarText, Snackbar.LENGTH_LONG)
+                .setAction("UNDO", new View.OnClickListener() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onClick(View view) {
+                        entryList.add(position, removedSong);
+                        adapter.notifyDataSetChanged();
+                        recyclerView.scrollToPosition(position);
+
+                        if (musicBound) {
+                            musicService.addSongToQueue(position, removedSong);
+                        }
+                    }
+                });
+        snackbar.show();
     }
 
     @SuppressLint("NotifyDataSetChanged")
