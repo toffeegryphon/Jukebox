@@ -7,12 +7,10 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -23,8 +21,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
-import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 public class HostSongQueueFragment extends Fragment {
 
@@ -77,7 +73,7 @@ public class HostSongQueueFragment extends Fragment {
                 }
                 queueCount.setText(String.valueOf(entryList.size()));
 
-                createSnackbarText(_pos, removedSong);
+                createUndoSnackbarText(_pos, removedSong);
             }
         };
         adapter.registerListener(recyclerListener);
@@ -134,7 +130,7 @@ public class HostSongQueueFragment extends Fragment {
 
                 queueCount.setText(String.valueOf(entryList.size()));
 
-                createSnackbarText(position, removedSong);
+                createUndoSnackbarText(position, removedSong);
             }
         };
 
@@ -147,10 +143,11 @@ public class HostSongQueueFragment extends Fragment {
         return view;
     }
 
-    private void createSnackbarText(int position, SongEntry removedSong) {
+    private void createUndoSnackbarText(int position, SongEntry removedSong) {
         String snackbarText = "Removed '" + getResources().getString(removedSong.name) + "'";
         Snackbar snackbar = Snackbar
                 .make(recyclerView, snackbarText, Snackbar.LENGTH_LONG)
+                .setAnchorView(Objects.requireNonNull(requireActivity().findViewById(R.id.bottomNavigationViewDuringParty)))
                 .setAction("UNDO", new View.OnClickListener() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override

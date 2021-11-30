@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -78,10 +79,10 @@ public class GuestVoteActivity extends AppCompatActivity {
                     case 2:
                     case 3:
                     case 4:
-                        Toast.makeText(this, "Vote submitted!", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(findViewById(R.id.guestVotingConstraintLayout), "Vote submitted!", Snackbar.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(this, "Time ran out, no vote made.", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(findViewById(R.id.guestVotingConstraintLayout), "You did not vote in time!", Snackbar.LENGTH_SHORT).show();
                 }
             }
         }

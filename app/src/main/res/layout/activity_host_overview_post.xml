@@ -550,16 +550,33 @@
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
-
     </ScrollView>
 
-    <Button
-        android:id="@+id/host_post_party_done_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Done"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="20dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="20dp">
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/host_post_party_done_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="#6200ee"
+            android:elevation="6dp"
+            android:text="Done"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+<!--    <Button-->
+<!--        android:id="@+id/host_post_party_done_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Done"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        android:layout_marginBottom="20dp"/>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

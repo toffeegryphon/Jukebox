@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -92,8 +95,8 @@ public class HostCreationActivity extends AppCompatActivity {
                     String partyCode = Objects.requireNonNull(viewModel.getPartyInfo().getValue()).getPartyCode();
                     Intent intent = new Intent(HostCreationActivity.this, HostPartyOverviewBeforeActivity.class);
                     intent.putExtra(PartyInfo.PARTY_CODE, partyCode);
+                    intent.putExtra("initialCreation", true);
                     startActivity(intent);
-                    Toast.makeText(this.getApplicationContext(), "Party created successfully!", Toast.LENGTH_SHORT).show();
                 //}
             }
         });

@@ -4,20 +4,16 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.SwitchCompat;
@@ -26,14 +22,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.internal.TextWatcherAdapter;
-import com.google.android.material.slider.Slider;
-
 import java.util.ArrayList;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
 import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
-import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 /**
  * A simple {@link SavableFragment} subclass.

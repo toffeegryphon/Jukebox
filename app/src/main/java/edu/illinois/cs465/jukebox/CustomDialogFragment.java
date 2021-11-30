@@ -10,7 +10,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
-import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 public class CustomDialogFragment extends DialogFragment {
     Context context;

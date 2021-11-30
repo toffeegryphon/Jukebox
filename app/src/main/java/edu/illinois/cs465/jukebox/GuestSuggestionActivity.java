@@ -5,21 +5,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,8 +21,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
-import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 public class GuestSuggestionActivity extends AppCompatActivity {
 
@@ -76,7 +66,7 @@ public class GuestSuggestionActivity extends AppCompatActivity {
                 String newSuggestionCount = String.valueOf(entryList.size()) + " / " + "10";
                 suggestionCount.setText(newSuggestionCount);
 
-                createSnackbarText(_pos, removedSong);
+                createUndoSnackbarText(_pos, removedSong);
             }
         };
         adapter.registerListener(recyclerListener);
@@ -132,7 +122,7 @@ public class GuestSuggestionActivity extends AppCompatActivity {
                 String newSuggestionCount = String.valueOf(entryList.size()) + " / " + "10";
                 suggestionCount.setText(newSuggestionCount);
 
-                createSnackbarText(position, removedSong);
+                createUndoSnackbarText(position, removedSong);
             }
         };
 
@@ -157,7 +147,8 @@ public class GuestSuggestionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (musicBound) {
                     musicService.setSongList(entryList);
-                    Toast.makeText(view.getContext(), "Submitted song suggestions!", Toast.LENGTH_SHORT).show();
+                    String snackbarText = "Submitted " + String.valueOf(entryList.size()) + " song suggestions!";
+                    Snackbar.make(submitButton, snackbarText, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -165,10 +156,10 @@ public class GuestSuggestionActivity extends AppCompatActivity {
         suggestionCount = findViewById(R.id.guestSuggestionCount);
     }
 
-    private void createSnackbarText(int position, SongEntry removedSong) {
+    private void createUndoSnackbarText(int position, SongEntry removedSong) {
         String snackbarText = "Removed '" + getResources().getString(removedSong.name) + "'";
         Snackbar snackbar = Snackbar
-                .make(recyclerView, snackbarText, Snackbar.LENGTH_LONG)
+                .make(submitButton, snackbarText, Snackbar.LENGTH_LONG)
                 .setAction("UNDO", new View.OnClickListener() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override

@@ -1,13 +1,14 @@
 package edu.illinois.cs465.jukebox;
 
 import android.annotation.SuppressLint;
-import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
-import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 public class HostApproveSongsFragment extends Fragment {
 
@@ -80,7 +79,7 @@ public class HostApproveSongsFragment extends Fragment {
                 }
                 suggestionCount.setText(String.valueOf(entryList.size()));
 
-                createSnackbarText(_pos, removedSong);
+                createUndoSnackbarText(_pos, removedSong);
             }
         };
         adapter.registerListener(recyclerListener);
@@ -137,7 +136,7 @@ public class HostApproveSongsFragment extends Fragment {
 
                 suggestionCount.setText(String.valueOf(entryList.size()));
 
-                createSnackbarText(position, removedSong);
+                createUndoSnackbarText(position, removedSong);
             }
         };
 
@@ -145,7 +144,14 @@ public class HostApproveSongsFragment extends Fragment {
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         approveButton = view.findViewById(R.id.host_approve_button);
-        approveButton.setOnClickListener(v -> Toast.makeText(getActivity(), "Approved song suggestions!", Toast.LENGTH_SHORT).show());
+        approveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(approveButton, "Approved song suggestions!", Snackbar.LENGTH_SHORT)
+                        .setAnchorView(Objects.requireNonNull(requireActivity().findViewById(R.id.bottomNavigationViewBeforeParty)))
+                        .show();
+            }
+        });
 
         suggestionCount = view.findViewById(R.id.host_queue_song_count);
         suggestionCount.setText(String.valueOf(entryList.size()));
@@ -153,10 +159,11 @@ public class HostApproveSongsFragment extends Fragment {
         return view;
     }
 
-    private void createSnackbarText(int position, SongEntry removedSong) {
+    private void createUndoSnackbarText(int position, SongEntry removedSong) {
         String snackbarText = "Removed '" + getResources().getString(removedSong.name) + "'";
         Snackbar snackbar = Snackbar
-                .make(recyclerView, snackbarText, Snackbar.LENGTH_LONG)
+                .make(approveButton, snackbarText, Snackbar.LENGTH_LONG)
+                .setAnchorView(Objects.requireNonNull(requireActivity().findViewById(R.id.bottomNavigationViewBeforeParty)))
                 .setAction("UNDO", new View.OnClickListener() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override

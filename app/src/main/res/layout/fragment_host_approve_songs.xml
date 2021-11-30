@@ -59,23 +59,28 @@
 
     </LinearLayout>
 
-        <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-            android:paddingBottom="20dp">
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Approve"
-            android:layout_gravity="center"
-            app:icon="@drawable/ic_host_approve_songs_check"
-            android:backgroundTint="#6200ee"
-            android:elevation="6dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/white"
-            app:iconTint="@color/white"
-            android:id="@+id/host_approve_button"
-            />
-        </RelativeLayout>
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp"
+            app:layout_behavior=".MoveUpwardBehavior">
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/host_approve_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="#6200ee"
+                android:elevation="6dp"
+                android:text="Approve All"
+                android:textColor="@color/white"
+                app:icon="@drawable/ic_host_approve_songs_check"
+                app:iconTint="@color/white" />
+            </RelativeLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </FrameLayout>

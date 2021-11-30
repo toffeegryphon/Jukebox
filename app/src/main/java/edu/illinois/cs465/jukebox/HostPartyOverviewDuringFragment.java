@@ -7,11 +7,9 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -27,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
-import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 public class HostPartyOverviewDuringFragment extends Fragment implements MediaController.MediaPlayerControl {
     private DocumentReference partyReference;

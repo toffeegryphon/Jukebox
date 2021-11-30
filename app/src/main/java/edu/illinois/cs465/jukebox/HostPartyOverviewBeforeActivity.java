@@ -2,6 +2,8 @@ package edu.illinois.cs465.jukebox;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
 import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
@@ -28,6 +31,12 @@ public class HostPartyOverviewBeforeActivity extends AppCompatActivity {
         if (source != null) {
             creationViewModel = new ViewModelProvider(this).get(HostCreationViewModel.class);
             creationViewModel.init(source.getStringExtra(PartyInfo.PARTY_CODE));
+
+            if (source.getBooleanExtra("initialCreation", false)) {
+                Snackbar.make(findViewById(R.id.hostPartyOverviewBeforeConstraintLayout), "Party created successfully!", Snackbar.LENGTH_SHORT)
+                        .setAnchorView(findViewById(R.id.bottomNavigationViewBeforeParty))
+                        .show();
+            }
         }
 
         // Setup bottom navigation bar
