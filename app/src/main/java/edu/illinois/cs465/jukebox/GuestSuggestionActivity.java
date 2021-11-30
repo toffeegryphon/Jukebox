@@ -236,4 +236,11 @@ public class GuestSuggestionActivity extends AppCompatActivity {
         SongEntry item = new SongEntry(image, song_name, artist, url, button);
         entryList.add(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
 }
