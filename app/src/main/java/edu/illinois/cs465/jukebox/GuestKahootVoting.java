@@ -164,6 +164,10 @@ public class GuestKahootVoting extends AppCompatActivity {
                                 i++;
                             }
 
+                            for (int j = added; j < 4; j++) {
+                                layouts[j].setVisibility(View.INVISIBLE);
+                            }
+
                             if (added == 0 && !songList.isEmpty()) {
                                 SongEntry currSongChoice = songList.get(0);
                                 layouts[0].setVisibility(View.VISIBLE);
@@ -171,6 +175,7 @@ public class GuestKahootVoting extends AppCompatActivity {
                                 titles[0].setText(currSongChoice.name);
                                 artists[0].setText(currSongChoice.artist);
                                 indices[0] = _songList.indexOf(currSongChoice);
+                                Log.d("SHOW", "ONE");
                             }
                         }
                     } else {

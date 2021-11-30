@@ -131,7 +131,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             currSong = songQueue.remove(0);
 
             // Avoid playing the same song twice in a row
-            while (!songQueue.isEmpty() && songQueue.get(0).equals(prevSong)) {
+            while (!songQueue.isEmpty() && currSong.equals(prevSong)) {
                 currSong = songQueue.remove(0);
             }
 
@@ -291,8 +291,8 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         boolean removed = removeSongFromQueue(index, true);
         if (removed) {
             addSongToQueue(0, songToPlay);
-            playNext();
         }
+        playNext();
     }
 
     public void addSongToQueue(int index, SongEntry songToAdd) {
