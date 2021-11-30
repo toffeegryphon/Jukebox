@@ -1,13 +1,14 @@
 package edu.illinois.cs465.jukebox;
 
 import android.annotation.SuppressLint;
-import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.Objects;
-
-import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 public class HostApproveSongsFragment extends Fragment {
 
@@ -72,11 +73,13 @@ public class HostApproveSongsFragment extends Fragment {
 
         recyclerListener = new RecyclerViewAdapter.RecyclerViewListener() {
             @Override
-            public void onDeleteButtonPressed(int _pos) {
+            public void onDeleteButtonPressed(RecyclerViewAdapter.ViewHolder holder, int _pos, SongEntry removedSong) {
                 if (musicBound) {
                     musicService.removeSongFromQueue(_pos, true);
                 }
                 suggestionCount.setText(String.valueOf(entryList.size()));
+
+                createUndoSnackbarText(_pos, removedSong);
             }
         };
         adapter.registerListener(recyclerListener);
@@ -85,6 +88,7 @@ public class HostApproveSongsFragment extends Fragment {
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) { return false; }
 
             // Commented because adding red background lagged on my emulator. Feel free to try it out
+            // Helpful link: https://medium.com/nemanja-kovacevic/recyclerview-swipe-to-delete-no-3rd-party-lib-necessary-6bf6a6601214
 //            @Override
 //            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
 //                                    float dX, float dY, int actionState, boolean isCurrentlyActive) {
@@ -132,11 +136,7 @@ public class HostApproveSongsFragment extends Fragment {
 
                 suggestionCount.setText(String.valueOf(entryList.size()));
 
-                // TODO: Undo button?
-                // TODO: Add red background?
-                // Helpful link: https://medium.com/nemanja-kovacevic/recyclerview-swipe-to-delete-no-3rd-party-lib-necessary-6bf6a6601214
-                String toastText = "Removed '" + getResources().getString(removedSong.name) + "'";
-                Toast.makeText(getActivity(), toastText, Toast.LENGTH_SHORT).show();
+                createUndoSnackbarText(position, removedSong);
             }
         };
 
@@ -144,12 +144,40 @@ public class HostApproveSongsFragment extends Fragment {
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         approveButton = view.findViewById(R.id.host_approve_button);
-        approveButton.setOnClickListener(v -> Toast.makeText(getActivity(), "Approved song suggestions!", Toast.LENGTH_SHORT).show());
+        approveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(approveButton, "Approved song suggestions!", Snackbar.LENGTH_SHORT)
+                        .setAnchorView(Objects.requireNonNull(requireActivity().findViewById(R.id.bottomNavigationViewBeforeParty)))
+                        .show();
+            }
+        });
 
         suggestionCount = view.findViewById(R.id.host_queue_song_count);
         suggestionCount.setText(String.valueOf(entryList.size()));
 
         return view;
+    }
+
+    private void createUndoSnackbarText(int position, SongEntry removedSong) {
+        String snackbarText = "Removed '" + getResources().getString(removedSong.name) + "'";
+        Snackbar snackbar = Snackbar
+                .make(approveButton, snackbarText, Snackbar.LENGTH_LONG)
+                .setAnchorView(Objects.requireNonNull(requireActivity().findViewById(R.id.bottomNavigationViewBeforeParty)))
+                .setAction("UNDO", new View.OnClickListener() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onClick(View view) {
+                        entryList.add(position, removedSong);
+                        adapter.notifyDataSetChanged();
+                        recyclerView.scrollToPosition(position);
+
+                        if (musicBound) {
+                            musicService.addSongToQueue(position, removedSong);
+                        }
+                    }
+                });
+        snackbar.show();
     }
 
     @SuppressLint("NotifyDataSetChanged")

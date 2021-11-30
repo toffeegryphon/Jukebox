@@ -8,14 +8,11 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-
-import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
@@ -53,13 +50,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 notifyItemRemoved(_pos);
                 notifyItemRangeChanged(_pos, data_entry_list.size());
 
-                // TODO: Undo button?
-                String toastText = "Removed '" + holder.itemView.getResources().getString(removedSong.name) + "'";
-                Toast.makeText(holder.itemView.getContext(), toastText, Toast.LENGTH_SHORT).show();
-
                 if (!mListeners.isEmpty()) {
                     for (RecyclerViewListener l : mListeners) {
-                        l.onDeleteButtonPressed(_pos);
+                        l.onDeleteButtonPressed(holder, _pos, removedSong);
                     }
                 }
             }
@@ -90,7 +83,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public interface RecyclerViewListener {
-        void onDeleteButtonPressed(int _pos);
+        void onDeleteButtonPressed(ViewHolder holder, int _pos, SongEntry removedSong);
     }
 
     public void registerListener(RecyclerViewListener listener) {

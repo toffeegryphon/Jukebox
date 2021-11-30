@@ -1,4 +1,4 @@
-package edu.illinois.cs465.jukebox.viewmodel;
+package edu.illinois.cs465.jukebox;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,9 +11,6 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Button;
-
-import edu.illinois.cs465.jukebox.R;
-import edu.illinois.cs465.jukebox.SongEntry;
 
 /*
  * This is demo code to accompany the Mobiletuts+ series:
@@ -285,6 +282,16 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     public void playNext() {
         playSong(true);
+    }
+
+    public void addSongToQueue(int index, SongEntry songToAdd) {
+        songQueue.add(index, songToAdd);
+
+        if (!mListeners.isEmpty()) {
+            for (MusicServiceListener l : mListeners) {
+                l.onQueueUpdate(this.songQueue);
+            }
+        }
     }
 
     public boolean removeSongFromQueue(int index, boolean actuallyRemove) {

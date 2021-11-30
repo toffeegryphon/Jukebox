@@ -5,30 +5,22 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.Objects;
-
-import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 public class GuestSuggestionActivity extends AppCompatActivity {
 
@@ -68,11 +60,13 @@ public class GuestSuggestionActivity extends AppCompatActivity {
 
         recyclerListener = new RecyclerViewAdapter.RecyclerViewListener() {
             @Override
-            public void onDeleteButtonPressed(int _pos) {
+            public void onDeleteButtonPressed(RecyclerViewAdapter.ViewHolder holder, int _pos, SongEntry removedSong) {
 
                 // TODO: Get host settings' suggestion limit instead of hardcoding '10'
                 String newSuggestionCount = String.valueOf(entryList.size()) + " / " + "10";
                 suggestionCount.setText(newSuggestionCount);
+
+                createUndoSnackbarText(_pos, removedSong);
             }
         };
         adapter.registerListener(recyclerListener);
@@ -81,6 +75,7 @@ public class GuestSuggestionActivity extends AppCompatActivity {
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) { return false; }
 
             // Commented because adding red background lagged on my emulator. Feel free to try it out
+            // Helpful link: https://medium.com/nemanja-kovacevic/recyclerview-swipe-to-delete-no-3rd-party-lib-necessary-6bf6a6601214
 //            @Override
 //            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
 //                                    float dX, float dY, int actionState, boolean isCurrentlyActive) {
@@ -127,11 +122,7 @@ public class GuestSuggestionActivity extends AppCompatActivity {
                 String newSuggestionCount = String.valueOf(entryList.size()) + " / " + "10";
                 suggestionCount.setText(newSuggestionCount);
 
-                // TODO: Undo button?
-                // TODO: Add red background?
-                // Helpful link: https://medium.com/nemanja-kovacevic/recyclerview-swipe-to-delete-no-3rd-party-lib-necessary-6bf6a6601214
-                String toastText = "Removed '" + getResources().getString(removedSong.name) + "'";
-                Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
+                createUndoSnackbarText(position, removedSong);
             }
         };
 
@@ -156,12 +147,33 @@ public class GuestSuggestionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (musicBound) {
                     musicService.setSongList(entryList);
-                    Toast.makeText(view.getContext(), "Submitted song suggestions!", Toast.LENGTH_SHORT).show();
+                    String snackbarText = "Submitted " + String.valueOf(entryList.size()) + " song suggestions!";
+                    Snackbar.make(submitButton, snackbarText, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
 
         suggestionCount = findViewById(R.id.guestSuggestionCount);
+    }
+
+    private void createUndoSnackbarText(int position, SongEntry removedSong) {
+        String snackbarText = "Removed '" + getResources().getString(removedSong.name) + "'";
+        Snackbar snackbar = Snackbar
+                .make(submitButton, snackbarText, Snackbar.LENGTH_LONG)
+                .setAction("UNDO", new View.OnClickListener() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onClick(View view) {
+                        entryList.add(position, removedSong);
+                        adapter.notifyDataSetChanged();
+                        recyclerView.scrollToPosition(position);
+
+                        // TODO: Get host settings' suggestion limit instead of hardcoding '10'
+                        String newSuggestionCount = String.valueOf(entryList.size()) + " / " + "10";
+                        suggestionCount.setText(newSuggestionCount);
+                    }
+                });
+        snackbar.show();
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -223,5 +235,12 @@ public class GuestSuggestionActivity extends AppCompatActivity {
     public void addSongListItem(int image, int song_name, int artist, int url, Button button) {
         SongEntry item = new SongEntry(image, song_name, artist, url, button);
         entryList.add(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

@@ -1,11 +1,8 @@
 package edu.illinois.cs465.jukebox;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.widget.Button;
 
@@ -13,10 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-
 import edu.illinois.cs465.jukebox.model.PartyInfo;
-import edu.illinois.cs465.jukebox.viewmodel.MusicService;
 
 public class HostPartyOverviewPostActivity extends AppCompatActivity {
     private FirebaseFirestore db;
