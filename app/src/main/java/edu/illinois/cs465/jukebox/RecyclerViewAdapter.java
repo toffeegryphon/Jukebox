@@ -17,11 +17,14 @@ import java.util.ArrayList;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private Context mContext;
-    ArrayList<EntryItem> data_entry_list;
+    ArrayList<SongEntry> data_entry_list;
 
-    public RecyclerViewAdapter(Context mContext, ArrayList<EntryItem> entryList) {
+    private ArrayList<RecyclerViewListener> mListeners;
+
+    public RecyclerViewAdapter(Context mContext, ArrayList<SongEntry> entryList) {
         this.mContext = mContext;
         this.data_entry_list = entryList;
+        mListeners = new ArrayList<>();
     }
 
     @NonNull
@@ -34,18 +37,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.image.setImageResource(R.drawable.clay_davis); // TODO: Use list images
-        holder.song.setText(data_entry_list.get(position).name);
-        holder.artist.setText(data_entry_list.get(position).artist);
+        SongEntry entry = data_entry_list.get(position);
+        holder.image.setImageResource(entry.image);
+        holder.song.setText(entry.name);
+        holder.artist.setText(entry.artist);
         //holder.button.(data_buttons.get(position));
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int _pos = holder.getAdapterPosition();
-
-                data_entry_list.remove(_pos);
+                SongEntry removedSong = data_entry_list.remove(_pos);
                 notifyItemRemoved(_pos);
                 notifyItemRangeChanged(_pos, data_entry_list.size());
+
+                if (!mListeners.isEmpty()) {
+                    for (RecyclerViewListener l : mListeners) {
+                        l.onDeleteButtonPressed(holder, _pos, removedSong);
+                    }
+                }
             }
         });
     }
@@ -71,5 +80,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             button = itemView.findViewById(R.id.fragment_song_button);
             parentLayout = itemView.findViewById(R.id.fragment_song_parent_layout);
         }
+    }
+
+    public interface RecyclerViewListener {
+        void onDeleteButtonPressed(ViewHolder holder, int _pos, SongEntry removedSong);
+    }
+
+    public void registerListener(RecyclerViewListener listener) {
+        if (!mListeners.contains(listener)) {
+            mListeners.add(listener);
+        }
+    }
+
+    public boolean unregisterListener(RecyclerViewListener listener) {
+        return mListeners.remove(listener);
     }
 }

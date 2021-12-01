@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
@@ -73,7 +76,7 @@ public class GuestJoinPartyActivity extends AppCompatActivity {
     }
 
     private void toastInvalid() {
-        Toast.makeText(getApplicationContext(), "Invalid Code!", Toast.LENGTH_SHORT).show();
+        Snackbar.make(findViewById(R.id.guestJoinPartyConstraintLayout), "Invalid Code!", Snackbar.LENGTH_SHORT).show();
     }
 
     private boolean isCodeValid(String code) {

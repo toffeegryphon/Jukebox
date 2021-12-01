@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/hostPartyOverviewBeforeConstraintLayout">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationViewBeforeParty"
@@ -13,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/host_overview_before_menu"
-        app:itemBackground="@color/white"
+        app:itemBackground="@color/darkgray"
         app:itemIconTint="@drawable/host_party_before_color_selector"
         app:itemTextColor="@drawable/host_party_before_color_selector" />
 

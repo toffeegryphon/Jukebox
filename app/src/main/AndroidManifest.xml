@@ -2,13 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.illinois.cs465.jukebox">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Jukebox">
+        android:theme="@style/Theme.Jukebox"
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name=".GuestVoteActivity"
@@ -29,6 +32,9 @@
             android:name=".GuestSuggestionActivity"
             android:exported="false" />
         <activity
+            android:name=".GuestKahootVoting"
+            android:exported="false" />
+        <activity
             android:name=".HostCreationActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"
@@ -43,6 +49,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name="edu.illinois.cs465.jukebox.MusicService" />
     </application>
 
 </manifest>

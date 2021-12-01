@@ -77,7 +77,7 @@ public class HostPartyOverviewBeforeFragment extends Fragment {
 
         hostCreationGeneralFragment = (HostCreationGeneralFragment) getChildFragmentManager().findFragmentById(R.id.fragmentGeneralPartyOverviewBefore);
         Objects.requireNonNull(hostCreationGeneralFragment).bindViewModel();
-        hostCreationGeneralFragment.setEnabled(false);
+        hostCreationGeneralFragment.setFocusableFields(false);
 
         // Setup start party button
         buttonStart = (Button) view.findViewById(R.id.button_start);
@@ -96,6 +96,7 @@ public class HostPartyOverviewBeforeFragment extends Fragment {
                 "Start",
                 "Cancel",
                 HostPartyOverviewDuringActivity.class,
+                null,
                 creationViewModel.getPartyInfo().getValue().getPartyCode()
         ).show(getActivity().getSupportFragmentManager(), "StartPartyDialog");
     }

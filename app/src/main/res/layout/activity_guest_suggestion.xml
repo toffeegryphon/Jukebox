@@ -46,13 +46,29 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:text="Dress Code: Business Professional" />
-            <TextView
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="Suggest Songs"
-                android:paddingTop="10dp"/>
+                android:layout_height="wrap_content" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="Suggest Songs"
+                    android:paddingTop="10dp"
+                    android:id="@+id/guestSuggestSongsText"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="10 / 10"
+                    android:layout_alignRight="@id/guestSuggestSongsText"
+                    android:layout_alignTop="@id/guestSuggestSongsText"
+                    android:layout_alignBottom="@id/guestSuggestSongsText"
+                    android:layout_alignParentRight="true"
+                    android:paddingTop="10dp"
+                    android:id="@+id/guestSuggestionCount"/>
+            </RelativeLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_layout_guest_search_bar"
@@ -62,14 +78,19 @@
                 android:inputType="textPersonName"
                 android:hint="Search"
                 app:startIconDrawable="@drawable/ic_search_icon"
+                app:startIconTint="@color/white"
+                app:endIconTint="@color/white"
                 app:endIconMode="clear_text"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:textColorHint="@color/white"
+                android:paddingBottom="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edit_search_text_name"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,23 +119,28 @@
 
     </LinearLayout>
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="20dp">
+        android:layout_height="match_parent" >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp"
+            app:layout_behavior=".MoveUpwardBehavior">
+
             <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/guest_suggestion_submit_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Submit"
-                android:layout_gravity="center"
-                app:icon="@drawable/ic_guest_add_song_plus"
-                android:backgroundTint="#6200ee"
-                android:elevation="6dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:backgroundTint="#6200ee"
+                android:elevation="6dp"
+                android:text="Submit"
                 android:textColor="@color/white"
-                app:iconTint="@color/white"
-                android:id="@+id/guest_suggestion_submit_button"
-                />
-    </RelativeLayout>
+                app:icon="@drawable/ic_guest_add_song_plus"
+                app:iconTint="@color/white" />
+        </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </FrameLayout>

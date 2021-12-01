@@ -18,15 +18,17 @@ public class CustomDialogFragment extends DialogFragment {
     String positiveButton;
     String negativeButton;
     Class goToClass;
+    MusicService musicService;
     String partyCode;
 
-    public CustomDialogFragment(Context _context, String _title, String _message, String _positiveButton, String _negativeButton, Class _goToClass, String _partyCode) {
+    public CustomDialogFragment(Context _context, String _title, String _message, String _positiveButton, String _negativeButton, Class _goToClass, MusicService _musicService, String _partyCode) {
         context = _context;
         title = _title;
         message = _message;
         positiveButton = _positiveButton;
         negativeButton = _negativeButton;
         goToClass = _goToClass;
+        musicService = _musicService;
         partyCode = _partyCode;
     }
 
@@ -39,6 +41,7 @@ public class CustomDialogFragment extends DialogFragment {
         alertDialogBuilder.setPositiveButton(positiveButton, (dialog, which) -> {
             Intent intent = new Intent(context.getApplicationContext(), goToClass);
             if (partyCode != null) intent.putExtra(PartyInfo.PARTY_CODE, partyCode);
+            if (musicService != null) musicService.stopMusicService();
             startActivity(intent);
         });
         alertDialogBuilder.setNegativeButton(negativeButton, null);
