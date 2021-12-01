@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Suggest Songs"
+        android:icon="@drawable/ic_guest_suggest_songs"
+        android:id="@+id/guestSuggestionFragment" />
+    <item
+        android:title="Party Overview"
+        android:icon="@drawable/ic_host_overview"
+        android:id="@+id/guestPartyOverviewBeforeFragment" />
+</menu>

@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +24,9 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class GuestSuggestionActivity extends AppCompatActivity {
+public class GuestSuggestionFragment extends Fragment {
+
+    View view;
 
     ArrayList<SongEntry> entryList;
 
@@ -37,26 +41,31 @@ public class GuestSuggestionActivity extends AppCompatActivity {
     private MusicService.MusicServiceListener musicListener;
     private RecyclerViewAdapter.RecyclerViewListener recyclerListener;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guest_suggestion);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_guest_suggestion, container, false);
 
         if (playIntent == null) {
-            playIntent = new Intent(this, MusicService.class);
-            bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-            startService(playIntent);
+            playIntent = new Intent(requireActivity(), MusicService.class);
+            requireActivity().bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+            requireActivity().startService(playIntent);
         }
 
-        recyclerView = findViewById(R.id.guest_suggestion_recycler_view);
+        recyclerView = view.findViewById(R.id.guest_suggestion_recycler_view);
         RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0, 0, true, false);
         recyclerView.addItemDecoration(decoration);
 
         entryList = new ArrayList<SongEntry>();
 
-        adapter = new RecyclerViewAdapter(this, entryList);
+        adapter = new RecyclerViewAdapter(requireActivity(), entryList);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         recyclerListener = new RecyclerViewAdapter.RecyclerViewListener() {
             @Override
@@ -141,7 +150,7 @@ public class GuestSuggestionActivity extends AppCompatActivity {
         addSongListItem(R.drawable.songcover_shine, R.string.songcover_name9, R.string.songcover_artist9, R.string.songcover_url9);
         addSongListItem(R.drawable.songcover_invisible, R.string.songcover_name10, R.string.songcover_artist10, R.string.songcover_url10);
 
-        submitButton = findViewById(R.id.guest_suggestion_submit_button);
+        submitButton = view.findViewById(R.id.guest_suggestion_submit_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,7 +162,9 @@ public class GuestSuggestionActivity extends AppCompatActivity {
             }
         });
 
-        suggestionCount = findViewById(R.id.guestSuggestionCount);
+        suggestionCount = view.findViewById(R.id.guestSuggestionCount);
+
+        return view;
     }
 
     private void createUndoSnackbarText(int position, SongEntry removedSong) {
@@ -229,7 +240,7 @@ public class GuestSuggestionActivity extends AppCompatActivity {
     }
 
     public void addSongListItem(int image, int song_name, int artist, int url) {
-        addSongListItem(image, song_name, artist, url, new Button(this));
+        addSongListItem(image, song_name, artist, url, new Button(requireActivity()));
     }
 
     public void addSongListItem(int image, int song_name, int artist, int url, Button button) {
@@ -237,10 +248,10 @@ public class GuestSuggestionActivity extends AppCompatActivity {
         entryList.add(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
+//    @Override
+//    public void onBackPressed() {
+//        Intent intent = new Intent(requireActivity(), MainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+//    }
 }

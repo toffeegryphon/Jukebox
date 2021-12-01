@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:paddingBottom="15dp">
 
         <TextView
             android:id="@+id/songSuggestionsText"
@@ -22,9 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:text="Song Suggestions"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:paddingBottom="5dp"/>
+            android:textAppearance="@style/TextLarge"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,7 +32,8 @@
             android:layout_alignBottom="@id/songSuggestionsText"
             android:textSize="28sp"
             android:text="4"
-            android:id="@+id/host_queue_song_count"/>
+            android:id="@+id/host_queue_song_count"
+            android:gravity="center"/>
 
     </RelativeLayout>
     <ScrollView

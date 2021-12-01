@@ -3,71 +3,42 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".HostApproveSongsFragment"
+    tools:context=".GuestSuggestionFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingHorizontal="20dp"
-        android:paddingTop="20dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="10dp"
+            android:paddingBottom="15dp"
             android:id="@+id/guest_suggestion_header_linear_layout">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Blacklight - Chad's Halloween Party"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:text="Date: Jan 1st 2022" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:text="Time: 7:00PM" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:text="Location: Chad's Secret Garden" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:text="Dress Code: Business Professional" />
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:paddingBottom="15dp">
+
                 <TextView
+                    android:id="@+id/guestSuggestSongsText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
                     android:text="Suggest Songs"
-                    android:paddingTop="10dp"
-                    android:id="@+id/guestSuggestSongsText"/>
+                    android:textAppearance="@style/TextLarge" />
+
                 <TextView
+                    android:id="@+id/guestSuggestionCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="10 / 10"
-                    android:layout_alignRight="@id/guestSuggestSongsText"
                     android:layout_alignTop="@id/guestSuggestSongsText"
                     android:layout_alignBottom="@id/guestSuggestSongsText"
-                    android:layout_alignParentRight="true"
-                    android:paddingTop="10dp"
-                    android:id="@+id/guestSuggestionCount"/>
+                    android:layout_alignParentEnd="true"
+                    android:text="10 / 10"
+                    android:textSize="28sp"
+                    android:gravity="center"/>
             </RelativeLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -81,8 +52,7 @@
                 app:startIconTint="@color/white"
                 app:endIconTint="@color/white"
                 app:endIconMode="clear_text"
-                android:textColorHint="@color/white"
-                android:paddingBottom="10dp">
+                android:textColorHint="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
