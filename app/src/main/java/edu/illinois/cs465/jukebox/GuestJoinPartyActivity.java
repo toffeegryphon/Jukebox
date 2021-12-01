@@ -63,7 +63,7 @@ public class GuestJoinPartyActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(
                                 this.getApplicationContext(),
-                                (Objects.requireNonNull(info).isHasStarted()) ? GuestVoteActivity.class : GuestSuggestionActivity.class
+                                (Objects.requireNonNull(info).isHasStarted()) ? GuestVoteActivity.class : GuestPartyOverviewBeforeActivity.class
                         );
                         intent.putExtra(PartyInfo.PARTY_CODE, info.getPartyCode());
                         getSharedPreferences("guest", MODE_PRIVATE).edit()

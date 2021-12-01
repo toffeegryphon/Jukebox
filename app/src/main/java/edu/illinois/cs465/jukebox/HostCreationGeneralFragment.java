@@ -36,6 +36,8 @@ import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
  * create an instance of this fragment.
  */
 public class HostCreationGeneralFragment extends SavableFragment {
+    private TextView topText;
+
     private static final int[] LAYOUTS = {
             R.id.text_input_layout_edit_text_name,
             R.id.text_input_layout_edit_text_theme,
@@ -126,6 +128,7 @@ public class HostCreationGeneralFragment extends SavableFragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(HostCreationViewModel.class);
 
+        topText = view.findViewById(R.id.label_creation_general);
         editTextName = view.findViewById(R.id.edit_text_name);
         editTextTheme = view.findViewById(R.id.edit_text_theme);
         editTextDate = view.findViewById(R.id.edit_text_date);
@@ -154,6 +157,13 @@ public class HostCreationGeneralFragment extends SavableFragment {
             fragmentFrameLayout.setPadding(0, 0, 0, padding_in_px);
         } else {
             fragmentFrameLayout.setPadding(0,0,0,0);
+        }
+
+        // Change top text if party created
+        if (getActivity().getClass() == HostCreationActivity.class) {
+            topText.setText(R.string.host_creation_top_text);
+        } else {
+            topText.setText(R.string.host_overview_top_text);
         }
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
