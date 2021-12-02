@@ -66,7 +66,7 @@ public class GuestKahootVoting extends AppCompatActivity {
             startService(playIntent);
         }
 
-        String partyCode = getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "AAAA");
+        String partyCode = getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "TCAE");
         partyReference =  FirebaseFirestore.getInstance().collection("partyInfo").document(partyCode);
 
         progressTimeLeft = findViewById(R.id.time_skip);

@@ -173,7 +173,7 @@ public class GuestSuggestionFragment extends Fragment {
 
 
 
-        String partyCode = requireActivity().getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "AAAA");
+        String partyCode = requireActivity().getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "TCAE");
         partyReference = FirebaseFirestore.getInstance().collection("partyInfo").document(partyCode);
 
         partyReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

@@ -74,9 +74,9 @@ public class HostApproveSongsFragment extends Fragment {
         recyclerListener = new RecyclerViewAdapter.RecyclerViewListener() {
             @Override
             public void onDeleteButtonPressed(RecyclerViewAdapter.ViewHolder holder, int _pos, SongEntry removedSong) {
-                if (musicBound) {
-                    musicService.removeSongFromQueue(_pos, true);
-                }
+//                if (musicBound) {
+//                    musicService.removeSongFromQueue(_pos, true);
+//                }
                 suggestionCount.setText(String.valueOf(entryList.size()));
 
                 createUndoSnackbarText(_pos, removedSong);
@@ -130,9 +130,9 @@ public class HostApproveSongsFragment extends Fragment {
                 SongEntry removedSong = entryList.remove(position);
                 adapter.notifyDataSetChanged();
 
-                if (musicBound) {
-                    musicService.removeSongFromQueue(removedSong, true);
-                }
+//                if (musicBound) {
+//                    musicService.removeSongFromQueue(removedSong, true);
+//                }
 
                 suggestionCount.setText(String.valueOf(entryList.size()));
 
@@ -147,9 +147,12 @@ public class HostApproveSongsFragment extends Fragment {
         approveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(approveButton, "Approved all song suggestions!", Snackbar.LENGTH_SHORT)
-                        .setAnchorView(Objects.requireNonNull(requireActivity().findViewById(R.id.bottomNavigationViewBeforeParty)))
-                        .show();
+                if (musicBound) {
+                    musicService.setSongList(entryList);
+                    Snackbar.make(approveButton, "Approved all song suggestions!", Snackbar.LENGTH_SHORT)
+                            .setAnchorView(Objects.requireNonNull(requireActivity().findViewById(R.id.bottomNavigationViewBeforeParty)))
+                            .show();
+                }
             }
         });
 
@@ -172,9 +175,9 @@ public class HostApproveSongsFragment extends Fragment {
                         adapter.notifyDataSetChanged();
                         recyclerView.scrollToPosition(position);
 
-                        if (musicBound) {
-                            musicService.addSongToQueue(position, removedSong);
-                        }
+//                        if (musicBound) {
+//                            musicService.addSongToQueue(position, removedSong);
+//                        }
                     }
                 });
         snackbar.show();

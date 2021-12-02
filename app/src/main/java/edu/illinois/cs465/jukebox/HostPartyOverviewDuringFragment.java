@@ -51,7 +51,7 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String partyCode = requireActivity().getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "AAAA");
+        String partyCode = requireActivity().getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "TCAE");
         partyReference = FirebaseFirestore.getInstance().collection("partyInfo").document(partyCode);
 
         if(playIntent == null) {

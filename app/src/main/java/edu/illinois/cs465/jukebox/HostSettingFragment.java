@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.SwitchCompat;
@@ -23,10 +24,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import edu.illinois.cs465.jukebox.model.PartyInfo;
 import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
@@ -47,6 +53,7 @@ public class HostSettingFragment extends SavableFragment {
     private TextView skipThreshold, skipThresholdWarning;
     private TextView skipTimer, skipTimerWarning;
     private LinearLayout songSuggestionsLayout;
+    private ExtendedFloatingActionButton saveChangesButton;
 
     private CustomSliderBar skipThresholdSlider;
 
@@ -96,6 +103,7 @@ public class HostSettingFragment extends SavableFragment {
         suggestionLimitWarning.setVisibility(View.GONE);
         endPartyButton = view.findViewById(R.id.buttonHostSettingsEndParty);
         songSuggestionsLayout = view.findViewById(R.id.linearLayoutHostSettingsSuggestions);
+        saveChangesButton = view.findViewById(R.id.host_settings_save_changes);
 
         bindViewModel();
         initListeners();
@@ -104,12 +112,8 @@ public class HostSettingFragment extends SavableFragment {
         if(getActivity().getClass() == HostPartyOverviewDuringActivity.class)
         {
             endPartyButton.setVisibility(View.VISIBLE);
+            saveChangesButton.setVisibility(View.VISIBLE);
             view.findViewById(R.id.linearLayoutHostSettingsSuggestions).setVisibility(View.GONE);
-
-            int padding_in_dp = 125;
-            final float scale = getResources().getDisplayMetrics().density;
-            int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
-            songSuggestionsLayout.setPadding(0, 0, 0, padding_in_px);
 
             if (playIntent == null) {
                 playIntent = new Intent(this.getContext(), MusicService.class);
@@ -118,10 +122,17 @@ public class HostSettingFragment extends SavableFragment {
             }
         } else {
             endPartyButton.setVisibility(View.GONE);
-            songSuggestionsLayout.setPadding(0,0,0,0);
+
+            if (getActivity().getClass() == HostCreationActivity.class) {
+                saveChangesButton.setVisibility(View.GONE);
+                LinearLayout.LayoutParams rl = (LinearLayout.LayoutParams) view.findViewById(R.id.settingsSuggestionsLayout).getLayoutParams();
+                rl.setMargins(rl.leftMargin, rl.topMargin, rl.rightMargin, 0);
+            } else {
+                saveChangesButton.setVisibility(View.VISIBLE);
+            }
         }
 
-        partyReference = FirebaseFirestore.getInstance().collection("partyInfo").document("AAAA");
+        partyReference = FirebaseFirestore.getInstance().collection("partyInfo").document("TCAE");
 
         return view;
     }
@@ -192,9 +203,6 @@ public class HostSettingFragment extends SavableFragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
             public void afterTextChanged(Editable editable) {
                 if (String.valueOf(suggestionLimit.getText()).isEmpty()) {
-                    suggestionLimit.setText("0");
-                    suggestionLimitWarning.setVisibility(View.VISIBLE);
-                    suggestionLimitWarning.setText(getResources().getString(R.string.suggestion_limit_warning_0));
                     return;
                 }
 
@@ -208,6 +216,29 @@ public class HostSettingFragment extends SavableFragment {
                 } else {
                     suggestionLimitWarning.setVisibility(View.GONE);
                 }
+            }
+        });
+
+        // TODO: It works, but is this right?
+        saveChangesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                partyReference.update("skipThreshold", (int) skipThresholdSlider.getValue());
+                partyReference.update("skipTimer", (int) skipTimerSlider.getValue());
+                partyReference.update("areSuggestionsAllowed", switchAllow.isChecked());
+                partyReference.update("suggestionLimit", Integer.parseInt(suggestionLimit.getText().toString()));
+                save();
+
+                BottomNavigationView bnv;
+                if (getActivity().getClass() == HostPartyOverviewDuringActivity.class) {
+                    bnv = requireActivity().findViewById(R.id.bottomNavigationViewDuringParty);
+                } else {
+                    bnv = requireActivity().findViewById(R.id.bottomNavigationViewBeforeParty);
+                }
+
+                Snackbar.make(saveChangesButton, R.string.host_settings_save, Snackbar.LENGTH_SHORT)
+                        .setAnchorView(bnv)
+                        .show();
             }
         });
 
@@ -261,15 +292,4 @@ public class HostSettingFragment extends SavableFragment {
         @Override
         public void onServiceDisconnected(ComponentName name) { }
     };
-
-    // TODO: Is this right?
-    @Override
-    public void onDestroy() {
-        partyReference.update("skipThreshold", (int) skipThresholdSlider.getValue());
-        partyReference.update("skipTimer", (int) skipTimerSlider.getValue());
-        partyReference.update("areSuggestionsAllowed", switchAllow.isChecked());
-        partyReference.update("suggestionLimit", Integer.parseInt(suggestionLimit.getText().toString()));
-        save();
-        super.onDestroy();
-    }
 }

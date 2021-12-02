@@ -60,5 +60,5 @@
     <string name="host_overview_top_text">Party Details</string>
     <string name="suggestion_limit_warning_0">Warning: This will disable guests from suggesting songs</string>
     <string name="suggestion_limit_warning_too_high">Warning: This allows guests to suggest up to %d songs which may lead to low quality submissions</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="host_settings_save">Changes saved successfully!</string>
 </resources>
