@@ -55,9 +55,9 @@ public class HostSongQueueFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_host_song_queue, container, false);
 
         recyclerView = view.findViewById(R.id.host_queue_recycler_view);
-        float density = getResources().getDisplayMetrics().density;
-        RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0,(int) (62 * density),true,true);
-        recyclerView.addItemDecoration(decoration);
+//        float density = getResources().getDisplayMetrics().density;
+//        RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0,(int) (62 * density),true,true);
+//        recyclerView.addItemDecoration(decoration);
 
         entryList = new ArrayList<SongEntry>();
 

@@ -8,7 +8,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollY="2000px">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -622,7 +623,6 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:backgroundTint="#6200ee"
-            android:elevation="6dp"
             android:text="Done"
             android:textColor="@color/white" />
     </RelativeLayout>

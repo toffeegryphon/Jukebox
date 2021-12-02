@@ -21,8 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="Song Suggestions"
-            android:textAppearance="@style/TextLarge"/>
+            android:text="Approved Songs"
+            android:textAppearance="@style/TextLarge" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
                 android:layout_gravity="center_horizontal"
                 android:backgroundTint="#6200ee"
                 android:elevation="6dp"
-                android:text="Approve All"
+                android:text="Save Changes"
                 android:textColor="@color/white"
                 app:icon="@drawable/ic_host_approve_songs_check"
                 app:iconTint="@color/white" />

@@ -10,7 +10,7 @@
     android:layout_gravity="top"
     android:id="@+id/linear_layout_host_during_overall"
     android:paddingTop="20dp"
-    android:paddingBottom="76dp"> <!-- bottomNavBar=56 + 20 -->
+    android:paddingBottom="20dp">
 
     <ImageView
         android:id="@+id/imageViewHostDuringPartyAlbumCover"

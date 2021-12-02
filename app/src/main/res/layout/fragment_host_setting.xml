@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".HostSettingFragment"
-    android:paddingBottom="20dp" >
+    tools:context=".HostSettingFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,7 +23,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="start"
-                android:layout_marginBottom="40dp"
                 android:id="@+id/linearLayoutHostSettingsSkips" >
 
                 <TextView
@@ -157,7 +155,7 @@
                 android:gravity="start"
                 app:layout_constraintTop_toBottomOf="@id/linearLayoutHostSettingsSkips"
                 android:id="@+id/linearLayoutHostSettingsSuggestions"
-                android:paddingBottom="116dp">
+                android:layout_marginTop="40dp">
 
                 <TextView
                     android:id="@+id/header_suggestions"
@@ -189,7 +187,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/item_background_rounded"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    android:layout_marginBottom="86dp"
+                    android:id="@+id/settingsSuggestionsLayout">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -224,18 +224,42 @@
 
                 </RelativeLayout>
             </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End Party"
+                android:layout_gravity="bottom|center"
+                android:visibility="visible"
+                android:id="@+id/buttonHostSettingsEndParty"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"/>
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="End Party"
-        android:layout_gravity="bottom|center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:visibility="visible"
-        android:id="@+id/buttonHostSettingsEndParty"
-        android:layout_marginBottom="56dp"/>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp"
+            app:layout_behavior=".MoveUpwardBehavior">
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/host_settings_save_changes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="#6200ee"
+                android:elevation="6dp"
+                android:text="Save Changes"
+                android:textColor="@color/white"
+                app:icon="@drawable/ic_host_approve_songs_check"
+                app:iconTint="@color/white" />
+        </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
