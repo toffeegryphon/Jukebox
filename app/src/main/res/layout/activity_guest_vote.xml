@@ -124,6 +124,7 @@
                         android:scaleX="3.5"
                         android:scaleY="3.5"
                         android:src="@drawable/ic_host_skip_button"
+                        android:scaleType="fitXY"
                         tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
                     <TextView
@@ -136,7 +137,8 @@
                         android:padding="80dp"
                         android:text="@string/label_vote_to_skip"
                         android:textAllCaps="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textStyle="bold" />
                 </RelativeLayout>
             </FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
