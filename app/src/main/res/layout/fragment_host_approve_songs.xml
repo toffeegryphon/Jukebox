@@ -75,7 +75,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:backgroundTint="#6200ee"
                 android:elevation="6dp"
                 android:text="Save Changes"
                 android:textColor="@color/white"

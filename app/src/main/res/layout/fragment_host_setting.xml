@@ -226,7 +226,7 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <Button
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="End Party"
@@ -234,7 +234,8 @@
                 android:visibility="visible"
                 android:id="@+id/buttonHostSettingsEndParty"
                 android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/red"/>
         </LinearLayout>
     </ScrollView>
 
@@ -255,7 +256,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:backgroundTint="#6200ee"
                 android:elevation="6dp"
                 android:text="Save Changes"
                 android:textColor="@color/white"

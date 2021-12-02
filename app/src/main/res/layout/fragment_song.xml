@@ -56,7 +56,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/ic_delete_song"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/red"
                 android:gravity="center" />
         </RelativeLayout>
 

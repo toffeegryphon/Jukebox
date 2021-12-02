@@ -40,7 +40,7 @@
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/guest_join_party_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

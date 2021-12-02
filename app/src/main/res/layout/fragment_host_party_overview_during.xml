@@ -105,6 +105,7 @@
             android:layout_marginRight="20dp"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
+            app:tint="@color/white"
             app:layout_constraintRight_toLeftOf="@id/imageViewHostDuringPartyPlayPauseButton"
             app:layout_constraintBottom_toTopOf="@id/imageViewHostDuringPartyPlayPauseButton"
             app:layout_constraintTop_toBottomOf="@id/imageViewHostDuringPartyPlayPauseButton"/>
@@ -117,7 +118,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:scaleType="fitXY"
-            android:adjustViewBounds="true" />
+            android:adjustViewBounds="true"
+            app:tint="@color/white"/>
         <ImageView
             android:id="@+id/imageViewHostDuringPartySkipButton"
             android:layout_width="50dp"
@@ -126,6 +128,7 @@
             android:layout_marginLeft="20dp"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
+            app:tint="@color/white"
             app:layout_constraintLeft_toRightOf="@id/imageViewHostDuringPartyPlayPauseButton"
             app:layout_constraintBottom_toTopOf="@id/imageViewHostDuringPartyPlayPauseButton"
             app:layout_constraintTop_toBottomOf="@id/imageViewHostDuringPartyPlayPauseButton"/>
