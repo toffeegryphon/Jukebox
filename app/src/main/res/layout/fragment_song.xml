@@ -27,7 +27,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_toRightOf="@id/fragment_song_cover"
-                android:paddingRight="60dp"
+                android:paddingRight="80dp"
                 android:text="SHIIEEHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"
                 android:textSize="17sp"
                 android:maxLines="1"
@@ -43,10 +43,10 @@
                 android:layout_toRightOf="@id/fragment_song_cover"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:paddingRight="60dp"
+                android:paddingRight="80dp"
                 android:text="Senator Clay Davisssssssssssssss"
-                android:textSize="14sp"
-                android:textColor="@color/lightgray"/>
+                android:textColor="@color/lightgray"
+                android:textSize="14sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/fragment_song_button"
@@ -55,7 +55,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/trashcan"
+                android:background="@drawable/ic_delete_song"
                 android:backgroundTint="@color/white"
                 android:gravity="center" />
         </RelativeLayout>

@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -135,7 +137,7 @@ public class HostCreationGeneralFragment extends SavableFragment {
         });
 
         // Fix bottom padding for when "start party" button is visible
-        if(getActivity().getClass() == HostPartyOverviewBeforeActivity.class)
+        if(getActivity().getClass() == HostPartyOverviewBeforeActivity.class || getActivity().getClass() == HostCreationActivity.class)
         {
             int padding_in_dp = 85;
             final float scale = getResources().getDisplayMetrics().density;
@@ -147,7 +149,8 @@ public class HostCreationGeneralFragment extends SavableFragment {
             int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
             fragmentFrameLayout.setPadding(0, 0, 0, padding_in_px);
         } else {
-            fragmentFrameLayout.setPadding(0,0,0,0);
+            RelativeLayout.LayoutParams rl = (RelativeLayout.LayoutParams) fragmentFrameLayout.getLayoutParams();
+            rl.setMargins(rl.leftMargin, rl.topMargin, rl.rightMargin, 56);
         }
 
         // Change top text if party created

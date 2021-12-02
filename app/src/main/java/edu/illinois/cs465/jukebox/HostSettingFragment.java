@@ -126,7 +126,7 @@ public class HostSettingFragment extends SavableFragment {
             if (getActivity().getClass() == HostCreationActivity.class) {
                 saveChangesButton.setVisibility(View.GONE);
                 LinearLayout.LayoutParams rl = (LinearLayout.LayoutParams) view.findViewById(R.id.settingsSuggestionsLayout).getLayoutParams();
-                rl.setMargins(rl.leftMargin, rl.topMargin, rl.rightMargin, 0);
+                rl.setMargins(rl.leftMargin, rl.topMargin, rl.rightMargin, rl.bottomMargin + 20);
             } else {
                 saveChangesButton.setVisibility(View.VISIBLE);
             }
