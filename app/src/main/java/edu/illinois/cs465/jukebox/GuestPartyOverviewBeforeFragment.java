@@ -40,7 +40,6 @@ public class GuestPartyOverviewBeforeFragment extends Fragment {
 
         hostCreationGeneralFragment = (HostCreationGeneralFragment) getChildFragmentManager().findFragmentById(R.id.fragmentGeneralGuestPartyOverviewBefore);
         Objects.requireNonNull(hostCreationGeneralFragment).bindViewModel();
-
         hostCreationGeneralFragment.setFocusableFields(false);
 
         return view;

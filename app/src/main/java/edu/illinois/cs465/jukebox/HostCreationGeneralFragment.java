@@ -72,19 +72,6 @@ public class HostCreationGeneralFragment extends SavableFragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment HostCreationGeneralFragment.
-     */
-    public static HostCreationGeneralFragment newInstance() {
-        HostCreationGeneralFragment fragment = new HostCreationGeneralFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,8 +108,7 @@ public class HostCreationGeneralFragment extends SavableFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_host_creation_general, container, false);
 
@@ -152,6 +138,11 @@ public class HostCreationGeneralFragment extends SavableFragment {
         if(getActivity().getClass() == HostPartyOverviewBeforeActivity.class)
         {
             int padding_in_dp = 85;
+            final float scale = getResources().getDisplayMetrics().density;
+            int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+            fragmentFrameLayout.setPadding(0, 0, 0, padding_in_px);
+        } else if (getActivity().getClass() == GuestPartyOverviewBeforeActivity.class) {
+            int padding_in_dp = 20;
             final float scale = getResources().getDisplayMetrics().density;
             int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
             fragmentFrameLayout.setPadding(0, 0, 0, padding_in_px);

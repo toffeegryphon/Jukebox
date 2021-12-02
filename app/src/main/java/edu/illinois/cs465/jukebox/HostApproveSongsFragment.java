@@ -147,7 +147,7 @@ public class HostApproveSongsFragment extends Fragment {
         approveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(approveButton, "Approved song suggestions!", Snackbar.LENGTH_SHORT)
+                Snackbar.make(approveButton, "Approved all song suggestions!", Snackbar.LENGTH_SHORT)
                         .setAnchorView(Objects.requireNonNull(requireActivity().findViewById(R.id.bottomNavigationViewBeforeParty)))
                         .show();
             }

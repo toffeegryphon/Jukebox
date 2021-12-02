@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,10 +21,17 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import edu.illinois.cs465.jukebox.model.PartyInfo;
+import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
 
 public class GuestSuggestionFragment extends Fragment {
 
@@ -41,6 +50,12 @@ public class GuestSuggestionFragment extends Fragment {
     private MusicService.MusicServiceListener musicListener;
     private RecyclerViewAdapter.RecyclerViewListener recyclerListener;
 
+    private HostCreationViewModel creationViewModel;
+    private DocumentReference partyReference;
+
+    private int suggestions;
+    ViewFlipper viewFlipper;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -51,11 +66,15 @@ public class GuestSuggestionFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_guest_suggestion, container, false);
 
+        creationViewModel = new ViewModelProvider(requireActivity()).get(HostCreationViewModel.class);
+
         if (playIntent == null) {
             playIntent = new Intent(requireActivity(), MusicService.class);
             requireActivity().bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             requireActivity().startService(playIntent);
         }
+
+        viewFlipper = view.findViewById(R.id.GuestSuggestionViewSwitcher);
 
         recyclerView = view.findViewById(R.id.guest_suggestion_recycler_view);
         RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0, 0, true, false);
@@ -72,7 +91,7 @@ public class GuestSuggestionFragment extends Fragment {
             public void onDeleteButtonPressed(RecyclerViewAdapter.ViewHolder holder, int _pos, SongEntry removedSong) {
 
                 // TODO: Get host settings' suggestion limit instead of hardcoding '10'
-                String newSuggestionCount = String.valueOf(entryList.size()) + " / " + "10";
+                String newSuggestionCount = String.valueOf(entryList.size()) + " / " + suggestions;
                 suggestionCount.setText(newSuggestionCount);
 
                 createUndoSnackbarText(_pos, removedSong);
@@ -128,7 +147,7 @@ public class GuestSuggestionFragment extends Fragment {
                 adapter.notifyItemRangeChanged(position, entryList.size());
 
                 // TODO: Get host settings' suggestion limit instead of hardcoding '10'
-                String newSuggestionCount = String.valueOf(entryList.size()) + " / " + "10";
+                String newSuggestionCount = String.valueOf(entryList.size()) + " / " + suggestions;
                 suggestionCount.setText(newSuggestionCount);
 
                 createUndoSnackbarText(position, removedSong);
@@ -137,18 +156,6 @@ public class GuestSuggestionFragment extends Fragment {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-
-        // Initialize Guest suggestions
-        addSongListItem(R.drawable.songcover_onandon, R.string.songcover_name1, R.string.songcover_artist1, R.string.songcover_url1);
-        addSongListItem(R.drawable.songcover_heroestonight, R.string.songcover_name2, R.string.songcover_artist2, R.string.songcover_url2);
-        addSongListItem(R.drawable.songcover_invincible, R.string.songcover_name3, R.string.songcover_artist3, R.string.songcover_url3);
-        addSongListItem(R.drawable.songcover_myheart, R.string.songcover_name4, R.string.songcover_artist4, R.string.songcover_url4);
-        addSongListItem(R.drawable.songcover_blank, R.string.songcover_name5, R.string.songcover_artist5, R.string.songcover_url5);
-        addSongListItem(R.drawable.songcover_symbolism, R.string.songcover_name6, R.string.songcover_artist6, R.string.songcover_url6);
-        addSongListItem(R.drawable.songcover_whywelose, R.string.songcover_name7, R.string.songcover_artist7, R.string.songcover_url7);
-        addSongListItem(R.drawable.songcover_cradles, R.string.songcover_name8, R.string.songcover_artist8, R.string.songcover_url8);
-        addSongListItem(R.drawable.songcover_shine, R.string.songcover_name9, R.string.songcover_artist9, R.string.songcover_url9);
-        addSongListItem(R.drawable.songcover_invisible, R.string.songcover_name10, R.string.songcover_artist10, R.string.songcover_url10);
 
         submitButton = view.findViewById(R.id.guest_suggestion_submit_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -163,6 +170,56 @@ public class GuestSuggestionFragment extends Fragment {
         });
 
         suggestionCount = view.findViewById(R.id.guestSuggestionCount);
+
+
+
+        String partyCode = requireActivity().getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "AAAA");
+        partyReference = FirebaseFirestore.getInstance().collection("partyInfo").document(partyCode);
+
+        partyReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                // Update song suggestions amount
+                suggestions = Integer.min(((Long) documentSnapshot.getData().get("suggestionLimit")).intValue(), 10);
+                String suggestionCountText = suggestions + " / " + suggestions;
+                suggestionCount.setText(suggestionCountText);
+
+                // Initialize Guest suggestions
+                for (int i = 0; i < suggestions; i++) {
+                    if (i == 0) {
+                        addSongListItem(R.drawable.songcover_onandon, R.string.songcover_name1, R.string.songcover_artist1, R.string.songcover_url1);
+                    } else if (i == 1) {
+                        addSongListItem(R.drawable.songcover_heroestonight, R.string.songcover_name2, R.string.songcover_artist2, R.string.songcover_url2);
+                    } else if (i == 2) {
+                        addSongListItem(R.drawable.songcover_invincible, R.string.songcover_name3, R.string.songcover_artist3, R.string.songcover_url3);
+                    } else if (i == 3) {
+                        addSongListItem(R.drawable.songcover_myheart, R.string.songcover_name4, R.string.songcover_artist4, R.string.songcover_url4);
+                    } else if (i == 4) {
+                        addSongListItem(R.drawable.songcover_blank, R.string.songcover_name5, R.string.songcover_artist5, R.string.songcover_url5);
+                    } else if (i == 5) {
+                        addSongListItem(R.drawable.songcover_symbolism, R.string.songcover_name6, R.string.songcover_artist6, R.string.songcover_url6);
+                    } else if (i == 6) {
+                        addSongListItem(R.drawable.songcover_whywelose, R.string.songcover_name7, R.string.songcover_artist7, R.string.songcover_url7);
+                    } else if (i == 7) {
+                        addSongListItem(R.drawable.songcover_cradles, R.string.songcover_name8, R.string.songcover_artist8, R.string.songcover_url8);
+                    } else if (i == 8) {
+                        addSongListItem(R.drawable.songcover_shine, R.string.songcover_name9, R.string.songcover_artist9, R.string.songcover_url9);
+                    } else if (i == 9) {
+                        addSongListItem(R.drawable.songcover_invisible, R.string.songcover_name10, R.string.songcover_artist10, R.string.songcover_url10);
+                    }
+                }
+
+                adapter.notifyDataSetChanged();
+
+                // Update if suggestions are enabled
+                boolean suggestionsAllowed = (boolean) documentSnapshot.getData().get("areSuggestionsAllowed");
+                if (suggestionsAllowed) {
+                    viewFlipper.setDisplayedChild(0);
+                } else {
+                    viewFlipper.setDisplayedChild(1);
+                }
+            }
+        });
 
         return view;
     }
@@ -193,7 +250,7 @@ public class GuestSuggestionFragment extends Fragment {
         entryList.addAll(songList);
         Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
         // TODO: Get host settings' suggestion limit instead of hardcoding '10'
-        String newSuggestionCount = String.valueOf(entryList.size()) + " / " + "10";
+        String newSuggestionCount = String.valueOf(entryList.size()) + " / " + suggestions;
         suggestionCount.setText(newSuggestionCount);
     }
 

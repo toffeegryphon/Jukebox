@@ -22,11 +22,18 @@ import edu.illinois.cs465.jukebox.model.PartyInfo;
 import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
 
 public class GuestPartyOverviewBeforeActivity extends AppCompatActivity {
+    private HostCreationViewModel creationViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_overview_before);
+
+        Intent source = getIntent();
+        if (source != null) {
+            creationViewModel = new ViewModelProvider(this).get(HostCreationViewModel.class);
+            creationViewModel.init(source.getStringExtra(PartyInfo.PARTY_CODE));
+        }
 
         // Setup bottom navigation bar
         BottomNavigationView navView = findViewById(R.id.bottomNavigationViewGuestBeforeParty);
