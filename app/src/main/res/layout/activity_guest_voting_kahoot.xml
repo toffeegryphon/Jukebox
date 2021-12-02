@@ -86,7 +86,8 @@
                     android:textSize="14sp"
                     android:ellipsize="end"
                     android:gravity="center"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textColor="@color/lightgray"/>
 
             </LinearLayout>
 
@@ -127,7 +128,8 @@
                     android:textSize="14sp"
                     android:ellipsize="end"
                     android:gravity="center"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textColor="@color/lightgray"/>
 
             </LinearLayout>
 
@@ -142,7 +144,7 @@
             android:layout_weight="1"
             android:orientation="horizontal"
             android:weightSum="2"
-            android:paddingTop="20dp">
+            android:paddingTop="10dp">
             <LinearLayout
                 android:id="@+id/kahoot_ll_three"
                 android:layout_width="0dp"
@@ -179,7 +181,8 @@
                     android:textSize="14sp"
                     android:ellipsize="end"
                     android:gravity="center"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textColor="@color/lightgray"/>
 
             </LinearLayout>
 
@@ -220,7 +223,8 @@
                     android:textSize="14sp"
                     android:ellipsize="end"
                     android:gravity="center"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textColor="@color/lightgray"/>
 
             </LinearLayout>
 
