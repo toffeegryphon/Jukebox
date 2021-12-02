@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -71,6 +72,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView artist;
         Button button;
         FrameLayout parentLayout;
+        RelativeLayout foregroundLayout, backgroundLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,6 +81,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             artist = itemView.findViewById(R.id.fragment_song_artist);
             button = itemView.findViewById(R.id.fragment_song_button);
             parentLayout = itemView.findViewById(R.id.fragment_song_parent_layout);
+            foregroundLayout = itemView.findViewById(R.id.foreground_layout);
+            backgroundLayout = itemView.findViewById(R.id.background_layout);
         }
     }
 
