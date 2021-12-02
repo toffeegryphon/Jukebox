@@ -622,7 +622,6 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:backgroundTint="#6200ee"
             android:text="Done"
             android:textColor="@color/white" />
     </RelativeLayout>

@@ -19,7 +19,7 @@
 
     </LinearLayout>
 
-        <Button
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/button_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,6 +28,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            style="@style/ExtendedFloatingActionButtonStyle"
+            android:backgroundTint="@color/dark_green"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
