@@ -121,7 +121,7 @@ public class HostSettingFragment extends SavableFragment {
             songSuggestionsLayout.setPadding(0,0,0,0);
         }
 
-        partyReference = FirebaseFirestore.getInstance().collection("partyInfo").document("AAAA");
+        partyReference = FirebaseFirestore.getInstance().collection("partyInfo").document("TCAE");
 
         return view;
     }
@@ -192,9 +192,6 @@ public class HostSettingFragment extends SavableFragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
             public void afterTextChanged(Editable editable) {
                 if (String.valueOf(suggestionLimit.getText()).isEmpty()) {
-                    suggestionLimit.setText("0");
-                    suggestionLimitWarning.setVisibility(View.VISIBLE);
-                    suggestionLimitWarning.setText(getResources().getString(R.string.suggestion_limit_warning_0));
                     return;
                 }
 

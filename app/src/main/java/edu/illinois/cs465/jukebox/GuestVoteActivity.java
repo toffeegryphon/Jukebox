@@ -74,7 +74,7 @@ public class GuestVoteActivity extends AppCompatActivity {
         progressTimeLeft = findViewById(R.id.progress_time_left);
 
 
-        String partyCode = getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "AAAA");
+        String partyCode = getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "TCAE");
         partyReference = FirebaseFirestore.getInstance().collection("partyInfo").document(partyCode);
 
         songName = findViewById(R.id.textViewGuestDuringPartySongName);
