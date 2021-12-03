@@ -77,7 +77,7 @@ public class GuestSuggestionFragment extends Fragment {
         viewFlipper = view.findViewById(R.id.GuestSuggestionViewSwitcher);
 
         recyclerView = view.findViewById(R.id.guest_suggestion_recycler_view);
-        RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0, 0, true, false);
+        RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0, 230, false, true);
         recyclerView.addItemDecoration(decoration);
 
         entryList = new ArrayList<SongEntry>();

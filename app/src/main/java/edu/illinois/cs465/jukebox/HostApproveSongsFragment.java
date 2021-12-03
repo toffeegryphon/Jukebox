@@ -62,7 +62,7 @@ public class HostApproveSongsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_host_approve_songs, container, false);
 
         recyclerView = view.findViewById(R.id.host_approve_recycler_view);
-        RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0,0,true,false);
+        RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0,230,false,true);
         recyclerView.addItemDecoration(decoration);
 
         entryList = new ArrayList<SongEntry>();
