@@ -29,7 +29,8 @@
             android:paddingEnd="0dp"
             android:text="1"
             android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="normal"/>
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/step_2"
@@ -43,7 +44,8 @@
             android:paddingEnd="0dp"
             android:text="2"
             android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="normal"/>
     </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager
@@ -72,7 +74,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:elevation="6dp"
-                android:text="@string/button_continue" />
+                android:text="@string/button_continue"
+                android:textStyle="normal"/>
         </RelativeLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

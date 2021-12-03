@@ -63,7 +63,8 @@
             android:paddingVertical="20dp"
             android:text="@string/button_guest_text"
             android:textAllCaps="true"
-            android:textAppearance="@style/TextLarge" />
+            android:textAppearance="@style/TextLarge"
+            android:textStyle="normal"/>
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/button_host"
@@ -75,9 +76,10 @@
             android:layout_marginVertical="15dp"
             android:minWidth="350dp"
             android:paddingVertical="20dp"
-            android:text="CONTINUE HOSTING"
+            android:text="@string/button_host_text"
             android:textAllCaps="true"
-            android:textAppearance="@style/TextLarge" />
+            android:textAppearance="@style/TextLarge"
+            android:textStyle="normal"/>
 
     </RelativeLayout>
 </RelativeLayout>
