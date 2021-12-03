@@ -123,6 +123,19 @@ public class GuestKahootVoting extends AppCompatActivity {
         layouts[3].setOnClickListener(v -> {
             openGuestDuring(indices[3], titles[3].getText().toString());
         });
+
+        images[0].setOnClickListener(v -> {
+            openGuestDuring(indices[0], titles[0].getText().toString());
+        });
+        images[1].setOnClickListener(v -> {
+            openGuestDuring(indices[1], titles[1].getText().toString());
+        });
+        images[2].setOnClickListener(v -> {
+            openGuestDuring(indices[2], titles[2].getText().toString());
+        });
+        images[3].setOnClickListener(v -> {
+            openGuestDuring(indices[3], titles[3].getText().toString());
+        });
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
