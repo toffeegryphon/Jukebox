@@ -29,15 +29,15 @@ import edu.illinois.cs465.jukebox.model.PartyInfo;
 public class HostPartyOverviewDuringFragment extends Fragment implements MediaController.MediaPlayerControl {
     private DocumentReference partyReference;
 
-    View view;
-    ImageView playPauseIcon, prevSongIcon, nextSongIcon;
-    TextView songName;
-    TextView artistName;
-    ImageView songCover;
+    private View view;
+    private ImageView playPauseIcon, prevSongIcon, nextSongIcon;
+    private TextView songName;
+    private TextView artistName;
+    private ImageView songCover;
 
-    ProgressBar songProgressBar;
-    TextView textCurrentTime, textTotalTime;
-    Handler handler = new Handler();
+    private ProgressBar songProgressBar;
+    private TextView textCurrentTime, textTotalTime;
+    private Handler handler = new Handler();
 
     private MusicService musicService;
     private Intent playIntent;
@@ -51,7 +51,7 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String partyCode = requireActivity().getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "AAAA");
+        String partyCode = requireActivity().getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "TCAE");
         partyReference = FirebaseFirestore.getInstance().collection("partyInfo").document(partyCode);
 
         if(playIntent == null) {
@@ -133,7 +133,7 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
     private Runnable updater = new Runnable() {
         @Override
         public void run() {
-            if (musicBound && musicService.isPlaying()) {
+            if (musicService.isMediaPlayerPrepared() && musicService.isPlaying()) {
                 updateSongTime();
                 updateProgressBar();
             }
@@ -224,7 +224,6 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
             };
 
             musicService.registerListener(musicListener);
-
             musicBound = true;
         }
 
@@ -277,7 +276,7 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
 
     @Override
     public int getDuration() {
-        if (musicService != null && musicBound && musicService.isPlaying()) {
+        if (musicService != null && musicService.isMediaPlayerPrepared()) {
             return musicService.getDuration();
         }
         else {
@@ -287,7 +286,7 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
 
     @Override
     public int getCurrentPosition() {
-        if (musicService != null && musicBound && musicService.isPlaying()) {
+        if (musicService != null && musicService.isMediaPlayerPrepared()) {
             return musicService.getPosition();
         }
         else {
@@ -302,7 +301,7 @@ public class HostPartyOverviewDuringFragment extends Fragment implements MediaCo
 
     @Override
     public boolean isPlaying() {
-        if (musicService != null && musicBound) {
+        if (musicService != null && musicService.isMediaPlayerPrepared()) {
             return musicService.isPlaying();
         }
         else {

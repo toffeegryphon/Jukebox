@@ -9,7 +9,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -21,13 +22,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:text="Details for your guests..." />
+                android:text="@string/host_creation_top_text" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_edit_text_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_creation_general"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/item_background_rounded"
+
+                android:ems="10"
+                android:hint="Party Code"
+
+                android:inputType="textPersonName"
+                android:padding="10dp"
+                app:endIconMode="none"
+                app:errorIconTint="@color/red"
+                app:errorTextColor="@color/red"
+                app:startIconDrawable="@drawable/ic_host_code">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:text="TCAE"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_layout_edit_text_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/label_creation_general"
+                android:layout_below="@id/text_input_layout_edit_text_code"
                 android:background="@drawable/item_background_rounded"
 
                 android:ems="10"

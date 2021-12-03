@@ -14,17 +14,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="10dp">
+            android:paddingBottom="15dp">
 
             <TextView
                 android:id="@+id/queueText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:paddingBottom="5dp"
                 android:text="Song Queue"
-                android:textSize="28sp"
-                android:textStyle="bold" />
+                android:textAppearance="@style/TextLarge" />
 
             <TextView
                 android:id="@+id/host_queue_song_count"
@@ -34,14 +32,16 @@
                 android:layout_alignBottom="@id/queueText"
                 android:layout_alignParentRight="true"
                 android:text="4"
-                android:textSize="28sp" />
+                android:textSize="28sp"
+                android:gravity="center"/>
 
         </RelativeLayout>
         <ScrollView
             android:id="@+id/guest_suggestion_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:scrollbars="none">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

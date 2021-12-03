@@ -19,7 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -51,6 +53,8 @@ public class GuestKahootVoting extends AppCompatActivity {
     private TextView[] artists;
     private int[] indices;
 
+    private int maxMillis = 20000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +66,7 @@ public class GuestKahootVoting extends AppCompatActivity {
             startService(playIntent);
         }
 
-        String partyCode = getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "AAAA");
+        String partyCode = getSharedPreferences("guest", Context.MODE_PRIVATE).getString(PartyInfo.PARTY_CODE, "TCAE");
         partyReference =  FirebaseFirestore.getInstance().collection("partyInfo").document(partyCode);
 
         progressTimeLeft = findViewById(R.id.time_skip);
@@ -107,20 +111,16 @@ public class GuestKahootVoting extends AppCompatActivity {
             }
         });
 
-        images[0].setOnClickListener(v -> {
-            partyReference.update("currentSong", titles[0].getText().toString());
+        layouts[0].setOnClickListener(v -> {
             openGuestDuring(indices[0], titles[0].getText().toString());
         });
-        images[1].setOnClickListener(v -> {
-            partyReference.update("currentSong", titles[1].getText().toString());
+        layouts[1].setOnClickListener(v -> {
             openGuestDuring(indices[1], titles[1].getText().toString());
         });
-        images[2].setOnClickListener(v -> {
-            partyReference.update("currentSong", titles[2].getText().toString());
+        layouts[2].setOnClickListener(v -> {
             openGuestDuring(indices[2], titles[2].getText().toString());
         });
-        images[3].setOnClickListener(v -> {
-            partyReference.update("currentSong", titles[3].getText().toString());
+        layouts[3].setOnClickListener(v -> {
             openGuestDuring(indices[3], titles[3].getText().toString());
         });
     }
@@ -175,7 +175,6 @@ public class GuestKahootVoting extends AppCompatActivity {
                                 titles[0].setText(currSongChoice.name);
                                 artists[0].setText(currSongChoice.artist);
                                 indices[0] = _songList.indexOf(currSongChoice);
-                                Log.d("SHOW", "ONE");
                             }
                         }
                     } else {
@@ -223,7 +222,13 @@ public class GuestKahootVoting extends AppCompatActivity {
         isActive.setValue(true);
 
         // TODO: Get host settings skip timer "maxMillis"
-        final long maxMillis = 15000;
+        partyReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                maxMillis = ((Long) documentSnapshot.getData().get("skipTimer")).intValue() * 1000;
+                updateCountdown();
+            }
+        });
         long currentPos = musicService.getPosition();
         long remainingMillis = maxMillis - currentPos;
 

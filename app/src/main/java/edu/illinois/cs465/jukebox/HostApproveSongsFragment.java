@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -62,7 +63,7 @@ public class HostApproveSongsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_host_approve_songs, container, false);
 
         recyclerView = view.findViewById(R.id.host_approve_recycler_view);
-        RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0,0,true,false);
+        RecyclerViewCustomEdgeDecorator decoration = new RecyclerViewCustomEdgeDecorator(0,230,false,true);
         recyclerView.addItemDecoration(decoration);
 
         entryList = new ArrayList<SongEntry>();
@@ -74,9 +75,9 @@ public class HostApproveSongsFragment extends Fragment {
         recyclerListener = new RecyclerViewAdapter.RecyclerViewListener() {
             @Override
             public void onDeleteButtonPressed(RecyclerViewAdapter.ViewHolder holder, int _pos, SongEntry removedSong) {
-                if (musicBound) {
-                    musicService.removeSongFromQueue(_pos, true);
-                }
+//                if (musicBound) {
+//                    musicService.removeSongFromQueue(_pos, true);
+//                }
                 suggestionCount.setText(String.valueOf(entryList.size()));
 
                 createUndoSnackbarText(_pos, removedSong);
@@ -87,42 +88,6 @@ public class HostApproveSongsFragment extends Fragment {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) { return false; }
 
-            // Commented because adding red background lagged on my emulator. Feel free to try it out
-            // Helpful link: https://medium.com/nemanja-kovacevic/recyclerview-swipe-to-delete-no-3rd-party-lib-necessary-6bf6a6601214
-//            @Override
-//            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
-//                                    float dX, float dY, int actionState, boolean isCurrentlyActive) {
-//                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-//
-//                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-//                    Bitmap icon;
-//                    Paint paint = new Paint();
-//
-//                    View itemView = viewHolder.itemView;
-//                    float height = (float) itemView.getBottom() - (float) itemView.getTop();
-//                    float width = height / 3;
-//
-//                    if (dX < 0) {
-//                        paint.setColor(Color.parseColor("#D32F2F"));
-//
-//                        RectF background = new RectF(
-//                                (float) itemView.getRight() + dX, (float) itemView.getTop(),
-//                                (float) itemView.getRight(), (float) itemView.getBottom());
-//                        c.drawRect(background, paint);
-//
-//                        icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.trashcan);
-//                        RectF iconDest = new RectF(
-//                                (float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width,
-//                                (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
-//                        c.drawBitmap(icon, null, iconDest, paint);
-//                    }
-//                } else if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-//                    final float alpha = 1.0f - Math.abs(dY) / (float) viewHolder.itemView.getHeight();
-//                    viewHolder.itemView.setAlpha(alpha);
-//                    viewHolder.itemView.setTranslationY(dY);
-//                }
-//            }
-
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
@@ -130,13 +95,47 @@ public class HostApproveSongsFragment extends Fragment {
                 SongEntry removedSong = entryList.remove(position);
                 adapter.notifyDataSetChanged();
 
-                if (musicBound) {
-                    musicService.removeSongFromQueue(removedSong, true);
-                }
+//                if (musicBound) {
+//                    musicService.removeSongFromQueue(removedSong, true);
+//                }
 
                 suggestionCount.setText(String.valueOf(entryList.size()));
 
                 createUndoSnackbarText(position, removedSong);
+            }
+
+            @Override
+            public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+                if (viewHolder != null) {
+                    final View foregroundView = ((RecyclerViewAdapter.ViewHolder) viewHolder).foregroundLayout;
+
+                    getDefaultUIUtil().onSelected(foregroundView);
+                }
+            }
+
+            @Override
+            public void onChildDrawOver(Canvas c, RecyclerView recyclerView,
+                                        RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                                        int actionState, boolean isCurrentlyActive) {
+                final View foregroundView = ((RecyclerViewAdapter.ViewHolder) viewHolder).foregroundLayout;
+                getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
+                        actionState, isCurrentlyActive);
+            }
+
+            @Override
+            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                final View foregroundView = ((RecyclerViewAdapter.ViewHolder) viewHolder).foregroundLayout;
+                getDefaultUIUtil().clearView(foregroundView);
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView,
+                                    RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                                    int actionState, boolean isCurrentlyActive) {
+                final View foregroundView = ((RecyclerViewAdapter.ViewHolder) viewHolder).foregroundLayout;
+
+                getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
+                        actionState, isCurrentlyActive);
             }
         };
 
@@ -147,9 +146,12 @@ public class HostApproveSongsFragment extends Fragment {
         approveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(approveButton, "Approved song suggestions!", Snackbar.LENGTH_SHORT)
-                        .setAnchorView(Objects.requireNonNull(requireActivity().findViewById(R.id.bottomNavigationViewBeforeParty)))
-                        .show();
+                if (musicBound) {
+                    musicService.setSongList(entryList);
+                    Snackbar.make(approveButton, "Approved all song suggestions!", Snackbar.LENGTH_SHORT)
+                            .setAnchorView(Objects.requireNonNull(requireActivity().findViewById(R.id.bottomNavigationViewBeforeParty)))
+                            .show();
+                }
             }
         });
 
@@ -172,9 +174,9 @@ public class HostApproveSongsFragment extends Fragment {
                         adapter.notifyDataSetChanged();
                         recyclerView.scrollToPosition(position);
 
-                        if (musicBound) {
-                            musicService.addSongToQueue(position, removedSong);
-                        }
+//                        if (musicBound) {
+//                            musicService.addSongToQueue(position, removedSong);
+//                        }
                     }
                 });
         snackbar.show();

@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentSnapshot document) {
                                 buttonHost.setText("Continue Hosting");
-                                //TODO: Add auto fitting and do: buttonHost.setText(String.format("Continue Hosting %s", document.getString("username")));
                             }
                         });
                 break;
@@ -72,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                     .addOnSuccessListener(document -> {
                         PartyInfo info = document.toObject(PartyInfo.class);
                         if (info != null && info.isHasStarted()) {
-                            //TODO: Add auto fitting and do: buttonGuest.setText(String.format("Rejoin %s", info.getUsername()));
                             buttonGuest.setText("Rejoin Party");
                             guestHasStarted = true;
                         }

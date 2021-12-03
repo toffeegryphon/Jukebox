@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/host_overview_during_nav"
+    app:startDestination="@id/guestPartyOverviewBeforeFragment">
+
+    <fragment
+        android:id="@+id/guestSuggestionFragment"
+        android:name="edu.illinois.cs465.jukebox.GuestSuggestionFragment"
+        tools:layout="@layout/fragment_guest_suggestion" />
+    <fragment
+        android:id="@+id/guestPartyOverviewBeforeFragment"
+        android:name="edu.illinois.cs465.jukebox.GuestPartyOverviewBeforeFragment"
+        tools:layout="@layout/fragment_guest_overview_before" />
+</navigation>

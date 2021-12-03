@@ -7,12 +7,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".HostSettingFragment"
-    android:paddingBottom="20dp" >
+    tools:context=".HostSettingFragment">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +24,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="start"
-                android:layout_marginBottom="40dp"
                 android:id="@+id/linearLayoutHostSettingsSkips" >
 
                 <TextView
@@ -66,7 +65,6 @@
                             android:paddingRight="10dp"
                             android:text="@string/skip_threshold_number"
                             android:textSize="16sp" />
-
                     </RelativeLayout>
 
                     <edu.illinois.cs465.jukebox.CustomSliderBar
@@ -93,30 +91,50 @@
                         android:visibility="visible" />
                 </LinearLayout>
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="bottom"
                     android:background="@drawable/item_background_rounded"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    android:id="@+id/linearLayoutHostSettingsSkipTimer" >
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/label_skip_timer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/label_skip_timer"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/skip_timer_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:gravity="center_vertical"
+                            android:paddingRight="10dp"
+                            android:text="@string/skip_timer_number"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <edu.illinois.cs465.jukebox.CustomSliderBar
+                        android:id="@+id/slider_skip_timer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Time given to skip"
-                        app:suffixText="s"
-                        android:id="@+id/skip_timer_text_input_layout"
-                        app:errorTextColor="@color/red"
-                        app:errorIconTint="@color/red">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edit_skip_timer"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnPrimary"
-                            android:gravity="end"
-                            android:inputType="number"
-                            android:text="30"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+                        app:labelBehavior="gone"
+                        android:valueFrom="0"
+                        android:valueTo="90"
+                        android:stepSize="1"
+                        app:tickVisible="false"
+                        android:value="30"
+                        app:trackColor="@color/transparent"
+                        android:layout_gravity="center" />
 
                     <TextView
                         android:id="@+id/skip_timer_warning_text"
@@ -126,11 +144,9 @@
                         android:text="@string/skip_timer_warning_too_high"
                         android:textSize="13sp"
                         android:textColor="@color/red"
-                        android:paddingTop="15dp"
-                        android:visibility="visible"
-                        android:layout_below="@id/skip_timer_text_input_layout"/>
+                        android:visibility="visible" />
 
-                </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -140,7 +156,7 @@
                 android:gravity="start"
                 app:layout_constraintTop_toBottomOf="@id/linearLayoutHostSettingsSkips"
                 android:id="@+id/linearLayoutHostSettingsSuggestions"
-                android:paddingBottom="116dp">
+                android:layout_marginTop="40dp">
 
                 <TextView
                     android:id="@+id/header_suggestions"
@@ -166,38 +182,87 @@
                     android:paddingRight="15dp"
                     android:layout_marginBottom="15dp"/>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/item_background_rounded"
                     android:padding="10dp"
-                    android:id="@+id/suggestion_limit_text_input_layout"
-                    app:errorTextColor="@color/red"
-                    app:errorIconTint="@color/red">
+                    android:layout_marginBottom="86dp"
+                    android:id="@+id/settingsSuggestionsLayout">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_suggestion_limit"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/label_suggestion_limit"
-                        android:textColor="?attr/colorOnPrimary"
-                        android:gravity="end"
-                        android:text="10"
-                        android:inputType="number"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:background="@drawable/item_background_rounded"
+                        android:id="@+id/suggestion_limit_text_input_layout"
+                        app:errorTextColor="@color/red"
+                        app:errorIconTint="@color/red">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_suggestion_limit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/label_suggestion_limit"
+                            android:textColor="?attr/colorOnPrimary"
+                            android:text="10"
+                            android:inputType="number"
+                            android:focusable="true"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/suggestion_limit_warning_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/suggestion_limit_text_input_layout"
+                        android:gravity="center_vertical"
+                        android:paddingTop="15dp"
+                        android:text="@string/suggestion_limit_warning_too_high"
+                        android:textColor="@color/red"
+                        android:textSize="13sp"
+                        android:visibility="visible" />
+
+                </RelativeLayout>
             </LinearLayout>
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End Party"
+                android:layout_gravity="bottom|center"
+                android:visibility="visible"
+                android:id="@+id/buttonHostSettingsEndParty"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/red"
+                android:textStyle="normal"/>
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="End Party"
-        android:layout_gravity="bottom|center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:visibility="visible"
-        android:id="@+id/buttonHostSettingsEndParty"
-        android:layout_marginBottom="56dp"/>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp"
+            app:layout_behavior=".MoveUpwardBehavior">
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/host_settings_save_changes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:elevation="6dp"
+                android:text="Save Changes"
+                android:textColor="@color/white"
+                app:icon="@drawable/ic_host_approve_songs_check"
+                app:iconTint="@color/white"
+                android:textStyle="normal"/>
+        </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

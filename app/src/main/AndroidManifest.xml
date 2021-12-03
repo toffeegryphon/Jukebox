@@ -29,7 +29,7 @@
             android:name=".GuestJoinPartyActivity"
             android:exported="false" />
         <activity
-            android:name=".GuestSuggestionActivity"
+            android:name=".GuestPartyOverviewBeforeActivity"
             android:exported="false" />
         <activity
             android:name=".GuestKahootVoting"
