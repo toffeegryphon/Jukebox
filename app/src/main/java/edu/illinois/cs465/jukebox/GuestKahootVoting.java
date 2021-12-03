@@ -111,16 +111,16 @@ public class GuestKahootVoting extends AppCompatActivity {
             }
         });
 
-        images[0].setOnClickListener(v -> {
+        layouts[0].setOnClickListener(v -> {
             openGuestDuring(indices[0], titles[0].getText().toString());
         });
-        images[1].setOnClickListener(v -> {
+        layouts[1].setOnClickListener(v -> {
             openGuestDuring(indices[1], titles[1].getText().toString());
         });
-        images[2].setOnClickListener(v -> {
+        layouts[2].setOnClickListener(v -> {
             openGuestDuring(indices[2], titles[2].getText().toString());
         });
-        images[3].setOnClickListener(v -> {
+        layouts[3].setOnClickListener(v -> {
             openGuestDuring(indices[3], titles[3].getText().toString());
         });
     }
