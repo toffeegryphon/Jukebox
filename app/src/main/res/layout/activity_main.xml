@@ -71,11 +71,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/center_anchor"
             android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="35dp"
+            android:layout_marginHorizontal="30dp"
             android:layout_marginVertical="15dp"
             android:minWidth="350dp"
             android:paddingVertical="20dp"
-            android:text="@string/button_host_text"
+            android:text="CONTINUE HOSTING"
             android:textAllCaps="true"
             android:textAppearance="@style/TextLarge" />
 
