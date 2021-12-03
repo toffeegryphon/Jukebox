@@ -131,7 +131,6 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_baseline_skip_next_24"
                         android:layout_centerInParent="true"
-                        android:scaleType="fitXY"
                         android:elevation="6dp"/>
 
                     <TextView
