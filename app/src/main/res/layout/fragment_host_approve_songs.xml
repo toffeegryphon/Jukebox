@@ -79,7 +79,8 @@
                 android:text="Save Changes"
                 android:textColor="@color/white"
                 app:icon="@drawable/ic_host_approve_songs_check"
-                app:iconTint="@color/white" />
+                app:iconTint="@color/white"
+                android:textStyle="normal"/>
             </RelativeLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </FrameLayout>

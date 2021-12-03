@@ -235,7 +235,8 @@
                 android:id="@+id/buttonHostSettingsEndParty"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="@color/red"/>
+                android:backgroundTint="@color/red"
+                android:textStyle="normal"/>
         </LinearLayout>
     </ScrollView>
 
@@ -260,7 +261,8 @@
                 android:text="Save Changes"
                 android:textColor="@color/white"
                 app:icon="@drawable/ic_host_approve_songs_check"
-                app:iconTint="@color/white" />
+                app:iconTint="@color/white"
+                android:textStyle="normal"/>
         </RelativeLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

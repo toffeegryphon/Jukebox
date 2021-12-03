@@ -114,7 +114,8 @@
                     android:text="Submit"
                     android:textColor="@color/white"
                     app:icon="@drawable/ic_guest_add_song_plus"
-                    app:iconTint="@color/white" />
+                    app:iconTint="@color/white"
+                    android:textStyle="normal"/>
             </RelativeLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </FrameLayout>
