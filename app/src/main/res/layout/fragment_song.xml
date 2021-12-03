@@ -24,6 +24,16 @@
             android:background="@drawable/ic_delete_song"
             android:backgroundTint="@color/white"
             android:gravity="center" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_delete_song"
+            android:backgroundTint="@color/white"
+            android:gravity="center" />
     </RelativeLayout>
 
     <RelativeLayout
