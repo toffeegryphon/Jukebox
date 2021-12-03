@@ -2,11 +2,20 @@
 <resources>
     <color name="dark_blue">#13133E</color>
     <color name="purple_1">#B056F7</color>
+    <color name="purple_1_not_active">#1c1446</color>
+    <color name="purple_1_active">#462e90</color>
     <color name="purple_2">#8E49F1</color>
+    <color name="purple_background_highlight">#282365</color>
     <color name="indigo">#614EE5</color>
     <color name="spotify_green">#1DB954</color>
     <color name="medium_green">#5EDB91</color>
+    <color name="dark_green">#256321</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="lightgray">#DDDDDD</color>
     <color name="gray">#9A9A9A</color>
+    <color name="mediumgray">#505050</color>
+    <color name="darkgray">#202020</color>
     <color name="transparent">#00000000</color>
+    <color name="black">#ff000000</color>
+    <color name="red">#bd3c4d</color>
 </resources>

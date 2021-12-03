@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="20dp">
+    android:padding="20dp"
+    android:id="@+id/guestJoinPartyConstraintLayout">
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,17 +35,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="AAAA"
+            android:text="TCAE"
             android:textColor="@color/white"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/guest_join_party_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Join Party"
         app:layout_constraintTop_toBottomOf="@id/text_input_layout_edit_code"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:textStyle="normal"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

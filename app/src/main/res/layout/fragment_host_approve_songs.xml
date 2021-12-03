@@ -14,29 +14,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:paddingBottom="15dp">
+
         <TextView
+            android:id="@+id/songSuggestionsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:textSize="20sp"
-            android:text="Suggestions"
-            android:textStyle="bold" />
+            android:text="Approved Songs"
+            android:textAppearance="@style/TextLarge" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textSize="20sp"
+            android:layout_alignTop="@id/songSuggestionsText"
+            android:layout_alignBottom="@id/songSuggestionsText"
+            android:textSize="28sp"
             android:text="4"
-            android:id="@+id/host_queue_song_count"/>
+            android:id="@+id/host_queue_song_count"
+            android:gravity="center"/>
 
     </RelativeLayout>
     <ScrollView
         android:id="@+id/guest_suggestion_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -54,23 +59,28 @@
 
     </LinearLayout>
 
-        <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-            android:paddingBottom="20dp">
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Approve"
-            android:layout_gravity="center"
-            app:icon="@drawable/ic_host_approve_songs_check"
-            android:backgroundTint="#6200ee"
-            android:elevation="6dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/white"
-            app:iconTint="@color/white"
-            android:id="@+id/host_approve_button"
-            />
-        </RelativeLayout>
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp"
+            app:layout_behavior=".MoveUpwardBehavior">
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/host_approve_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:elevation="6dp"
+                android:text="Save Changes"
+                android:textColor="@color/white"
+                app:icon="@drawable/ic_host_approve_songs_check"
+                app:iconTint="@color/white"
+                android:textStyle="normal"/>
+            </RelativeLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </FrameLayout>

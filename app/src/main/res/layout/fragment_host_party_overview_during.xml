@@ -10,15 +10,16 @@
     android:layout_gravity="top"
     android:id="@+id/linear_layout_host_during_overall"
     android:paddingTop="20dp"
-    android:paddingBottom="76dp"> <!-- bottomNavBar=56 + 20 -->
+    android:paddingBottom="20dp">
 
     <ImageView
         android:id="@+id/imageViewHostDuringPartyAlbumCover"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginHorizontal="20dp"
         android:scaleType="fitXY"
-        android:src="@drawable/clay_davis"
+        android:src="@drawable/songcover_onandon"
         android:adjustViewBounds="true"/>
 
     <TextView
@@ -26,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
-        android:text="SHIIEEHHHHHHHHHHHHHHHHHHH"
+        android:text="@string/songcover_name1"
         android:textSize="48sp"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -40,7 +41,7 @@
         android:id="@+id/textViewHostDuringPartyArtistName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Senator Clay Davisssssssssssssssssss"
+        android:text="@string/songcover_artist1"
         android:textSize="24sp"
         android:paddingHorizontal="20dp"
         android:focusable="true"
@@ -48,7 +49,8 @@
         android:singleLine="true"
         android:scrollHorizontally="true"
         android:ellipsize="marquee"
-        android:marqueeRepeatLimit ="marquee_forever" />
+        android:marqueeRepeatLimit ="marquee_forever"
+        android:textColor="@color/lightgray"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -61,21 +63,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:paddingTop="10dp" />
+            android:indeterminateTint="@color/white"
+            android:max="100000"
+            android:paddingTop="10dp"
+            android:progress="0"
+            android:progressBackgroundTint="@color/indigo" />
 
         <TextView
+            android:id="@+id/songCurrentTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/progressBarHostDuringPartySongTime"
             android:layout_alignStart="@id/progressBarHostDuringPartySongTime"
-            android:text="0:00" />
+            android:text="0:00"
+            android:textColor="@color/lightgray" />
 
         <TextView
+            android:id="@+id/songTotalTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/progressBarHostDuringPartySongTime"
             android:layout_alignEnd="@id/progressBarHostDuringPartySongTime"
-            android:text="-3:21" />
+            android:text="-3:28"
+            android:textColor="@color/lightgray"/>
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -95,6 +105,7 @@
             android:layout_marginRight="20dp"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
+            app:tint="@color/white"
             app:layout_constraintRight_toLeftOf="@id/imageViewHostDuringPartyPlayPauseButton"
             app:layout_constraintBottom_toTopOf="@id/imageViewHostDuringPartyPlayPauseButton"
             app:layout_constraintTop_toBottomOf="@id/imageViewHostDuringPartyPlayPauseButton"/>
@@ -107,7 +118,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:scaleType="fitXY"
-            android:adjustViewBounds="true" />
+            android:adjustViewBounds="true"
+            app:tint="@color/white"/>
         <ImageView
             android:id="@+id/imageViewHostDuringPartySkipButton"
             android:layout_width="50dp"
@@ -116,6 +128,7 @@
             android:layout_marginLeft="20dp"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
+            app:tint="@color/white"
             app:layout_constraintLeft_toRightOf="@id/imageViewHostDuringPartyPlayPauseButton"
             app:layout_constraintBottom_toTopOf="@id/imageViewHostDuringPartyPlayPauseButton"
             app:layout_constraintTop_toBottomOf="@id/imageViewHostDuringPartyPlayPauseButton"/>

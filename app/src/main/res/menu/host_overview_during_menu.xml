@@ -3,7 +3,7 @@
 
     <item
         android:title="Song Queue"
-        android:icon="@drawable/ic_host_approve_songs"
+        android:icon="@drawable/ic_host_song_queue"
         android:id="@+id/hostSongQueueFragment" />
     <item
         android:title="Party Overview"

@@ -7,24 +7,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private Context mContext;
-    ArrayList<EntryItem> data_entry_list;
-    List<SongModel> data;
+    ArrayList<SongEntry> data_entry_list;
 
-    public RecyclerViewAdapter(Context mContext, ArrayList<EntryItem> entryList) {
+    private ArrayList<RecyclerViewListener> mListeners;
+
+    public RecyclerViewAdapter(Context mContext, ArrayList<SongEntry> entryList) {
         this.mContext = mContext;
         this.data_entry_list = entryList;
-        this.data = new SongDataSource().list;
+        mListeners = new ArrayList<>();
     }
 
     @NonNull
@@ -37,7 +38,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SongModel entry = data.get(position);
+        SongEntry entry = data_entry_list.get(position);
         holder.image.setImageResource(entry.image);
         holder.song.setText(entry.name);
         holder.artist.setText(entry.artist);
@@ -46,10 +47,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
                 int _pos = holder.getAdapterPosition();
-                data.remove(_pos);
-                data_entry_list.remove(_pos);
+                SongEntry removedSong = data_entry_list.remove(_pos);
                 notifyItemRemoved(_pos);
                 notifyItemRangeChanged(_pos, data_entry_list.size());
+
+                if (!mListeners.isEmpty()) {
+                    for (RecyclerViewListener l : mListeners) {
+                        l.onDeleteButtonPressed(holder, _pos, removedSong);
+                    }
+                }
             }
         });
     }
@@ -66,6 +72,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView artist;
         Button button;
         FrameLayout parentLayout;
+        RelativeLayout foregroundLayout, backgroundLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,6 +81,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             artist = itemView.findViewById(R.id.fragment_song_artist);
             button = itemView.findViewById(R.id.fragment_song_button);
             parentLayout = itemView.findViewById(R.id.fragment_song_parent_layout);
+            foregroundLayout = itemView.findViewById(R.id.foreground_layout);
+            backgroundLayout = itemView.findViewById(R.id.background_layout);
         }
+    }
+
+    public interface RecyclerViewListener {
+        void onDeleteButtonPressed(ViewHolder holder, int _pos, SongEntry removedSong);
+    }
+
+    public void registerListener(RecyclerViewListener listener) {
+        if (!mListeners.contains(listener)) {
+            mListeners.add(listener);
+        }
+    }
+
+    public boolean unregisterListener(RecyclerViewListener listener) {
+        return mListeners.remove(listener);
     }
 }

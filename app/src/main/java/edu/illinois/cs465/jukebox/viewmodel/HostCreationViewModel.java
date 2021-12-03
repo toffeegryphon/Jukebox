@@ -33,7 +33,7 @@ public class HostCreationViewModel extends ViewModel {
         mPartyInfo = new MutableLiveData<>();
         PartyInfo partyInfo = new PartyInfo();
         partyInfo.setDate(Calendar.getInstance().getTimeInMillis());
-        partyInfo.setPartyCode("AAAA"); // TODO generate a random code
+        partyInfo.setPartyCode("TCAE"); // TODO generate a random code
         mPartyInfo.setValue(partyInfo);
     }
 

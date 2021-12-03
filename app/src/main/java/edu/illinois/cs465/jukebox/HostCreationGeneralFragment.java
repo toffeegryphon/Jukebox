@@ -2,13 +2,19 @@ package edu.illinois.cs465.jukebox;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
@@ -32,6 +38,8 @@ import edu.illinois.cs465.jukebox.viewmodel.HostCreationViewModel;
  * create an instance of this fragment.
  */
 public class HostCreationGeneralFragment extends SavableFragment {
+    private TextView topText;
+
     private static final int[] LAYOUTS = {
             R.id.text_input_layout_edit_text_name,
             R.id.text_input_layout_edit_text_theme,
@@ -40,10 +48,21 @@ public class HostCreationGeneralFragment extends SavableFragment {
             R.id.text_input_layout_edit_text_location,
             R.id.text_input_layout_edit_text_desc
     };
+    private static final int[] FIELDS = {
+            R.id.edit_text_code,
+            R.id.edit_text_name,
+            R.id.edit_text_theme,
+            R.id.edit_text_date,
+            R.id.edit_text_time,
+            R.id.edit_text_location,
+            R.id.edit_text_desc
+    };
 
     private HostCreationViewModel viewModel;
 
-    TextInputEditText editTextName, editTextTheme, editTextDate, editTextTime, editTextLoc, editTextDesc;
+    TextInputLayout editPartyCodeLayout;
+    TextInputEditText editPartyCode, editTextName, editTextTheme, editTextDate, editTextTime, editTextLoc, editTextDesc;
+    FrameLayout fragmentFrameLayout;
 
     private Calendar dateTime;
     DatePickerDialog.OnDateSetListener dateListener;
@@ -51,21 +70,10 @@ public class HostCreationGeneralFragment extends SavableFragment {
     TimePickerDialog.OnTimeSetListener timeListener;
     TimePickerDialog timeDialog;
 
+    private static boolean isReadOnlyDescExpanded = false;
+
     public HostCreationGeneralFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment HostCreationGeneralFragment.
-     */
-    public static HostCreationGeneralFragment newInstance() {
-        HostCreationGeneralFragment fragment = new HostCreationGeneralFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -104,19 +112,22 @@ public class HostCreationGeneralFragment extends SavableFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_host_creation_general, container, false);
 
         viewModel = new ViewModelProvider(requireActivity()).get(HostCreationViewModel.class);
 
+        topText = view.findViewById(R.id.label_creation_general);
+        editPartyCodeLayout = view.findViewById(R.id.text_input_layout_edit_text_code);
+        editPartyCode = view.findViewById(R.id.edit_text_code);
         editTextName = view.findViewById(R.id.edit_text_name);
         editTextTheme = view.findViewById(R.id.edit_text_theme);
         editTextDate = view.findViewById(R.id.edit_text_date);
         editTextTime = view.findViewById(R.id.edit_text_time);
         editTextLoc = view.findViewById(R.id.edit_text_location);
         editTextDesc = view.findViewById(R.id.edit_text_desc);
+        fragmentFrameLayout = view.findViewById(R.id.host_creation_frame_layout);
 
         initListeners(view);
 
@@ -129,12 +140,46 @@ public class HostCreationGeneralFragment extends SavableFragment {
             }
         });
 
+        // Fix bottom padding for when "start party" button is visible
+        if(getActivity().getClass() == HostPartyOverviewBeforeActivity.class || getActivity().getClass() == HostCreationActivity.class)
+        {
+            int padding_in_dp = 85;
+            final float scale = getResources().getDisplayMetrics().density;
+            int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+            fragmentFrameLayout.setPadding(0, 0, 0, padding_in_px);
+
+            if (getActivity().getClass() == HostPartyOverviewBeforeActivity.class) {
+                editPartyCodeLayout.setVisibility(View.VISIBLE);
+            } else {
+                editPartyCodeLayout.setVisibility(View.GONE);
+            }
+
+        } else if (getActivity().getClass() == GuestPartyOverviewBeforeActivity.class) {
+            int padding_in_dp = 20;
+            final float scale = getResources().getDisplayMetrics().density;
+            int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+            fragmentFrameLayout.setPadding(0, 0, 0, padding_in_px);
+            editPartyCodeLayout.setVisibility(View.VISIBLE);
+        } else {
+            RelativeLayout.LayoutParams rl = (RelativeLayout.LayoutParams) fragmentFrameLayout.getLayoutParams();
+            rl.setMargins(rl.leftMargin, rl.topMargin, rl.rightMargin, 56);
+        }
+
+        // Change top text if party created
+        if (getActivity().getClass() == HostCreationActivity.class) {
+            topText.setText(R.string.host_creation_top_text);
+        } else {
+            topText.setText(R.string.host_overview_top_text);
+        }
+
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         return view;
     }
 
     public void initListeners(View view) {
+        editPartyCode.setOnFocusChangeListener((v, hasFocus) -> setEndIconOnFocus(editPartyCodeLayout, hasFocus));
+
         TextInputLayout editTextNameLayout = view.findViewById(R.id.text_input_layout_edit_text_name);
         editTextName.setOnFocusChangeListener((v, hasFocus) -> setEndIconOnFocus(editTextNameLayout, hasFocus));
 
@@ -158,6 +203,7 @@ public class HostCreationGeneralFragment extends SavableFragment {
                 }
             }
         });
+
         editTextDate.setOnClickListener(v -> dateDialog.show());
 
         editTextTime.setOnClickListener(v -> timeDialog.show());
@@ -181,6 +227,7 @@ public class HostCreationGeneralFragment extends SavableFragment {
         data.observe(getViewLifecycleOwner(), new Observer<PartyInfo>() {
             @Override
             public void onChanged(PartyInfo partyInfo) {
+                editPartyCode.setText(partyInfo.getPartyCode());
                 editTextName.setText(partyInfo.getUsername());
                 editTextTheme.setText(partyInfo.getTheme());
                 editTextDesc.setText(partyInfo.getDescription());
@@ -191,11 +238,35 @@ public class HostCreationGeneralFragment extends SavableFragment {
         });
     }
 
-    public void setEnabled(boolean enabled) {
-        TextInputLayout layout;
-        for (int id : LAYOUTS) {
-            layout = requireView().findViewById(id);
-            layout.setEnabled(enabled);
+    public void setFocusableFields(boolean enabled) {
+        TextInputEditText editText;
+        for (int id : FIELDS) {
+            editText = requireView().findViewById(id);
+
+            // Allow description to be expanded
+            if (id == R.id.edit_text_desc && !enabled) {
+                editTextDesc.setOnFocusChangeListener(null);
+                editTextDesc.setFocusable(false);
+                editTextDesc.setOnClickListener(view -> {
+                    if (!isReadOnlyDescExpanded) {
+                        editTextDesc.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                        editTextDesc.setMaxLines(100);
+                        editTextDesc.clearFocus();
+                        isReadOnlyDescExpanded = true;
+                    } else {
+                        editTextDesc.setMaxLines(1);
+                        editTextDesc.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_VARIATION_NORMAL);
+                        editTextDesc.clearFocus();
+                        isReadOnlyDescExpanded = false;
+                    }
+                });
+            } else {
+                editText.setFocusable(enabled);
+                editText.setClickable(enabled);
+                if (!enabled) {
+                    editText.setOnClickListener(null);
+                }
+            }
         }
     }
 }

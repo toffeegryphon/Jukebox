@@ -3,17 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/hostPartyOverviewBeforeConstraintLayout">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationViewBeforeParty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/darkgray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/host_overview_before_menu"
-        app:itemBackground="@color/white"
+        app:itemBackground="@color/darkgray"
         app:itemIconTint="@drawable/host_party_before_color_selector"
         app:itemTextColor="@drawable/host_party_before_color_selector" />
 
@@ -24,16 +26,16 @@
         android:paddingHorizontal="20dp"
         android:paddingTop="20dp"
         android:id="@+id/host_overview_before_frame_layout">
-            <fragment
-                android:id="@+id/fragmentContainerViewBeforeParty"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:defaultNavHost="true"
-                app:layout_constraintBottom_toTopOf="@+id/bottomNavigationViewBeforeParty"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:navGraph="@navigation/host_overview_before_nav" />
+        <fragment
+            android:id="@+id/fragmentContainerViewBeforeParty"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationViewBeforeParty"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navGraph="@navigation/host_overview_before_nav" />
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
