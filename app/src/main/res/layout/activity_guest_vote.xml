@@ -141,7 +141,7 @@
                         android:elevation="6dp"
                         android:gravity="center"
                         android:padding="80dp"
-                        android:text="@string/label_vote_to_skip"
+                        android:text="          "
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textStyle="bold" />

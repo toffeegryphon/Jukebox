@@ -9,15 +9,19 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <VideoView
+            android:id="@+id/home_screen_video"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/home_screen_video"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true"
-            />
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="140dp"
+            android:layout_marginRight="-5dp"
+            android:layout_marginBottom="-140dp" />
 
         <View
             android:layout_width="match_parent"
@@ -36,6 +40,7 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/jukebox_logo"
         android:paddingVertical="40dp"
+        android:layout_marginTop="100dp"
         android:id="@+id/main_logo"
         android:paddingHorizontal="20dp"/>
 
